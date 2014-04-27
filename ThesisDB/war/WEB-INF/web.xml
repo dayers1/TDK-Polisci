@@ -6,6 +6,25 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+  <servlet>
+    <servlet-name>clientModelServiceImpl</servlet-name>
+    <servlet-class>edu.gac.polisci.server.clientModelServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>clientModelServiceImpl</servlet-name>
+    <url-pattern>/thesisdb/clientmodelservice</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+<servlet-name>LoginService</servlet-name>
+<servlet-class>edu.gac.polisci.server.LoginService</servlet-class>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>LoginService</servlet-name>
+<url-pattern>/thesisDB/loginservice</url-pattern>
+</servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

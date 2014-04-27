@@ -1,14 +1,11 @@
 package edu.gac.polisci.client;
 
 /*
- * Controller class for GusList app.
+ * Controller class for  app.
  * Handles communications between View (client side) and Model (server side) 
  */
 
 import java.util.List;
-
-//import edu.gac.polsci;
-//import edu.gac.polsci;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -19,8 +16,8 @@ import com.google.gwt.user.client.ui.FormPanel;
 public class ThesisDB implements EntryPoint {
 	private final ThesisDBView thesisView = new ThesisDBView();
 	// Create the RPC services for client-server communication
-	private final ClientModelServiceAsync clientModelService = GWT
-			.create(ClientModelService.class);
+	private final clientModelServiceAsync clientModelService = GWT
+			.create(clientModelService.class);
 	private final BlobServiceAsync blobService = GWT
 			.create(BlobService.class);
 
@@ -57,7 +54,7 @@ public class ThesisDB implements EntryPoint {
 					// Show welcome page
 					thesisView.viewWelcomePage();
 				}// Otherwise, set page to login page
-				else thesisView.setWindow("../GusListWelcome.html");
+				else thesisView.setWindow("../ThesisDBLogin.html");
 			}
 		});
 	}
