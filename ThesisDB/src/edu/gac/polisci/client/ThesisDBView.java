@@ -5,119 +5,152 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.gac.polisci.*;
-
 public class ThesisDBView {
-	
-	private ThesisDB control;
-	// Popup panels need to be instantiated as final - just once
-	final PopupPanel searchPopup = new PopupPanel(false);
-	final PopupPanel mapPopup = new PopupPanel(false);
 
-	public void viewWelcomePage() {
+	private ThesisDB controller;
+	
+	public ThesisDB getController () {
+		return controller;
+	}
+	
+	public void setController (ThesisDB controller) {
+		this.controller = controller;
+	}
+	
+	public void viewWelcomePage(){
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
-		makeMenuBar(rootPanel);
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		rootPanel.add(horizontalPanel, 10, 79);
-		horizontalPanel.setSize("412px", "211px");
+		horizontalPanel.setSize("1000px", "211px");
 		
-		makeSideBar(horizontalPanel);
+			
+		
+		makeFilterBar(rootPanel);
 	}
 	
-	// Helper method to make row of menuss on top of View
-		public void makeMenuBar(RootPanel rp){
-			MenuBar menuBar = new MenuBar(false);
-			rp.add(menuBar, 94, 39);
-			
-			MenuItem menuHomeItem = new MenuItem("Home", false, new Command() {
-				public void execute() {
-					viewWelcomePage();
-				}
-			});
-			menuHomeItem.setHTML("Home");
-			menuBar.addItem(menuHomeItem);
-			menuBar.addSeparator(new MenuItemSeparator());
-			
-			//MenuItem menuSearchItem = new MenuItem("Search", false, new Command() {
-				//public void execute() {
-					//doPostSearch();
-				//}
-			//});
-			//menuSearchItem.setHTML("Search");
-			//menuBar.addItem(menuSearchItem);
-			menuBar.addSeparator(new MenuItemSeparator());
-			
-			//MenuItem menuSignOutItem = new MenuItem("Log Out", false, new Command() {
-				//public void execute() {
-					// control.handleSignOutRequest();
-				//}
-			//});
-			//menuSignOutItem.setHTML("Log Out");
-			//menuBar.addItem(menuSignOutItem);
-			menuBar.addSeparator(new MenuItemSeparator());
-			
-			MenuItem menuContactItem = new MenuItem("Contact", false, (Command) null);
-			menuContactItem.setHTML("Contact");
-			menuBar.addItem(menuContactItem);
-			menuBar.addSeparator(new MenuItemSeparator());
-			
-			MenuItem menuHelpItem = new MenuItem("Help", false, (Command) null);
-			menuHelpItem.setHTML("Help");
-			menuBar.addItem(menuHelpItem);
-		}
-
-		public void makeSideBar(HorizontalPanel hp){
-			VerticalPanel sidePanel = new VerticalPanel();
-			hp.add(sidePanel);
-			sidePanel.setSize("72px", "98px");
-			
-			Button postAdButton = new Button("Post Ad");
-			postAdButton.setStyleName("sideBarButton");
-			postAdButton.setText("Post Ad");
-			//add a clickListener to the button
-			//postAdButton.addClickHandler(new ClickHandler() {
-				//@Override
-				//public void onClick(ClickEvent event) {
-				//	viewPostAdForm();
-			//	}
-		    //  });
-			sidePanel.add(postAdButton);
-			
-			Button viewAdsButton = new Button("View Ads");
-			viewAdsButton.setStyleName("sideBarButton");
-			viewAdsButton.setText("View Ads");
-			//add a clickListener to the button
-		//	viewAdsButton.addClickHandler(new ClickHandler() {
-			//	@Override
-			//	public void onClick(ClickEvent event) {
-			//		control.viewAdDataFromServer();
-			//	}
-		    //  });
-			sidePanel.add(viewAdsButton);
-			
-			Hyperlink adminHyperlink = new Hyperlink("Admin Page", false, "newHistoryToken");
-			sidePanel.add(adminHyperlink);
-			
-		}
-
-	public void setWindow(String url) {
-		Window.Location.replace(url);
-	}
-
-	public void setController(ThesisDB thesisDB) {
-		control = thesisDB;
+	public void makeFilterBar (RootPanel rp) {
+//		MenuBar menuBar = new MenuBar(false);
+//		rp.add(menuBar, 0, 39);
+//		menuBar.setSize("1000px", "60px");	
 		
+		VerticalPanel allOptions = new VerticalPanel ();
+		
+		//Search Panel
+		
+		HorizontalPanel searchPanel = new HorizontalPanel ();
+		Label searchLabel = new Label ("Search:");
+		final TextBox searchBox = new TextBox();
+		searchPanel.add(searchLabel);
+		searchPanel.add(searchBox);
+		
+		Button searchButton = new Button("Search");
+		searchButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+//				controller.searchThesisEntries(searchBox.getText());
+			}
+	      });
+		
+		searchPanel.add(new Label (""));
+		searchPanel.add(searchButton);
+		
+		allOptions.add(searchPanel);
+		
+		//Tag Filter
+		
+		VerticalPanel tagPanel = new VerticalPanel();
+		ScrollPanel tagFilter = new ScrollPanel();
+		
+		//
+		// Will need persistence for tags, and for loop to add them all here
+		//
+		CheckBox option = new CheckBox ("option");
+		if (option.getValue()) {
+//			System.out.println(option.getText());
+		}
+	
+		tagFilter.add(option);
+		
+		Button tagFilterBtn = new Button ("Filter Tags");
+		tagFilterBtn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				//
+				//
+				//
+			}
+		});
+		tagPanel.add(tagFilter);
+		tagPanel.add(tagFilterBtn);
+		
+		allOptions.add(tagPanel);
+		
+		//Year Filter
+		
+		VerticalPanel yearPanel = new VerticalPanel();
+		ScrollPanel yearFilter = new ScrollPanel();
+		
+		//
+		// Will need persistence for tage, and for loop to add them all here
+		//
+		CheckBox yearoption = new CheckBox ("option");
+		tagFilter.add(yearoption);
+		
+		Button yearFilterBtn = new Button ("Filter Year");
+		yearFilterBtn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				//
+				//
+				//
+			}
+		});
+		yearPanel.add(yearFilter);
+		yearPanel.add(yearFilterBtn);
+		
+		allOptions.add(yearPanel);
+		
+		//Class Filter
+		
+		VerticalPanel classPanel = new VerticalPanel();
+		ScrollPanel classFilter = new ScrollPanel();
+		
+		//
+		// Will need persistence for tage, and for loop to add them all here
+		//
+		CheckBox classoption = new CheckBox ("option");
+		tagFilter.add(classoption);
+		
+		Button classFilterBtn = new Button ("Filter Class");
+		classFilterBtn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				//
+				//
+				//
+			}
+		});
+		classPanel.add(classFilter);
+		classPanel.add(classFilterBtn);
+		
+		allOptions.add(classPanel);
+				
+		rp.add(allOptions);
 	}
-
 }
