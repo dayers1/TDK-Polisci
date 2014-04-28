@@ -153,4 +153,9 @@ public class ThesisDBView {
 				
 		rp.add(allOptions);
 	}
+	
+	public void setWindow(String url) {
+		Window.Location.replace(url);
+	}
+
 }
