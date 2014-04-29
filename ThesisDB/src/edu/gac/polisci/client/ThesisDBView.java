@@ -1,5 +1,7 @@
 package edu.gac.polisci.client;
 
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -19,6 +21,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import edu.gac.polisci.shared.Thesis;
+
 public class ThesisDBView {
 
 	private ThesisDB controller;
@@ -31,6 +35,10 @@ public class ThesisDBView {
 		this.controller = controller;
 	}
 	
+	//
+	//May change a few things here, such as method arrangement and arguments
+	//
+	
 	public void viewWelcomePage(){
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
@@ -39,7 +47,15 @@ public class ThesisDBView {
 		rootPanel.add(horizontalPanel, 10, 79);
 		horizontalPanel.setSize("1000px", "211px");
 		
-			
+		
+		VerticalPanel thesisPanel = new VerticalPanel();
+		thesisPanel.setWidth("1000px");
+		rootPanel.add(thesisPanel);
+		
+		FlowPanel thesisFlow = new FlowPanel();
+		thesisPanel.add(thesisFlow);
+		
+//		makeThesisTable(thesis, thesisFlow, thesisPanel);	
 		
 		makeFilterBar(rootPanel);
 	}
@@ -152,6 +168,42 @@ public class ThesisDBView {
 		allOptions.add(classPanel);
 				
 		rp.add(allOptions);
+	}
+
+	public void makeThesisTable (List<Thesis> thesis, FlowPanel fp, VerticalPanel panel) {
+		for (Thesis entry: thesis) {
+			fp.add(makeThesisEntryRow(entry));
+		}
+		Label footer = new Label("COPYRIGHT HERE");
+		footer.addStyleName("footer");
+		footer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		panel.add(footer);
+	}
+	
+	public HorizontalPanel makeThesisEntryRow(Thesis entry) {
+		HorizontalPanel row = new HorizontalPanel();
+		Label author = new Label(entry.getAuthor());
+		author.addStyleName("entryLabel");
+		Label title = new Label (entry.getTitle());
+		Label year = new Label (entry.getSemester() + entry.getYear());
+		Label professor = new Label (entry.getProfessor());
+		
+		Button infoButton = new Button("Info"); 
+		infoButton.setText("Info");
+		infoButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				
+			}
+		});
+		
+		row.add(author);
+		row.add(title);
+		row.add(year);
+		row.add(professor);
+		row.add(infoButton);
+		
+		return row;
 	}
 	
 	public void setWindow(String url) {
