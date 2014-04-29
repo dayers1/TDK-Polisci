@@ -18,8 +18,8 @@ public class ThesisDB implements EntryPoint {
 	// Create the RPC services for client-server communication
 	private final clientModelServiceAsync clientModelService = GWT
 			.create(clientModelService.class);
-	private final BlobServiceAsync blobService = GWT
-			.create(BlobService.class);
+	//private final BlobServiceAsync blobService = GWT
+		//	.create(BlobService.class);
 
 	// Needed to keep track of the URL that is loaded when the app first loads
 	private String homeURL ="";
