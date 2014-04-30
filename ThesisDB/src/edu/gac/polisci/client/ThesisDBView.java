@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -43,9 +44,9 @@ public class ThesisDBView {
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 		
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		rootPanel.add(horizontalPanel, 10, 79);
-		horizontalPanel.setSize("1000px", "211px");
+		VerticalPanel verticalPanel = new VerticalPanel();
+		rootPanel.add(verticalPanel, 10, 79);
+		verticalPanel.setSize("1000px", "1000px");
 		
 		
 		VerticalPanel thesisPanel = new VerticalPanel();
@@ -65,11 +66,14 @@ public class ThesisDBView {
 //		rp.add(menuBar, 0, 39);
 //		menuBar.setSize("1000px", "60px");	
 		
-		VerticalPanel allOptions = new VerticalPanel ();
+		VerticalPanel allOptions = new VerticalPanel();
+		//HorizontalPanel hp = new HorizontalPanel();
+		//hp.add(allOptions);
+		rp.add(allOptions);
 		
 		//Search Panel
 		
-		HorizontalPanel searchPanel = new HorizontalPanel ();
+		HorizontalPanel searchPanel = new HorizontalPanel();
 		Label searchLabel = new Label ("Search:");
 		final TextBox searchBox = new TextBox();
 		searchPanel.add(searchLabel);
@@ -83,25 +87,20 @@ public class ThesisDBView {
 			}
 	      });
 		
-		searchPanel.add(new Label (""));
 		searchPanel.add(searchButton);
-		
 		allOptions.add(searchPanel);
 		
 		//Tag Filter
-		
-		VerticalPanel tagPanel = new VerticalPanel();
-		ScrollPanel tagFilter = new ScrollPanel();
-		
-		//
 		// Will need persistence for tags, and for loop to add them all here
 		//
+		HorizontalPanel tagPanel = new HorizontalPanel();
+		
 		CheckBox option = new CheckBox ("option");
-		if (option.getValue()) {
+		//if (option.getValue()) {
 //			System.out.println(option.getText());
-		}
+		//}
 	
-		tagFilter.add(option);
+		tagPanel.add(option);
 		
 		Button tagFilterBtn = new Button ("Filter Tags");
 		tagFilterBtn.addClickHandler(new ClickHandler() {
@@ -112,10 +111,23 @@ public class ThesisDBView {
 				//
 			}
 		});
-		tagPanel.add(tagFilter);
 		tagPanel.add(tagFilterBtn);
 		
-		allOptions.add(tagPanel);
+		//// Create scrollable text 
+	      HTML contents = new HTML("This is a ScrollPanel."
+	      +" By putting some fairly large contents in the middle"
+	      +" and setting its size explicitly, it becomes a scrollable area"
+	      +" within the page, but without requiring the use of an IFRAME."
+	      +" Here's quite a bit more meaningless text that will serve primarily"
+	      +" to make this thing scroll off the bottom of its visible area."
+	      +" Otherwise, you might have to make it really, really"
+	      +" small in order to see the nifty scroll bars!");
+
+		
+		ScrollPanel tagFilterScrollPanel = new ScrollPanel(contents);
+		tagFilterScrollPanel.setSize("100px", "100px");
+		
+		allOptions.add(tagFilterScrollPanel);
 		
 		//Year Filter
 		
@@ -123,10 +135,10 @@ public class ThesisDBView {
 		ScrollPanel yearFilter = new ScrollPanel();
 		
 		//
-		// Will need persistence for tage, and for loop to add them all here
+		// Will need persistence for tags, and for loop to add them all here
 		//
 		CheckBox yearoption = new CheckBox ("option");
-		tagFilter.add(yearoption);
+		yearFilter.add(yearoption);
 		
 		Button yearFilterBtn = new Button ("Filter Year");
 		yearFilterBtn.addClickHandler(new ClickHandler() {
@@ -151,7 +163,7 @@ public class ThesisDBView {
 		// Will need persistence for tage, and for loop to add them all here
 		//
 		CheckBox classoption = new CheckBox ("option");
-		tagFilter.add(classoption);
+		classFilter.add(classoption);
 		
 		Button classFilterBtn = new Button ("Filter Class");
 		classFilterBtn.addClickHandler(new ClickHandler() {
@@ -167,7 +179,6 @@ public class ThesisDBView {
 		
 		allOptions.add(classPanel);
 				
-		rp.add(allOptions);
 	}
 
 	public void makeThesisTable (List<Thesis> thesis, FlowPanel fp, VerticalPanel panel) {
