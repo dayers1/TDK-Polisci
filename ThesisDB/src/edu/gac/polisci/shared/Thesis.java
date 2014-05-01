@@ -24,6 +24,8 @@ public class Thesis implements Serializable {
 	private String semester="no semester";
 	@Persistent
 	private String URL="no URL";
+	@Persistent
+	private String className = "no class";
 	
 	// Need to define the Tags as "Unowned" child objects, 
 	//  as they do not disappear when Thesis object is deleted.  
@@ -34,13 +36,14 @@ public class Thesis implements Serializable {
 	// GWT serializable Objects need a no=argument constructor
 		public Thesis() {}
 
-		public Thesis(String t, String a, String p, String y, String s,
+		public Thesis(String t, String a, String p, String y, String s, String c,
 				         String url){
 			title = t;
 			author = a;
 			professor = p;
 			year = y;
 			semester = s;
+			className = c;
 			URL = url;
 		}
 
@@ -84,6 +87,14 @@ public class Thesis implements Serializable {
 			this.semester = semester;
 		}
 
+		public String getClassName() {
+			return className;
+		}
+		
+		public void setClassName(String className) {
+			this.className = className;
+		}
+		
 		public String getURL() {
 			return URL;
 		}

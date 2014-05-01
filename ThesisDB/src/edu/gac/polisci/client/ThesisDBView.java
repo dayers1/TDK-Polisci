@@ -1,5 +1,6 @@
 package edu.gac.polisci.client;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,19 +45,25 @@ public class ThesisDBView {
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 		
-		VerticalPanel verticalPanel = new VerticalPanel();
-		rootPanel.add(verticalPanel, 10, 79);
-		verticalPanel.setSize("1000px", "1000px");
+		Thesis test = new Thesis("Title","Author","Professor","Year","Semester", "Class Name","URL");
+		Thesis test2 = new Thesis("The great Escape","Kevin Dexter","Choong-Soo","2014","SP","Object-Oriented Software Development","lololol");
+
+		List<Thesis> thesis = Arrays.asList(test, test2);
+		//thesis.add(test);
 		
+//		VerticalPanel verticalPanel = new VerticalPanel();
+//		verticalPanel.setSize("200px", "200px");
+//		rootPanel.add(verticalPanel);
+//		
 		
 		VerticalPanel thesisPanel = new VerticalPanel();
 		thesisPanel.setWidth("1000px");
 		rootPanel.add(thesisPanel);
-		
 		FlowPanel thesisFlow = new FlowPanel();
 		thesisPanel.add(thesisFlow);
 		
-//		makeThesisTable(thesis, thesisFlow, thesisPanel);	
+		
+		makeThesisTable(thesis, thesisFlow, thesisPanel);	
 		
 		makeFilterBar(rootPanel);
 	}
@@ -69,7 +76,7 @@ public class ThesisDBView {
 		VerticalPanel allOptions = new VerticalPanel();
 		//HorizontalPanel hp = new HorizontalPanel();
 		//hp.add(allOptions);
-		rp.add(allOptions);
+		rp.add(allOptions, 1200, 140);
 		
 		//Search Panel
 		
@@ -93,15 +100,20 @@ public class ThesisDBView {
 		//Tag Filter
 		// Will need persistence for tags, and for loop to add them all here
 		//
-		HorizontalPanel tagPanel = new HorizontalPanel();
+		VerticalPanel tagPanel = new VerticalPanel();
 		
-		CheckBox option = new CheckBox ("option");
-		//if (option.getValue()) {
-//			System.out.println(option.getText());
-		//}
-	
-		tagPanel.add(option);
+		String[] tagTest = {"War","Comp Sci","Drugs","Unicorn","Virus","Gravity","Large Unknown Flying Objects","Pokemon"};
+		for (int i = 0; i < tagTest.length; i++){
+			CheckBox option = new CheckBox (tagTest[i]);
+			tagPanel.add(option);
+		}
+
+		ScrollPanel tagFilterScrollPanel = new ScrollPanel(tagPanel);
+		tagFilterScrollPanel.setSize("200px", "100px");
 		
+		allOptions.add(tagFilterScrollPanel);
+		
+
 		Button tagFilterBtn = new Button ("Filter Tags");
 		tagFilterBtn.addClickHandler(new ClickHandler() {
 			@Override
@@ -111,34 +123,25 @@ public class ThesisDBView {
 				//
 			}
 		});
-		tagPanel.add(tagFilterBtn);
+		allOptions.add(tagFilterBtn);
 		
-		//// Create scrollable text 
-	      HTML contents = new HTML("This is a ScrollPanel."
-	      +" By putting some fairly large contents in the middle"
-	      +" and setting its size explicitly, it becomes a scrollable area"
-	      +" within the page, but without requiring the use of an IFRAME."
-	      +" Here's quite a bit more meaningless text that will serve primarily"
-	      +" to make this thing scroll off the bottom of its visible area."
-	      +" Otherwise, you might have to make it really, really"
-	      +" small in order to see the nifty scroll bars!");
-
-		
-		ScrollPanel tagFilterScrollPanel = new ScrollPanel(contents);
-		tagFilterScrollPanel.setSize("100px", "100px");
-		
-		allOptions.add(tagFilterScrollPanel);
 		
 		//Year Filter
 		
 		VerticalPanel yearPanel = new VerticalPanel();
-		ScrollPanel yearFilter = new ScrollPanel();
 		
 		//
 		// Will need persistence for tags, and for loop to add them all here
 		//
-		CheckBox yearoption = new CheckBox ("option");
-		yearFilter.add(yearoption);
+		int[] yearTest = {2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000,
+				1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990};
+		for (int i = 0; i < yearTest.length; i++){
+			CheckBox option = new CheckBox (String.valueOf(yearTest[i]));
+			yearPanel.add(option);
+		}
+		
+		ScrollPanel yearFilter = new ScrollPanel(yearPanel);
+		yearFilter.setSize("200px", "100px");
 		
 		Button yearFilterBtn = new Button ("Filter Year");
 		yearFilterBtn.addClickHandler(new ClickHandler() {
@@ -149,24 +152,30 @@ public class ThesisDBView {
 				//
 			}
 		});
-		yearPanel.add(yearFilter);
-		yearPanel.add(yearFilterBtn);
 		
-		allOptions.add(yearPanel);
 		
-		//Class Filter
 		
-		VerticalPanel classPanel = new VerticalPanel();
-		ScrollPanel classFilter = new ScrollPanel();
+		allOptions.add(yearFilter);
+		allOptions.add(yearFilterBtn);
+		
+		//Author Filter
+		
+		VerticalPanel authorPanel = new VerticalPanel();
 		
 		//
 		// Will need persistence for tage, and for loop to add them all here
 		//
-		CheckBox classoption = new CheckBox ("option");
-		classFilter.add(classoption);
+		String[] authorTest = {"Kevin Dexter", "Todd Ruble", "David Ayers", "Tom Neuman", "Bill Gates"};
+		for (int i = 0; i < authorTest.length; i++){
+			CheckBox option = new CheckBox (String.valueOf(authorTest[i]));
+			authorPanel.add(option);
+		}
 		
-		Button classFilterBtn = new Button ("Filter Class");
-		classFilterBtn.addClickHandler(new ClickHandler() {
+		ScrollPanel authorFilter = new ScrollPanel(authorPanel);
+		authorFilter.setSize("200px", "100px");
+		
+		Button authorFilterBtn = new Button ("Filter Author");
+		authorFilterBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				//
@@ -174,16 +183,29 @@ public class ThesisDBView {
 				//
 			}
 		});
-		classPanel.add(classFilter);
-		classPanel.add(classFilterBtn);
 		
-		allOptions.add(classPanel);
-				
+		allOptions.add(authorFilter);
+		allOptions.add(authorFilterBtn);
+		
 	}
 
 	public void makeThesisTable (List<Thesis> thesis, FlowPanel fp, VerticalPanel panel) {
+		HorizontalPanel row = new HorizontalPanel();
+		Label author = new Label("AUTHOR");
+		Label title = new Label ("TITLE");
+		Label year = new Label ("SEM/YEAR");
+		Label professor = new Label ("PROFESSOR");
+		Label className = new Label ("CLASS");
+		
+		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
+		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
+		row.add(className); className.setWidth("200px");
+		
+		fp.add(row);
+		
 		for (Thesis entry: thesis) {
-			fp.add(makeThesisEntryRow(entry));
+			HorizontalPanel thesisRow = makeThesisEntryRow(entry);
+			fp.add(thesisRow);
 		}
 		Label footer = new Label("COPYRIGHT HERE");
 		footer.addStyleName("footer");
@@ -198,6 +220,7 @@ public class ThesisDBView {
 		Label title = new Label (entry.getTitle());
 		Label year = new Label (entry.getSemester() + entry.getYear());
 		Label professor = new Label (entry.getProfessor());
+		Label className = new Label (entry.getClassName());
 		
 		Button infoButton = new Button("Info"); 
 		infoButton.setText("Info");
@@ -208,10 +231,16 @@ public class ThesisDBView {
 			}
 		});
 		
-		row.add(author);
 		row.add(title);
+		title.setWidth("300px");
+		row.add(author);
+		author.setWidth("200px");
 		row.add(year);
+		year.setWidth("100px");
 		row.add(professor);
+		professor.setWidth("200px");
+		row.add(className);
+		className.setWidth("200px");
 		row.add(infoButton);
 		
 		return row;
