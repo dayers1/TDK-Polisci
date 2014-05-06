@@ -68,10 +68,67 @@ public class ThesisDBView {
 		makeFilterBar(rootPanel);
 	}
 	
+	public void viewAddNewThesisPage() {
+		RootPanel root = RootPanel.get();
+		root.clear();
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		root.add(horizontalPanel, 10, 79);
+		
+		VerticalPanel dataListPanel = new VerticalPanel();
+		horizontalPanel.add(dataListPanel);
+		
+		FlowPanel flowPanel = new FlowPanel();
+		dataListPanel.add(flowPanel);
+		
+		Label progTitlebar = new Label("New Entry");
+		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flowPanel.add(progTitlebar);
+		
+		createAddNewThesisForm(flowPanel);
+	}
+	
+	public void createAddNewThesisForm(FlowPanel flowPanel) {
+		
+		// Title TextBox
+				HorizontalPanel titlePanel = new HorizontalPanel();
+				Label titleLabel = new Label("Author");
+				titleLabel.addStyleName("entryLabel");
+				titlePanel.add(titleLabel);
+				flowPanel.add(titlePanel);
+				final TextBox titleTextBox = new TextBox();
+				flowPanel.add(titleTextBox);
+		
+		// Author TextBox
+				HorizontalPanel authorPanel = new HorizontalPanel();
+				Label authorLabel = new Label("Author");
+				authorLabel.addStyleName("entryLabel");
+				authorPanel.add(authorLabel);
+				flowPanel.add(authorPanel);
+				final TextBox authorTextBox = new TextBox();
+				flowPanel.add(authorTextBox);
+				
+		HorizontalPanel submitPanel = new HorizontalPanel();
+		Button submitButton = new Button("Submit Entry");
+		submitButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				String title = titleTextBox.getText();
+				String author = authorTextBox.getText();
+				// add error checks here
+				
+				Thesis addThesis = new Thesis (title,author,"test","test","test", "test","test");
+				// Add thesis here
+				
+				viewWelcomePage();
+			}
+		});
+		submitPanel.add(submitButton);
+		
+		flowPanel.add(submitPanel);
+	}
+	
 	public void makeFilterBar (RootPanel rp) {
-//		MenuBar menuBar = new MenuBar(false);
-//		rp.add(menuBar, 0, 39);
-//		menuBar.setSize("1000px", "60px");	
 		
 		VerticalPanel allOptions = new VerticalPanel();
 		//HorizontalPanel hp = new HorizontalPanel();
@@ -79,6 +136,16 @@ public class ThesisDBView {
 		rp.add(allOptions, 1200, 140);
 		
 		//Search Panel
+		
+		Button addEntryButton = new Button ("Add Thesis");
+		addEntryButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				viewAddNewThesisPage();
+			}
+		});
+		
+		allOptions.add(addEntryButton);
 		
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		Label searchLabel = new Label ("Search:");
