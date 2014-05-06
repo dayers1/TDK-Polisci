@@ -14,7 +14,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public String submitThesisToServer(Thesis thesis) {
-		ThesisDBModel.storeThesis();
+		ThesisDBModel.storeThesis(thesis);
 		return null;
 	}
 

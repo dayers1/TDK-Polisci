@@ -2,6 +2,7 @@ package edu.gac.polisci.shared;
 
 import java.io.Serializable;
 import java.util.Comparator;
+
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -11,6 +12,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 @PersistenceCapable(identityType=IdentityType.APPLICATION)
 public class Thesis implements Serializable {
+	
+	private String id;
 	
 	@PrimaryKey
 	@Persistent
@@ -101,6 +104,10 @@ public class Thesis implements Serializable {
 
 		public void setURL(String uRL) {
 			URL = uRL;
+		}
+
+		public String getID() {
+			return id;
 		}
 
 	
