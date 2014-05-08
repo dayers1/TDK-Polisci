@@ -92,7 +92,7 @@ public class ThesisDBView {
 		
 		// Title TextBox
 				HorizontalPanel titlePanel = new HorizontalPanel();
-				Label titleLabel = new Label("Author");
+				Label titleLabel = new Label("Title");
 				titleLabel.addStyleName("entryLabel");
 				titlePanel.add(titleLabel);
 				flowPanel.add(titlePanel);
@@ -108,6 +108,51 @@ public class ThesisDBView {
 				final TextBox authorTextBox = new TextBox();
 				flowPanel.add(authorTextBox);
 				
+		// Professor TextBox
+				HorizontalPanel professorPanel = new HorizontalPanel();
+				Label professorLabel = new Label("Professor");
+				professorLabel.addStyleName("entryLabel");
+				professorPanel.add(professorLabel);
+				flowPanel.add(professorPanel);
+				final TextBox professorTextBox = new TextBox();
+				flowPanel.add(professorTextBox);
+		
+		// Year TextBox
+				HorizontalPanel yearPanel = new HorizontalPanel();
+				Label yearLabel = new Label("Year");
+				yearLabel.addStyleName("entryLabel");
+				yearPanel.add(yearLabel);
+				flowPanel.add(yearPanel);
+				final TextBox yearTextBox = new TextBox();
+				flowPanel.add(yearTextBox);		
+				
+		// Semester TextBox
+				HorizontalPanel semsesterPanel = new HorizontalPanel();
+				Label semesterLabel = new Label("Semester");
+				semesterLabel.addStyleName("entryLabel");
+				semsesterPanel.add(semesterLabel);
+				flowPanel.add(semsesterPanel);
+				final TextBox semesterTextBox = new TextBox();
+				flowPanel.add(semesterTextBox);
+
+		// Semester TextBox
+				HorizontalPanel classPanel = new HorizontalPanel();
+				Label classLabel = new Label("Class");
+				classLabel.addStyleName("entryLabel");
+				classPanel.add(classLabel);
+				flowPanel.add(classPanel);
+				final TextBox classTextBox = new TextBox();
+				flowPanel.add(classTextBox);
+				
+		// Semester TextBox
+				HorizontalPanel PDFPanel = new HorizontalPanel();
+				Label PDFLabel = new Label("Class");
+				PDFLabel.addStyleName("entryLabel");
+				PDFPanel.add(PDFLabel);
+				flowPanel.add(PDFPanel);
+				final TextBox PDFTextBox = new TextBox();
+				flowPanel.add(PDFTextBox);
+				
 		HorizontalPanel submitPanel = new HorizontalPanel();
 		Button submitButton = new Button("Submit Entry");
 		submitButton.addClickHandler(new ClickHandler() {
@@ -115,9 +160,14 @@ public class ThesisDBView {
 			public void onClick(ClickEvent event) {
 				String title = titleTextBox.getText();
 				String author = authorTextBox.getText();
+				String professor = professorTextBox.getText();
+				String year = yearTextBox.getText();
+				String semester = semesterTextBox.getText();
+				String className = classTextBox.getText();
+				String URL = PDFTextBox.getText();
 				// add error checks here
 				
-				Thesis addThesis = new Thesis (title,author,"test","test","test", "test","test");
+				Thesis addThesis = new Thesis (title,author,professor,year,semester,className,URL);
 				// Add thesis here
 				
 				viewWelcomePage();
