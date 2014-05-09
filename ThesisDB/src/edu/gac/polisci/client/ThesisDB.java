@@ -1,4 +1,4 @@
-ppackage edu.gac.polisci.client;
+package edu.gac.polisci.client;
 
 /*
  * Controller class for  app.
