@@ -17,6 +17,26 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>blobServlet</servlet-name>
+    <servlet-class>edu.gac.polisci.server.BlobServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>blobServlet</servlet-name>
+    <url-pattern>/thesisdb/blobservice</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>submitThesisHTTPServlet</servlet-name>
+    <servlet-class>edu.gac.polisci.server.SubmitThesisHTTPServiceImpl</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+     <servlet-name>submitThesisHTTPServlet</servlet-name> 
+     <url-pattern>/thesisdb/uploadservice</url-pattern>
+   </servlet-mapping>
+   
+<servlet>
 <servlet-name>LoginService</servlet-name>
 <servlet-class>edu.gac.polisci.server.LoginService</servlet-class>
 </servlet>
