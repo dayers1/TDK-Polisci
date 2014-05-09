@@ -1,4 +1,4 @@
-package edu.gac.polisci.client;
+ppackage edu.gac.polisci.client;
 
 /*
  * Controller class for  app.
@@ -18,8 +18,8 @@ public class ThesisDB implements EntryPoint {
 	// Create the RPC services for client-server communication
 	private final clientModelServiceAsync clientModelService = GWT
 			.create(clientModelService.class);
-	//private final BlobServiceAsync blobService = GWT
-		//	.create(BlobService.class);
+	private final BlobServiceAsync blobService = GWT
+			.create(BlobService.class);
 
 	// Needed to keep track of the URL that is loaded when the app first loads
 	private String homeURL ="";
@@ -58,4 +58,23 @@ public class ThesisDB implements EntryPoint {
 			}
 		});
 	}
+	public void handleSubmitForm(final FormPanel submitFormPanel) {
+		blobService.getBlobStoreUploadUrl(
+		  new AsyncCallback<String>() {
+			public void onSuccess(String blobURL) {
+				// Set the form action to the newly created
+				// blobstore upload URL
+				submitFormPanel.setAction(blobURL.toString());
+				// *** Submit the form to complete the upload
+				// This causes a doPost to sever from the HTML Form (FormPanel)
+				submitFormPanel.submit();
+				// This POST will be captured by SubmitpostHTTPServiceImpl.java
+			}
+
+			public void onFailure(Throwable caught) {
+				thesisView.sendErrorMessage("Upload Failed");
+			}
+		});
+	}
+
 }
