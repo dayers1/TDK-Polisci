@@ -1,5 +1,8 @@
 package edu.gac.polisci.client;
 
-public class BlobServiceAsync {
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+public interface BlobServiceAsync {
+	void getBlobStoreUploadUrl(AsyncCallback<String> callback);
 
 }
