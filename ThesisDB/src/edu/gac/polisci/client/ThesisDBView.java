@@ -7,9 +7,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -85,76 +89,89 @@ public class ThesisDBView {
 		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		flowPanel.add(progTitlebar);
 		
-		createAddNewThesisForm(flowPanel);
+		FormPanel submitPanel = createAddNewThesisForm();
+		flowPanel.add(submitPanel);
 	}
 	
-	public void createAddNewThesisForm(FlowPanel flowPanel) {
+	public FormPanel createAddNewThesisForm() {
+				
+				final Thesis thesis = new Thesis();
 		
 		// Title TextBox
+				final FormPanel submitFormPanel = new FormPanel();
+				VerticalPanel thesisFormPanel = new VerticalPanel();
+				submitFormPanel.add(thesisFormPanel);
 				HorizontalPanel titlePanel = new HorizontalPanel();
 				Label titleLabel = new Label("Title");
 				titleLabel.addStyleName("entryLabel");
 				titlePanel.add(titleLabel);
-				flowPanel.add(titlePanel);
+				thesisFormPanel.add(titlePanel);
 				final TextBox titleTextBox = new TextBox();
-				flowPanel.add(titleTextBox);
+				thesisFormPanel.add(titleTextBox);
 		
 		// Author TextBox
 				HorizontalPanel authorPanel = new HorizontalPanel();
 				Label authorLabel = new Label("Author");
 				authorLabel.addStyleName("entryLabel");
 				authorPanel.add(authorLabel);
-				flowPanel.add(authorPanel);
+				thesisFormPanel.add(authorPanel);
 				final TextBox authorTextBox = new TextBox();
-				flowPanel.add(authorTextBox);
+				thesisFormPanel.add(authorTextBox);
 				
 		// Professor TextBox
 				HorizontalPanel professorPanel = new HorizontalPanel();
 				Label professorLabel = new Label("Professor");
 				professorLabel.addStyleName("entryLabel");
 				professorPanel.add(professorLabel);
-				flowPanel.add(professorPanel);
+				thesisFormPanel.add(professorPanel);
 				final TextBox professorTextBox = new TextBox();
-				flowPanel.add(professorTextBox);
+				thesisFormPanel.add(professorTextBox);
 		
 		// Year TextBox
 				HorizontalPanel yearPanel = new HorizontalPanel();
 				Label yearLabel = new Label("Year");
 				yearLabel.addStyleName("entryLabel");
 				yearPanel.add(yearLabel);
-				flowPanel.add(yearPanel);
+				thesisFormPanel.add(yearPanel);
 				final TextBox yearTextBox = new TextBox();
-				flowPanel.add(yearTextBox);		
+				thesisFormPanel.add(yearTextBox);		
 				
 		// Semester TextBox
 				HorizontalPanel semsesterPanel = new HorizontalPanel();
 				Label semesterLabel = new Label("Semester");
 				semesterLabel.addStyleName("entryLabel");
 				semsesterPanel.add(semesterLabel);
-				flowPanel.add(semsesterPanel);
+				thesisFormPanel.add(semsesterPanel);
 				final TextBox semesterTextBox = new TextBox();
-				flowPanel.add(semesterTextBox);
+				thesisFormPanel.add(semesterTextBox);
 
 		// Semester TextBox
 				HorizontalPanel classPanel = new HorizontalPanel();
 				Label classLabel = new Label("Class");
 				classLabel.addStyleName("entryLabel");
 				classPanel.add(classLabel);
-				flowPanel.add(classPanel);
+				thesisFormPanel.add(classPanel);
 				final TextBox classTextBox = new TextBox();
-				flowPanel.add(classTextBox);
+				thesisFormPanel.add(classTextBox);
 				
-		// Semester TextBox
-				HorizontalPanel PDFPanel = new HorizontalPanel();
-				Label PDFLabel = new Label("Class");
-				PDFLabel.addStyleName("entryLabel");
-				PDFPanel.add(PDFLabel);
-				flowPanel.add(PDFPanel);
-				final TextBox PDFTextBox = new TextBox();
-				flowPanel.add(PDFTextBox);
+		// New widget for file upload
+				HorizontalPanel fileRow = new HorizontalPanel();
+				final FileUpload upload = new FileUpload();
+				
+				upload.setTitle("Upload a Thesis");
+				fileRow.add(upload);
+				thesisFormPanel.add(fileRow);
 				
 		HorizontalPanel submitPanel = new HorizontalPanel();
 		Button submitButton = new Button("Submit Entry");
+		
+		// From Hvidsten's gustlist-gae
+		// The submitFormPanel, when submitted, will trigger an HTTP call to the
+		// servlet.  The following parameters must be set
+
+		submitFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
+		submitFormPanel.setMethod(FormPanel.METHOD_POST);
+		
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -164,18 +181,44 @@ public class ThesisDBView {
 				String year = yearTextBox.getText();
 				String semester = semesterTextBox.getText();
 				String className = classTextBox.getText();
-				String URL = PDFTextBox.getText();
+				
 				// add error checks here
 				
-				Thesis addThesis = new Thesis (title,author,professor,year,semester,className,URL);
-				// Add thesis here
+				thesis.setTitle(title);
+				thesis.setAuthor(author);
+				thesis.setProfessor(professor);
+				thesis.setYear(year);
+				thesis.setSemester(semester);
+				thesis.setClassName(className);
 				
-				viewWelcomePage();
+				
+				controller.handleSubmitForm(submitFormPanel);
+				
+			
 			}
 		});
 		submitPanel.add(submitButton);
 		
-		flowPanel.add(submitPanel);
+		thesisFormPanel.add(submitPanel);
+		
+		// The doPost message itself is sent from the Form and not intercepted
+		//  by GWT.  
+
+		// This event handler is "fired" just after the Form causes a doPost 
+		//  message to server
+		submitFormPanel.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+				public void onSubmitComplete(SubmitCompleteEvent event) {
+						if(thesis.getURL()=="No URL") {
+							submitFormPanel.reset();
+							titleTextBox.setFocus(true);
+						}
+						else viewWelcomePage();
+					}
+
+				
+
+				});
+		return submitFormPanel;
 	}
 	
 	public void makeFilterBar (RootPanel rp) {
@@ -365,6 +408,9 @@ public class ThesisDBView {
 	
 	public void setWindow(String url) {
 		Window.Location.replace(url);
+	}
+	public void sendErrorMessage(String msg) {
+		Window.alert(msg);  
 	}
 
 }
