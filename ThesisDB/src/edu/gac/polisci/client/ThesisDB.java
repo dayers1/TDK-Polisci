@@ -76,5 +76,18 @@ public class ThesisDB implements EntryPoint {
 			}
 		});
 	}
+	
+	public void getThesesFromServer() {
+		clientModelService.getThesesFromServer(new AsyncCallback<List<Thesis>>() {
+			@Override
+			public void onFailure (Throwable caught) {
+				System.out.println("FAILURE");
+			}
+			@Override
+			public void onSuccess(List<Thesis> result) {
+				thesisView.viewThesesEntries(result);
+			}
+		});
+	}
 
 }
