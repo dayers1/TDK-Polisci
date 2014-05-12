@@ -46,13 +46,18 @@ public class ThesisDBView {
 	//
 	
 	public void viewWelcomePage(){
+		controller.getThesesFromServer();
+	}
+	
+	public void viewThesesEntries (List<Thesis> theses) {	
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
+		
 		
 		Thesis test = new Thesis("Title","Author","Professor","Year","Semester", "Class Name","URL");
 		Thesis test2 = new Thesis("The great Escape","Kevin Dexter","Choong-Soo","2014","SP","Object-Oriented Software Development","lololol");
 
-		List<Thesis> thesis = Arrays.asList(test, test2);
+		List<Thesis> thesis = Arrays.asList();
 		//thesis.add(test);
 		
 //		VerticalPanel verticalPanel = new VerticalPanel();
@@ -67,7 +72,7 @@ public class ThesisDBView {
 		thesisPanel.add(thesisFlow);
 		
 		
-		makeThesisTable(thesis, thesisFlow, thesisPanel);	
+		makeThesisTable(theses, thesisFlow, thesisPanel);	
 		
 		makeFilterBar(rootPanel);
 	}
@@ -363,9 +368,11 @@ public class ThesisDBView {
 		
 		fp.add(row);
 		
-		for (Thesis entry: thesis) {
-			HorizontalPanel thesisRow = makeThesisEntryRow(entry);
-			fp.add(thesisRow);
+		if (!thesis.isEmpty()){
+			for (Thesis entry: thesis) {
+				HorizontalPanel thesisRow = makeThesisEntryRow(entry);
+				fp.add(thesisRow);
+			}
 		}
 		Label footer = new Label("COPYRIGHT HERE");
 		footer.addStyleName("footer");
