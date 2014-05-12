@@ -1,5 +1,7 @@
 package edu.gac.polisci.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -11,5 +13,6 @@ public interface clientModelService extends RemoteService {
 	public String submitThesisToServer(Thesis thesis);
 	boolean isUserLoggedIn();
 	String setAppBaseURL(String homeURL);
+	List<Thesis> getThesesFromServer();
 
 }
