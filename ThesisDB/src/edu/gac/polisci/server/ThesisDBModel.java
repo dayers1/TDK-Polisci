@@ -27,11 +27,8 @@ public class ThesisDBModel {
 		List<Thesis> theses = (List<Thesis>) query.execute();
 		// Child classes are loaded "lazily" - not until they are accessed.
 		// To make sure they are loaded before the PersistenceManager closes,
-		// we reference them here so they are forced to load.  
-	//	for(Thesis thesis: theses){
-	//		post.getSeller();
-	//		post.getBuyer();
-	//	}
+		// we reference them here so they are forced to load. 
+
 		return new ArrayList<Thesis>(theses);
 	}
   
