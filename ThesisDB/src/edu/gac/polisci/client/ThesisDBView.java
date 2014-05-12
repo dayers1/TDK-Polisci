@@ -71,8 +71,7 @@ public class ThesisDBView {
 		FlowPanel thesisFlow = new FlowPanel();
 		thesisPanel.add(thesisFlow);
 		
-		
-		makeThesisTable(theses, thesisFlow, thesisPanel);	
+		controller.viewThesisDataFromServer(thesisFlow, thesisPanel);	
 		
 		makeFilterBar(rootPanel);
 	}
@@ -102,10 +101,12 @@ public class ThesisDBView {
 				
 				final Thesis thesis = new Thesis();
 		
-		// Title TextBox
+		
 				final FormPanel submitFormPanel = new FormPanel();
 				VerticalPanel thesisFormPanel = new VerticalPanel();
 				submitFormPanel.add(thesisFormPanel);
+				
+		// Title TextBox
 				HorizontalPanel titlePanel = new HorizontalPanel();
 				Label titleLabel = new Label("Title");
 				titleLabel.addStyleName("entryLabel");
@@ -180,22 +181,13 @@ public class ThesisDBView {
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String title = titleTextBox.getText();
-				String author = authorTextBox.getText();
-				String professor = professorTextBox.getText();
-				String year = yearTextBox.getText();
-				String semester = semesterTextBox.getText();
-				String className = classTextBox.getText();
-				
-				// add error checks here
-				
-				thesis.setTitle(title);
-				thesis.setAuthor(author);
-				thesis.setProfessor(professor);
-				thesis.setYear(year);
-				thesis.setSemester(semester);
-				thesis.setClassName(className);
-				
+				titleTextBox.setName("title");
+				authorTextBox.setName("author");
+				professorTextBox.setName("professor");
+				yearTextBox.setName("year");
+				semesterTextBox.setName("semester");
+				classTextBox.setName("className");
+				upload.setName("upload");
 				
 				controller.handleSubmitForm(submitFormPanel);
 				
@@ -388,15 +380,17 @@ public class ThesisDBView {
 		Label year = new Label (entry.getSemester() + entry.getYear());
 		Label professor = new Label (entry.getProfessor());
 		Label className = new Label (entry.getClassName());
+		Anchor link = new Anchor("Download PDF", entry.getURL());
+		link.setTarget("_blank");
 		
-		Button infoButton = new Button("Info"); 
-		infoButton.setText("Info");
-		infoButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				
-			}
-		});
+\\		Button infoButton = new Button("Info"); 
+\\		infoButton.setText("Info");
+\\		infoButton.addClickHandler(new ClickHandler() {
+\\			@Override
+\\			public void onClick(ClickEvent event) {
+\\				
+\\			}
+\\		});
 		
 		row.add(title);
 		title.setWidth("300px");
@@ -408,7 +402,8 @@ public class ThesisDBView {
 		professor.setWidth("200px");
 		row.add(className);
 		className.setWidth("200px");
-		row.add(infoButton);
+//		row.add(infoButton);
+		row.add(link);
 		
 		return row;
 	}
