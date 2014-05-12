@@ -3,10 +3,13 @@ package edu.gac.polisci.shared;
 import java.io.Serializable;
 import java.util.Comparator;
 
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import com.google.appengine.datanucleus.annotations.Unowned;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
