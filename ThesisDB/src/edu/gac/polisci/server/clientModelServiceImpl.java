@@ -1,5 +1,7 @@
 package edu.gac.polisci.server;
 
+import java.util.List;
+
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -28,6 +30,12 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String setAppBaseURL(String homeURL) {
 		ThesisDBModel.setAppBaseURL(homeURL);
+		return null;
+	}
+
+	@Override
+	public List<Thesis> getThesesFromServer() {
+		ThesisDBModel.getThesisData();
 		return null;
 	}
 
