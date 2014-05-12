@@ -13,6 +13,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
 
+import edu.gac.polisci.server.ThesisDBModel;
 import edu.gac.polisci.shared.Thesis;
 
 public class ThesisDB implements EntryPoint {
@@ -79,17 +80,18 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
-	public void getThesesFromServer() {
-		clientModelService.getThesesFromServer(new AsyncCallback<List<Thesis>>() {
-			@Override
-			public void onFailure (Throwable caught) {
-				System.out.println("FAILURE");
-			}
-			@Override
-			public void onSuccess(List<Thesis> result) {
-				thesisView.viewThesesEntries(result);
-			}
-		});
+	public void viewThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel){
+		clientModelService.getThesisDataFromServer(
+				new AsyncCallback<List<Thesis>>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(List<Thesis> data) {
+						thesisView.makeThesisTable(data, fp, panel);
+					}
+				});
 	}
 
 }
