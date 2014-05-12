@@ -13,6 +13,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
 
+import edu.gac.polisci.shared.Thesis;
+
 public class ThesisDB implements EntryPoint {
 	private final ThesisDBView thesisView = new ThesisDBView();
 	// Create the RPC services for client-server communication
