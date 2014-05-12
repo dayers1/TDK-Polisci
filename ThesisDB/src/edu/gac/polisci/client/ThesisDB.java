@@ -11,7 +11,9 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.gac.polisci.server.ThesisDBModel;
 import edu.gac.polisci.shared.Thesis;
@@ -81,7 +83,7 @@ public class ThesisDB implements EntryPoint {
 	}
 	
 	public void viewThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel){
-		clientModelService.getThesisDataFromServer(
+		clientModelService.getThesesDataFromServer(
 				new AsyncCallback<List<Thesis>>() {
 					public void onFailure(Throwable caught) {
 						return;

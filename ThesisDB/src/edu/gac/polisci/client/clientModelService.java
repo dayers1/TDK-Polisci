@@ -13,6 +13,6 @@ public interface clientModelService extends RemoteService {
 	public String submitThesisToServer(Thesis thesis);
 	boolean isUserLoggedIn();
 	String setAppBaseURL(String homeURL);
-	List<Thesis> getThesesFromServer();
+	List<Thesis> getThesesDataFromServer();
 
 }

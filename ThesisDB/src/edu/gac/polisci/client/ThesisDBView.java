@@ -46,10 +46,8 @@ public class ThesisDBView {
 	//
 	
 	public void viewWelcomePage(){
-		controller.getThesesFromServer();
-	}
-	
-	public void viewThesesEntries (List<Thesis> theses) {	
+//		controller.getThesesFromServer();
+		
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 		
@@ -57,7 +55,7 @@ public class ThesisDBView {
 		Thesis test = new Thesis("Title","Author","Professor","Year","Semester", "Class Name","URL");
 		Thesis test2 = new Thesis("The great Escape","Kevin Dexter","Choong-Soo","2014","SP","Object-Oriented Software Development","lololol");
 
-		List<Thesis> thesis = Arrays.asList();
+//		List<Thesis> thesis = Arrays.asList();
 		//thesis.add(test);
 		
 //		VerticalPanel verticalPanel = new VerticalPanel();
@@ -74,6 +72,10 @@ public class ThesisDBView {
 		controller.viewThesisDataFromServer(thesisFlow, thesisPanel);	
 		
 		makeFilterBar(rootPanel);
+	}
+	
+	public void viewThesesEntries (List<Thesis> theses) {	
+
 	}
 	
 	public void viewAddNewThesisPage() {
@@ -383,14 +385,14 @@ public class ThesisDBView {
 		Anchor link = new Anchor("Download PDF", entry.getURL());
 		link.setTarget("_blank");
 		
-\\		Button infoButton = new Button("Info"); 
-\\		infoButton.setText("Info");
-\\		infoButton.addClickHandler(new ClickHandler() {
-\\			@Override
-\\			public void onClick(ClickEvent event) {
-\\				
-\\			}
-\\		});
+//		Button infoButton = new Button("Info"); 
+//		infoButton.setText("Info");
+//		infoButton.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				
+//			}
+//		});
 		
 		row.add(title);
 		title.setWidth("300px");

@@ -11,6 +11,6 @@ public interface clientModelServiceAsync {
 	void setAppBaseURL(String homeURL, AsyncCallback<String> asyncCallback);
 	void isUserLoggedIn(AsyncCallback<Boolean> asyncCallback);
 	void submitThesisToServer(Thesis thesis, AsyncCallback<String> callback);
-	void getThesesFromServer(AsyncCallback<List<Thesis>> callback);
+	void getThesesDataFromServer(AsyncCallback<List<Thesis>> callback);
 
 }
