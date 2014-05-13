@@ -15,11 +15,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 @PersistenceCapable(identityType=IdentityType.APPLICATION)
 public class Thesis implements Serializable {
 	
-	private String id;
-	
 	@PrimaryKey
+	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
+	private String id;
 	@Persistent
-	private String title;
+	private String title="no title";
 	private String author="no author";
 	@Persistent
 	private String professor="empty";
@@ -113,7 +113,22 @@ public class Thesis implements Serializable {
 		}
 
 	
-	
+		public boolean isInSearchForThesisEntry (String check) {
+			String tCheck = title.toLowerCase();
+			String aCheck = author.toLowerCase();
+			String pCheck = professor.toLowerCase();
+			String yCheck = year.toLowerCase();
+			String sCheck = semester.toLowerCase();
+			String cCheck = className.toLowerCase();
+			
+			String[] checks = {tCheck, aCheck, pCheck, yCheck, sCheck, cCheck};
+			
+			String compare = check.toLowerCase();
+			
+			for (int i = 0; i < 6; i++) if (checks[i].contains(compare)) return true;
+			
+			return false;
+		}
 	
 	
 }

@@ -362,7 +362,7 @@ public class ThesisDBView {
 		
 		fp.add(row);
 		
-		if (!thesis.isEmpty()){
+		if (thesis != null){
 			for (Thesis entry: thesis) {
 				HorizontalPanel thesisRow = makeThesisEntryRow(entry);
 				fp.add(thesisRow);
