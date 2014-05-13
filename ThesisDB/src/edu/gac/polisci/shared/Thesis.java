@@ -17,9 +17,10 @@ public class Thesis implements Serializable {
 	
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
-	private String id;
+	private Long id;
 	@Persistent
 	private String title="no title";
+	@Persistent
 	private String author="no author";
 	@Persistent
 	private String professor="empty";
@@ -108,7 +109,7 @@ public class Thesis implements Serializable {
 			URL = uRL;
 		}
 
-		public String getID() {
+		public Long getID() {
 			return id;
 		}
 

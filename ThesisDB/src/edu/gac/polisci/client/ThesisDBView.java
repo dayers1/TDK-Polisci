@@ -74,9 +74,9 @@ public class ThesisDBView {
 		makeFilterBar(rootPanel);
 	}
 	
-	public void viewThesesEntries (List<Thesis> theses) {	
-
-	}
+//	public void viewThesesEntries (List<Thesis> theses) {	
+//
+//	}
 	
 	public void viewAddNewThesisPage() {
 		RootPanel root = RootPanel.get();

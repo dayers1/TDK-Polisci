@@ -35,8 +35,8 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<Thesis> getThesesDataFromServer() {
-		ThesisDBModel.getThesisData();
-		return null;
+		List <Thesis> theses = ThesisDBModel.getThesisData();
+		return theses;
 	}
 
 		
