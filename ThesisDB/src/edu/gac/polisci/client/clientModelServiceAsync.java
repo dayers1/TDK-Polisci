@@ -13,5 +13,6 @@ public interface clientModelServiceAsync {
 	void submitThesisToServer(Thesis thesis, AsyncCallback<String> callback);
 	void getThesesDataFromServer(AsyncCallback<List<Thesis>> callback);
 	void getSearchThesesDataFromServer(String search, AsyncCallback<List<Thesis>> callback);
+	void deleteThesisFromServer(Thesis thesis, AsyncCallback<String> callback);
 
 }

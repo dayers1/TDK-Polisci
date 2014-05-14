@@ -70,6 +70,7 @@ public class ThesisDB implements EntryPoint {
 				// Set the form action to the newly created
 				// blobstore upload URL
 				submitFormPanel.setAction(blobURL.toString());
+				System.out.println(blobURL.toString());
 				// *** Submit the form to complete the upload
 				// This causes a doPost to sever from the HTML Form (FormPanel)
 				submitFormPanel.submit();
@@ -109,6 +110,21 @@ public class ThesisDB implements EntryPoint {
 						thesisView.makeThesisTable(data, fp, panel);
 					}
 				});
+	}
+	
+	public void deleteThesisDataFromServer(Thesis thesis) {
+		clientModelService.deleteThesisFromServer(thesis, 
+				new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				thesisView.sendErrorMessage("Delete Failed");
+				return;
+			}
+			
+			@Override
+			public void onSuccess(String success) {
+				return;
+			}
+		});
 	}
 
 }

@@ -49,5 +49,11 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		}
 		return thesesToReturn;
 	}
+
+	@Override
+	public String deleteThesisFromServer(Thesis thesis) {
+		ThesisDBModel.deletePost(thesis);
+		return "Entry Deleted";
+	}
 		
 }

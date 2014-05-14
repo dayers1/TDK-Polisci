@@ -174,17 +174,26 @@ public class ThesisDBView {
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				titleTextBox.setName("title");
-				authorTextBox.setName("author");
-				professorTextBox.setName("professor");
-				yearTextBox.setName("year");
-				semesterTextBox.setName("semester");
-				classTextBox.setName("class");
-				abstractTextArea.setName("abstract");
-				upload.setName("upload");
-				
-				controller.handleSubmitForm(submitFormPanel);
-				
+				if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
+						|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
+						|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
+						|| abstractTextArea.getText().trim().isEmpty() ) {
+					sendErrorMessage("Please fill out all boxes");
+				} else if (upload.getFilename().length() == 0) {
+					sendErrorMessage("Please submit a pdf");
+				}
+				else {
+					titleTextBox.setName("title");
+					authorTextBox.setName("author");
+					professorTextBox.setName("professor");
+					yearTextBox.setName("year");
+					semesterTextBox.setName("semester");
+					classTextBox.setName("class");
+					abstractTextArea.setName("abstract");
+					upload.setName("upload");
+					
+					controller.handleSubmitForm(submitFormPanel);
+				}
 			
 			}
 		});
@@ -377,7 +386,7 @@ public class ThesisDBView {
 		fp.add(footer);
 	}
 	
-	public HorizontalPanel makeThesisEntryRow(Thesis entry) {
+	public HorizontalPanel makeThesisEntryRow(final Thesis entry) {
 		HorizontalPanel row = new HorizontalPanel();
 		Label author = new Label(entry.getAuthor());
 		author.addStyleName("entryLabel");
@@ -388,6 +397,14 @@ public class ThesisDBView {
 //		Label textAbstract = new Label (entry.getTextAbstract());
 		Anchor link = new Anchor("Download PDF", entry.getURL());
 		link.setTarget("_blank");
+		Button deleteButton = new Button ("DEL");
+		deleteButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.deleteThesisDataFromServer(entry);
+				viewWelcomePage();
+			}
+		});
 		
 //		Button infoButton = new Button("Info"); 
 //		infoButton.setText("Info");
@@ -412,7 +429,7 @@ public class ThesisDBView {
 //		textAbstract.setWidth("300px");
 //		row.add(infoButton);
 		row.add(link);
-		
+		row.add(deleteButton);
 		return row;
 	}
 	

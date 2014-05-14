@@ -49,7 +49,7 @@ public class SubmitThesisHTTPServiceImpl extends HttpServlet {
 		//NOTE NOTE NOTE NOTE NOTE
 		//The line below is currently edited to avoid an error.
 		//I BELIEVE the error occurs when someone submits a thesis with no PDF.
-		url = "/thesisdb/blobservice?blob-key="; // + blobKey.getKeyString();
+		url = "/thesisdb/blobservice?blob-key=" + blobKey.getKeyString();
 		Thesis thesis = new Thesis(title, author, professor, year, semester, cl, ta,
 					url);
 		ThesisDBModel.storeThesis(thesis);
