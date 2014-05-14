@@ -188,7 +188,7 @@ public class ThesisDBView {
 				professorTextBox.setName("professor");
 				yearTextBox.setName("year");
 				semesterTextBox.setName("semester");
-				classTextBox.setName("className");
+				classTextBox.setName("class");
 				upload.setName("upload");
 				
 				controller.handleSubmitForm(submitFormPanel);
