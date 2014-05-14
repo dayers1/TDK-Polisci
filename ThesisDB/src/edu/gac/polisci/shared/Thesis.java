@@ -32,6 +32,8 @@ public class Thesis implements Serializable {
 	private String URL="no URL";
 	@Persistent
 	private String className = "no class";
+	@Persistent 
+	private String textAbstract = "no abstract";
 	
 	// Need to define the Tags as "Unowned" child objects, 
 	//  as they do not disappear when Thesis object is deleted.  
@@ -42,7 +44,7 @@ public class Thesis implements Serializable {
 	// GWT serializable Objects need a no=argument constructor
 		public Thesis() {}
 
-		public Thesis(String t, String a, String p, String y, String s, String c,
+		public Thesis(String t, String a, String p, String y, String s, String c, String ta,
 				         String url){
 			title = t;
 			author = a;
@@ -50,6 +52,7 @@ public class Thesis implements Serializable {
 			year = y;
 			semester = s;
 			className = c;
+			textAbstract = ta;
 			URL = url;
 		}
 
@@ -101,6 +104,13 @@ public class Thesis implements Serializable {
 			this.className = className;
 		}
 		
+		public String getTextAbstract() {
+			return textAbstract;
+		}
+		
+		public void setTextAbstract(String textAbstract) {
+			this.textAbstract = textAbstract;
+		}
 		public String getURL() {
 			return URL;
 		}
@@ -121,12 +131,13 @@ public class Thesis implements Serializable {
 			String yCheck = year.toLowerCase();
 			String sCheck = semester.toLowerCase();
 			String cCheck = className.toLowerCase();
+			String taCheck = textAbstract.toLowerCase();
 			
-			String[] checks = {tCheck, aCheck, pCheck, yCheck, sCheck, cCheck};
+			String[] checks = {tCheck, aCheck, pCheck, yCheck, sCheck, cCheck, taCheck};
 			
 			String compare = check.toLowerCase();
 			
-			for (int i = 0; i < 6; i++) if (checks[i].contains(compare)) return true;
+			for (int i = 0; i < 7; i++) if (checks[i].contains(compare)) return true;
 			
 			return false;
 		}

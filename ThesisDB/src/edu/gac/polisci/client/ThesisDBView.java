@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -52,8 +53,7 @@ public class ThesisDBView {
 		rootPanel.clear();
 		
 		
-		Thesis test = new Thesis("Title","Author","Professor","Year","Semester", "Class Name","URL");
-		Thesis test2 = new Thesis("The great Escape","Kevin Dexter","Choong-Soo","2014","SP","Object-Oriented Software Development","lololol");
+		Thesis test2 = new Thesis("The great Escape","Kevin Dexter","Choong-Soo","2014","SP","Object-Oriented Software Development", "TextAbstract", "lololol");
 
 //		List<Thesis> thesis = Arrays.asList();
 		//thesis.add(test);
@@ -153,7 +153,7 @@ public class ThesisDBView {
 				final TextBox semesterTextBox = new TextBox();
 				thesisFormPanel.add(semesterTextBox);
 
-		// Semester TextBox
+		// Class TextBox
 				HorizontalPanel classPanel = new HorizontalPanel();
 				Label classLabel = new Label("Class");
 				classLabel.addStyleName("entryLabel");
@@ -161,6 +161,16 @@ public class ThesisDBView {
 				thesisFormPanel.add(classPanel);
 				final TextBox classTextBox = new TextBox();
 				thesisFormPanel.add(classTextBox);
+				
+				
+		// Text Abstract TextArea
+				HorizontalPanel abstractPanel = new HorizontalPanel();
+				Label abstractLabel = new Label("Text Abstract");
+				abstractLabel.addStyleName("entryLabel");
+				abstractPanel.add(abstractLabel);
+				thesisFormPanel.add(abstractPanel);
+				final TextArea abstractTextArea = new TextArea();
+				thesisFormPanel.add(abstractTextArea);
 				
 		// New widget for file upload
 				HorizontalPanel fileRow = new HorizontalPanel();
@@ -189,6 +199,7 @@ public class ThesisDBView {
 				yearTextBox.setName("year");
 				semesterTextBox.setName("semester");
 				classTextBox.setName("class");
+				abstractTextArea.setName("abstract");
 				upload.setName("upload");
 				
 				controller.handleSubmitForm(submitFormPanel);
@@ -348,22 +359,23 @@ public class ThesisDBView {
 		
 	}
 
-	public void makeThesisTable (List<Thesis> thesis, FlowPanel fp, VerticalPanel panel) {
+	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {
 		HorizontalPanel row = new HorizontalPanel();
 		Label author = new Label("AUTHOR");
 		Label title = new Label ("TITLE");
 		Label year = new Label ("SEM/YEAR");
 		Label professor = new Label ("PROFESSOR");
 		Label className = new Label ("CLASS");
+		Label textAbstract = new Label ("ABSTRACT");
 		
 		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
 		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
-		row.add(className); className.setWidth("200px");
+		row.add(className); className.setWidth("200px"); row.add(textAbstract); textAbstract.setWidth("300px");
 		
 		fp.add(row);
 		
-		if (thesis != null){
-			for (Thesis entry: thesis) {
+		if (theses != null){
+			for (Thesis entry: theses) {
 				HorizontalPanel thesisRow = makeThesisEntryRow(entry);
 				fp.add(thesisRow);
 			}
@@ -382,6 +394,7 @@ public class ThesisDBView {
 		Label year = new Label (entry.getSemester() + entry.getYear());
 		Label professor = new Label (entry.getProfessor());
 		Label className = new Label (entry.getClassName());
+		Label textAbstract = new Label (entry.getTextAbstract());
 		Anchor link = new Anchor("Download PDF", entry.getURL());
 		link.setTarget("_blank");
 		
@@ -404,6 +417,8 @@ public class ThesisDBView {
 		professor.setWidth("200px");
 		row.add(className);
 		className.setWidth("200px");
+		row.add(textAbstract);
+		textAbstract.setWidth("300px");
 //		row.add(infoButton);
 		row.add(link);
 		
