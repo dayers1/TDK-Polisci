@@ -1,5 +1,6 @@
 package edu.gac.polisci.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.appengine.api.users.User;
@@ -39,5 +40,14 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return theses;
 	}
 
+	@Override
+	public List<Thesis> getSearchThesesDataFromServer(String search) {
+		List <Thesis> theses = ThesisDBModel.getThesisData();
+		List <Thesis> thesesToReturn = new ArrayList<Thesis>();
+		for (Thesis thesis: theses) {
+			if (thesis.isInSearchForThesisEntry(search)) thesesToReturn.add(thesis);
+		}
+		return thesesToReturn;
+	}
 		
 }

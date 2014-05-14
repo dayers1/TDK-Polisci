@@ -130,8 +130,10 @@ public class Thesis implements Serializable {
 			String pCheck = professor.toLowerCase();
 			String yCheck = year.toLowerCase();
 			String sCheck = semester.toLowerCase();
-			String cCheck = className.toLowerCase();
-			String taCheck = textAbstract.toLowerCase();
+			String cCheck = "";
+			if (className != null) cCheck = className.toLowerCase();
+			String taCheck = "";
+			if (textAbstract != null) taCheck = textAbstract.toLowerCase();
 			
 			String[] checks = {tCheck, aCheck, pCheck, yCheck, sCheck, cCheck, taCheck};
 			

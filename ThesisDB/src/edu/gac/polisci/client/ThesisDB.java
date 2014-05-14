@@ -82,6 +82,21 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
+	public void viewSearchThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, String search) {
+		clientModelService.getSearchThesesDataFromServer(search,
+				new AsyncCallback<List<Thesis>>() {
+			public void onFailure(Throwable caught) {
+				thesisView.sendErrorMessage("Search Failed");
+			}
+			
+			@Override
+			public void onSuccess(List<Thesis> data) {
+				fp.clear();
+				thesisView.makeThesisTable(data, fp, panel);
+			}
+		});
+	}
+	
 	public void viewThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel){
 		clientModelService.getThesesDataFromServer(
 				new AsyncCallback<List<Thesis>>() {

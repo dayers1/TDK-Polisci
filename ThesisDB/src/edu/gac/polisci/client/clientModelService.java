@@ -14,5 +14,6 @@ public interface clientModelService extends RemoteService {
 	boolean isUserLoggedIn();
 	String setAppBaseURL(String homeURL);
 	List<Thesis> getThesesDataFromServer();
+	List<Thesis> getSearchThesesDataFromServer(String search);
 
 }

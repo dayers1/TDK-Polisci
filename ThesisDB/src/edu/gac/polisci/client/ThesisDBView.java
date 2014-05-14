@@ -51,27 +51,8 @@ public class ThesisDBView {
 		
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
-		
-		
-		Thesis test2 = new Thesis("The great Escape","Kevin Dexter","Choong-Soo","2014","SP","Object-Oriented Software Development", "TextAbstract", "lololol");
-
-//		List<Thesis> thesis = Arrays.asList();
-		//thesis.add(test);
-		
-//		VerticalPanel verticalPanel = new VerticalPanel();
-//		verticalPanel.setSize("200px", "200px");
-//		rootPanel.add(verticalPanel);
-//		
-		
-		VerticalPanel thesisPanel = new VerticalPanel();
-		thesisPanel.setWidth("1000px");
-		rootPanel.add(thesisPanel);
-		FlowPanel thesisFlow = new FlowPanel();
-		thesisPanel.add(thesisFlow);
-		
-		controller.viewThesisDataFromServer(thesisFlow, thesisPanel);	
-		
-		makeFilterBar(rootPanel);
+				
+		viewMainPage(rootPanel);
 	}
 	
 //	public void viewThesesEntries (List<Thesis> theses) {	
@@ -231,7 +212,16 @@ public class ThesisDBView {
 		return submitFormPanel;
 	}
 	
-	public void makeFilterBar (RootPanel rp) {
+	public void viewMainPage (RootPanel rp) {
+		
+
+		final VerticalPanel thesisPanel = new VerticalPanel();
+		thesisPanel.setWidth("1000px");
+		rp.add(thesisPanel);
+		final FlowPanel thesisFlow = new FlowPanel();
+		thesisPanel.add(thesisFlow);
+		
+		controller.viewThesisDataFromServer(thesisFlow, thesisPanel);	
 		
 		VerticalPanel allOptions = new VerticalPanel();
 		//HorizontalPanel hp = new HorizontalPanel();
@@ -251,7 +241,7 @@ public class ThesisDBView {
 		allOptions.add(addEntryButton);
 		
 		HorizontalPanel searchPanel = new HorizontalPanel();
-		Label searchLabel = new Label ("Search:");
+		final Label searchLabel = new Label ("Search:");
 		final TextBox searchBox = new TextBox();
 		searchPanel.add(searchLabel);
 		searchPanel.add(searchBox);
@@ -260,7 +250,8 @@ public class ThesisDBView {
 		searchButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-//				controller.searchThesisEntries(searchBox.getText());
+				if (searchBox.getText() == "") controller.viewThesisDataFromServer(thesisFlow, thesisPanel);
+				else controller.viewSearchThesisDataFromServer(thesisFlow, thesisPanel, searchBox.getText());
 			}
 	      });
 		
@@ -366,11 +357,11 @@ public class ThesisDBView {
 		Label year = new Label ("SEM/YEAR");
 		Label professor = new Label ("PROFESSOR");
 		Label className = new Label ("CLASS");
-		Label textAbstract = new Label ("ABSTRACT");
+//		Label textAbstract = new Label ("ABSTRACT");
 		
 		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
 		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
-		row.add(className); className.setWidth("200px"); row.add(textAbstract); textAbstract.setWidth("300px");
+		row.add(className); className.setWidth("200px");// row.add(textAbstract); textAbstract.setWidth("300px");
 		
 		fp.add(row);
 		
@@ -383,7 +374,7 @@ public class ThesisDBView {
 		Label footer = new Label("COPYRIGHT HERE");
 		footer.addStyleName("footer");
 		footer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		panel.add(footer);
+		fp.add(footer);
 	}
 	
 	public HorizontalPanel makeThesisEntryRow(Thesis entry) {
@@ -394,7 +385,7 @@ public class ThesisDBView {
 		Label year = new Label (entry.getSemester() + entry.getYear());
 		Label professor = new Label (entry.getProfessor());
 		Label className = new Label (entry.getClassName());
-		Label textAbstract = new Label (entry.getTextAbstract());
+//		Label textAbstract = new Label (entry.getTextAbstract());
 		Anchor link = new Anchor("Download PDF", entry.getURL());
 		link.setTarget("_blank");
 		
@@ -417,8 +408,8 @@ public class ThesisDBView {
 		professor.setWidth("200px");
 		row.add(className);
 		className.setWidth("200px");
-		row.add(textAbstract);
-		textAbstract.setWidth("300px");
+//		row.add(textAbstract);
+//		textAbstract.setWidth("300px");
 //		row.add(infoButton);
 		row.add(link);
 		

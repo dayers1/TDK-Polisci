@@ -39,7 +39,7 @@ public class SubmitThesisHTTPServiceImpl extends HttpServlet {
 		String year = req.getParameter("year");
 		String semester = req.getParameter("semester");
 		String cl = req.getParameter("class");
-		String ta = req.getParameter("textAbstract");
+		String ta = req.getParameter("abstract");
 		
 		String url=null;
 
