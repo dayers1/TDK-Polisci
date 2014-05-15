@@ -1,6 +1,7 @@
 package edu.gac.polisci.server;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -39,6 +40,7 @@ public class SubmitThesisHTTPServiceImpl extends HttpServlet {
 		String year = req.getParameter("year");
 		String semester = req.getParameter("semester");
 		String cl = req.getParameter("class");
+		String tags = req.getParameter("tags");
 		String ta = req.getParameter("abstract");
 		
 		String url=null;
@@ -51,7 +53,7 @@ public class SubmitThesisHTTPServiceImpl extends HttpServlet {
 		//I BELIEVE the error occurs when someone submits a thesis with no PDF.
 		url = "/thesisdb/blobservice?blob-key=" + blobKey.getKeyString();
 		Thesis thesis = new Thesis(title, author, professor, year, semester, cl, ta,
-					url);
+					url, tags);
 		ThesisDBModel.storeThesis(thesis);
 		}
 	}

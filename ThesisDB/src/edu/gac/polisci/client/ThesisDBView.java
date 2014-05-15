@@ -156,6 +156,15 @@ public class ThesisDBView {
 				final TextArea abstractTextArea = new TextArea();
 				thesisFormPanel.add(abstractTextArea);
 				
+		// Tags TextArea
+				HorizontalPanel tagsPanel = new HorizontalPanel();
+				Label tagsLabel = new Label("Tags");
+				tagsLabel.addStyleName("entryLabel");
+				tagsPanel.add(tagsLabel);
+				thesisFormPanel.add(tagsPanel);
+				final TextArea tagsTextArea = new TextArea();
+				thesisFormPanel.add(tagsTextArea);
+				
 		// New widget for file upload
 				HorizontalPanel fileRow = new HorizontalPanel();
 				final FileUpload upload = new FileUpload();
@@ -198,6 +207,7 @@ public class ThesisDBView {
 					yearTextBox.setName("year");
 					semesterTextBox.setName("semester");
 					classTextBox.setName("class");
+					tagsTextArea.setName("tags");
 					abstractTextArea.setName("abstract");
 					upload.setName("upload");
 					
@@ -278,7 +288,8 @@ public class ThesisDBView {
 		
 		final VerticalPanel allFilters = new VerticalPanel();
 		
-//		controller.getTagFilterDataFromServer(allFilters);
+		
+		controller.getTagFilterDataFromServer(allFilters);
 		controller.getYearFilterDataFromServer(allFilters);
 		controller.getProfFilterDataFromServer(allFilters);
 		controller.getClassFilterDataFromServer(allFilters);
@@ -292,17 +303,22 @@ public class ThesisDBView {
 				List<String> profFilters = new ArrayList<String>();
 				List<String> classFilters = new ArrayList<String>();
 				List[] filterArray = {tagFilters, yearFilters, profFilters, classFilters};
-				int index = 1; //Change to 0 when we add Tags
+				int index = 0; 
 				for (Widget option: allFilters) {
-					ScrollPanel filterOptions = (ScrollPanel) option;
-					VerticalPanel contents = (VerticalPanel) filterOptions.getWidget();
-					for (Widget check: contents) {
-						CheckBox mark = (CheckBox) check;
-						if (mark.getValue()) {
-							filterArray[index].add(mark.getText());
+					try {
+						ScrollPanel filterOptions = (ScrollPanel) option;
+						
+						VerticalPanel contents = (VerticalPanel) filterOptions.getWidget();
+						for (Widget check: contents) {
+							CheckBox mark = (CheckBox) check;
+							if (mark.getValue()) {
+								filterArray[index].add(mark.getText());
+							}
 						}
+						index ++;
+					} catch (ClassCastException cce) {
+						continue;
 					}
-					index ++;
 				}
 				controller.viewFilterThesisDataFromServer(thesisFlow, thesisPanel, tagFilters, yearFilters, profFilters, classFilters);
 			}
@@ -328,6 +344,9 @@ public class ThesisDBView {
 		
 		VerticalPanel tagPanel = new VerticalPanel();
 		
+		Label tagLabel = new Label("Tag Filters");
+		allOptions.add(tagLabel);
+		
 		if (tags.contains("Honor")) {
 			tags.remove("Honor");
 		}
@@ -351,6 +370,9 @@ public class ThesisDBView {
 		
 		//Year Filter
 		
+		Label yearLabel = new Label("Year Filters");
+		allOptions.add(yearLabel);
+		
 		VerticalPanel yearPanel = new VerticalPanel();
 		
 		for (String year: years){
@@ -368,6 +390,9 @@ public class ThesisDBView {
 	public void addProfessorFilter (VerticalPanel allOptions, List<String> profs) {
 		//Author Filter
 		
+		Label profLabel = new Label("Professor Filters");
+		allOptions.add(profLabel);
+		
 		VerticalPanel profPanel = new VerticalPanel();
 		
 		for (String prof: profs){
@@ -383,6 +408,9 @@ public class ThesisDBView {
 	}
 	
 	public void addClassFilter (VerticalPanel allOptions, List<String> classes) {
+		
+		Label classLabel = new Label("Class Filters");
+		allOptions.add(classLabel);
 		
 		VerticalPanel classPanel = new VerticalPanel();
 		

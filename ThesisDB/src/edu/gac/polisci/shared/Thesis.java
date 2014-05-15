@@ -1,7 +1,9 @@
 package edu.gac.polisci.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -34,6 +36,8 @@ public class Thesis implements Serializable {
 	private String className = "no class";
 	@Persistent 
 	private String textAbstract = "no abstract";
+	@Persistent
+	private String tags = "no tags";
 	
 	// Need to define the Tags as "Unowned" child objects, 
 	//  as they do not disappear when Thesis object is deleted.  
@@ -45,7 +49,7 @@ public class Thesis implements Serializable {
 		public Thesis() {}
 
 		public Thesis(String t, String a, String p, String y, String s, String c, String ta,
-				         String url){
+				         String url, String tgs){
 			title = t;
 			author = a;
 			professor = p;
@@ -54,6 +58,7 @@ public class Thesis implements Serializable {
 			className = c;
 			textAbstract = ta;
 			URL = url;
+			tags = tgs;
 		}
 
 		public String getTitle() {
@@ -119,12 +124,20 @@ public class Thesis implements Serializable {
 			URL = uRL;
 		}
 
+		public String getTags() {
+			return tags;
+		}
+		
+		public void setTags(String tgs) {
+			tags = tgs;
+		}
+		
 		public Long getID() {
 			return id;
 		}
 
 	
-		public boolean isInSearchForThesisEntry (String check) {
+		public boolean isInSearchForThesisEntry (String searchPhrase) {
 			String tCheck = title.toLowerCase();
 			String aCheck = author.toLowerCase();
 			String pCheck = professor.toLowerCase();
@@ -132,14 +145,21 @@ public class Thesis implements Serializable {
 			String sCheck = semester.toLowerCase();
 			String cCheck = className.toLowerCase();
 			String taCheck = textAbstract.toLowerCase();
+			String tagCheck = tags.toLowerCase();
 			
-			String[] checks = {tCheck, aCheck, pCheck, yCheck, sCheck, cCheck, taCheck};
+			String[] checks = {tCheck, aCheck, pCheck, yCheck, sCheck, cCheck, taCheck, tagCheck};
 			
-			String compare = check.toLowerCase();
+			String compare = searchPhrase.toLowerCase();
+			String[] comparisons = compare.split(" ");
 			
-			for (int i = 0; i < 7; i++) if (checks[i].contains(compare)) return true;
+			for (String word: comparisons) {
+				boolean currentRun = false;
+				for (String check: checks) if (check.contains(word)) {currentRun = true; break;}
+				if (!currentRun) return false;
+			}
 			
-			return false;
+			return true;
+			
 		}
 	
 	

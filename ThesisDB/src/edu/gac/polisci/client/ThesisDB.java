@@ -142,6 +142,20 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
+	public void getTagFilterDataFromServer (final VerticalPanel filterDestination) {
+		clientModelService.getTagFilterListFromServer(
+				new AsyncCallback<List<String>> () {
+					public void onFailure (Throwable caught) {
+						thesisView.sendErrorMessage("Failed to get tag values from server");
+						return;
+					}
+					@Override
+					public void onSuccess(List<String> tags) {
+						thesisView.addTagFilter(filterDestination, tags);
+					}
+				});
+	}
+	
 	public void getYearFilterDataFromServer(final VerticalPanel filterDestination) {
 		clientModelService.getYearFilterListFromServer(
 				new AsyncCallback<List<String>> () {

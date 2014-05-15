@@ -70,8 +70,17 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<String> getTagFilterListFromServer() {
-		// TODO Auto-generated method stub
-		return null;
+		List <String> tags = new ArrayList<String>();
+		List <Thesis> theses = ThesisDBModel.getThesisData();
+		for (Thesis thesis: theses) {
+			String[] tagList = thesis.getTags().split(" ");
+			for (String tag: tagList){
+				if (!tags.contains(tag)) {
+					tags.add(tag);
+				}
+			}
+		}
+		return tags;
 	}
 
 	@Override
@@ -103,14 +112,13 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public List<Thesis> getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
 			List<String> profFilters, List<String> classFilters) {
-		List<Thesis> returnToClient = new ArrayList<Thesis>();
 		List<Thesis> temp = new ArrayList<Thesis>();
 		List<Thesis> theses = ThesisDBModel.getThesisData();
 		
 		if (!tagFilters.isEmpty()) {
 			for (Thesis thesis: theses) {
 				for (String filter: tagFilters) {
-					if (thesis.isInSearchForThesisEntry(filter)) temp.add(thesis);
+					if (thesis.getTags().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
 				}
 			}
 			theses = temp;
