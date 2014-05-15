@@ -101,15 +101,48 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public List<Thesis> getFilterThesesDataFromServer(List<String> filters) {
+	public List<Thesis> getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
+			List<String> profFilters, List<String> classFilters) {
 		List<Thesis> returnToClient = new ArrayList<Thesis>();
+		List<Thesis> temp = new ArrayList<Thesis>();
 		List<Thesis> theses = ThesisDBModel.getThesisData();
-		for (Thesis thesis: theses) {
-			for (String filter: filters) {
-				if (thesis.isInSearchForThesisEntry(filter)) returnToClient.add(thesis);
+		
+		if (!tagFilters.isEmpty()) {
+			for (Thesis thesis: theses) {
+				for (String filter: tagFilters) {
+					if (thesis.isInSearchForThesisEntry(filter)) temp.add(thesis);
+				}
 			}
+			theses = temp;
+			temp = new ArrayList<Thesis>();
 		}
-		return returnToClient;
+		if (!yearFilters.isEmpty()){
+			for (Thesis thesis: theses) {
+				for (String filter: yearFilters) {
+					if (thesis.getYear().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
+				}
+			}
+			theses = temp;
+			temp = new ArrayList<Thesis>();
+		}
+		if (!profFilters.isEmpty()) {
+			for (Thesis thesis: theses) {
+				for (String filter: profFilters) {
+					if (thesis.getProfessor().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
+				}
+			}
+			theses = temp;
+			temp = new ArrayList<Thesis>();
+		}
+		if (!classFilters.isEmpty()) {
+			for (Thesis thesis: theses) {
+				for (String filter: classFilters) {
+					if (thesis.getClassName().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
+				}
+			}
+			theses = temp;
+		}
+		return theses;
 	}
 		
 }

@@ -98,8 +98,9 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
-	public void viewFilterThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, List<String> filters) {
-		clientModelService.getFilterThesesDataFromServer(filters, 
+	public void viewFilterThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, 
+			List<String> tagFilters, List<String> yearFilters, List<String> profFilters, List<String> classFilters) {
+		clientModelService.getFilterThesesDataFromServer(tagFilters, yearFilters, profFilters, classFilters, 
 				new AsyncCallback<List<Thesis>>() {
 			public void onFailure(Throwable caught) {
 				thesisView.sendErrorMessage("Filtering Failed");

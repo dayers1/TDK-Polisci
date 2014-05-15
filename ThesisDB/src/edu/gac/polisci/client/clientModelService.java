@@ -20,6 +20,7 @@ public interface clientModelService extends RemoteService {
 	List<String> getTagFilterListFromServer ();
 	List<String> getProfFilterListFromServer ();
 	List<String> getClassFilterListFromServer ();
-	List<Thesis> getFilterThesesDataFromServer(List<String> filters);
+	List<Thesis> getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
+			List<String> profFilters, List<String> classFilters);
 
 }

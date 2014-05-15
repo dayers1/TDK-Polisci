@@ -18,6 +18,7 @@ public interface clientModelServiceAsync {
 	void getProfFilterListFromServer(AsyncCallback<List<String>> callback);
 	void getClassFilterListFromServer(AsyncCallback<List<String>> callback);
 	void getTagFilterListFromServer(AsyncCallback<List<String>> callback);
-	void getFilterThesesDataFromServer(List<String> filters,AsyncCallback<List<Thesis>> callback);
+	void getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
+			List<String> profFilters, List<String> classFilters,AsyncCallback<List<Thesis>> callback);
 
 }

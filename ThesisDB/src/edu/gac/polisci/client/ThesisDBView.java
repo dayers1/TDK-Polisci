@@ -183,8 +183,14 @@ public class ThesisDBView {
 					sendErrorMessage("Please fill out all boxes");
 				} else if (upload.getFilename().length() == 0) {
 					sendErrorMessage("Please submit a pdf");
+				} else if (!(semesterTextBox.getText().equals("Spring") || semesterTextBox.getText().equals("Fall"))) {
+					sendErrorMessage("Semester must be either 'Spring' or 'Fall'");
+				} else if (yearTextBox.getText().length() != 4) {
+					sendErrorMessage("Year must be a 4 digit number");
 				}
 				else {
+					try {int i = Integer.parseInt(yearTextBox.getText());}
+					catch (NumberFormatException nfe) {sendErrorMessage("Year must be a 4 digit number"); return;}
 					titleTextBox.setName("title");
 					authorTextBox.setName("author");
 					professorTextBox.setName("professor");
@@ -280,18 +286,24 @@ public class ThesisDBView {
 		filterButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				List<String> filterTerms = new ArrayList<String>();
+				List<String> tagFilters = new ArrayList<String>();
+				List<String> yearFilters = new ArrayList<String>();
+				List<String> profFilters = new ArrayList<String>();
+				List<String> classFilters = new ArrayList<String>();
+				List[] filterArray = {tagFilters, yearFilters, profFilters, classFilters};
+				int index = 1; //Change to 0 when we add Tags
 				for (Widget option: allFilters) {
 					ScrollPanel filterOptions = (ScrollPanel) option;
 					VerticalPanel contents = (VerticalPanel) filterOptions.getWidget();
 					for (Widget check: contents) {
 						CheckBox mark = (CheckBox) check;
 						if (mark.getValue()) {
-							filterTerms.add(mark.getText());
+							filterArray[index].add(mark.getText());
 						}
 					}
+					index ++;
 				}
-				controller.viewFilterThesisDataFromServer(thesisFlow, thesisPanel, filterTerms);
+				controller.viewFilterThesisDataFromServer(thesisFlow, thesisPanel, tagFilters, yearFilters, profFilters, classFilters);
 			}
 		});
 		
