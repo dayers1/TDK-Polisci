@@ -354,6 +354,22 @@ public class ThesisDBView {
 		CheckBox honor = new CheckBox("Honor");
 		tagPanel.add(honor);
 		
+		int index = 0;
+		while (index < tags.size()) {
+			if (index == 0) {
+				index++;
+			}
+			else if (tags.get(index).compareTo(tags.get(index - 1)) < 0) {
+				String temp = tags.get(index);
+				tags.set(index, tags.get(index - 1));
+				tags.set(index-1, temp);
+				index --;
+			}
+			else {
+				index ++;
+			}
+		}
+		
 		for (String tag: tags){
 			CheckBox option = new CheckBox (tag);
 			tagPanel.add(option);
@@ -375,6 +391,22 @@ public class ThesisDBView {
 		
 		VerticalPanel yearPanel = new VerticalPanel();
 		
+		int index = 0;
+		while (index < years.size()) {
+			if (index == 0) {
+				index++;
+			}
+			else if (years.get(index).compareTo(years.get(index - 1)) > 0) {
+				String temp = years.get(index);
+				years.set(index, years.get(index - 1));
+				years.set(index-1, temp);
+				index --;
+			}
+			else {
+				index ++;
+			}
+		}
+		
 		for (String year: years){
 			CheckBox option = new CheckBox (year);
 			yearPanel.add(option);
@@ -395,6 +427,22 @@ public class ThesisDBView {
 		
 		VerticalPanel profPanel = new VerticalPanel();
 		
+		int index = 0;
+		while (index < profs.size()) {
+			if (index == 0) {
+				index++;
+			}
+			else if (profs.get(index).compareTo(profs.get(index - 1)) < 0) {
+				String temp = profs.get(index);
+				profs.set(index, profs.get(index - 1));
+				profs.set(index-1, temp);
+				index --;
+			}
+			else {
+				index ++;
+			}
+		}
+		
 		for (String prof: profs){
 			CheckBox option = new CheckBox (prof);
 			profPanel.add(option);
@@ -413,6 +461,22 @@ public class ThesisDBView {
 		allOptions.add(classLabel);
 		
 		VerticalPanel classPanel = new VerticalPanel();
+		
+		int index = 0;
+		while (index < classes.size()) {
+			if (index == 0) {
+				index++;
+			}
+			else if (classes.get(index).compareTo(classes.get(index - 1)) < 0) {
+				String temp = classes.get(index);
+				classes.set(index, classes.get(index - 1));
+				classes.set(index-1, temp);
+				index --;
+			}
+			else {
+				index ++;
+			}
+		}
 		
 		for (String className: classes) {
 			CheckBox option = new CheckBox (className);
