@@ -16,5 +16,10 @@ public interface clientModelService extends RemoteService {
 	List<Thesis> getThesesDataFromServer();
 	List<Thesis> getSearchThesesDataFromServer(String search);
 	String deleteThesisFromServer (Thesis thesis);
+	List<String> getYearFilterListFromServer ();
+	List<String> getTagFilterListFromServer ();
+	List<String> getProfFilterListFromServer ();
+	List<String> getClassFilterListFromServer ();
+	List<Thesis> getFilterThesesDataFromServer(List<String> filters);
 
 }

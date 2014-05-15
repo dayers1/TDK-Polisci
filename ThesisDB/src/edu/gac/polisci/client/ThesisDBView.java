@@ -1,5 +1,6 @@
 package edu.gac.polisci.client;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import edu.gac.polisci.shared.Thesis;
 
@@ -267,96 +269,119 @@ public class ThesisDBView {
 		searchPanel.add(searchButton);
 		allOptions.add(searchPanel);
 		
+		final VerticalPanel allFilters = new VerticalPanel();
+		
+//		controller.getTagFilterDataFromServer(allFilters);
+		controller.getYearFilterDataFromServer(allFilters);
+		controller.getProfFilterDataFromServer(allFilters);
+		controller.getClassFilterDataFromServer(allFilters);
+		
+		Button filterButton = new Button("Filter");
+		filterButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				List<String> filterTerms = new ArrayList<String>();
+				for (Widget option: allFilters) {
+					ScrollPanel filterOptions = (ScrollPanel) option;
+					VerticalPanel contents = (VerticalPanel) filterOptions.getWidget();
+					for (Widget check: contents) {
+						CheckBox mark = (CheckBox) check;
+						if (mark.getValue()) {
+							filterTerms.add(mark.getText());
+						}
+					}
+				}
+				controller.viewFilterThesisDataFromServer(thesisFlow, thesisPanel, filterTerms);
+			}
+		});
+		
+		allOptions.add(allFilters);
+		allOptions.add(filterButton);
+		
+		
+//		for (Widget option: tagPanel) {
+//			CheckBox mark = (CheckBox) option;
+//			System.out.println(mark.getText());
+//			
+//		}
+		
+	}
+	
+	public void addTagFilter (VerticalPanel allOptions, List<String> tags) {
+		
 		//Tag Filter
 		// Will need persistence for tags, and for loop to add them all here
 		//
+		
 		VerticalPanel tagPanel = new VerticalPanel();
 		
-		String[] tagTest = {"War","Comp Sci","Drugs","Unicorn","Virus","Gravity","Large Unknown Flying Objects","Pokemon"};
-		for (int i = 0; i < tagTest.length; i++){
-			CheckBox option = new CheckBox (tagTest[i]);
+		if (tags.contains("Honor")) {
+			tags.remove("Honor");
+		}
+		
+		CheckBox honor = new CheckBox("Honor");
+		tagPanel.add(honor);
+		
+		for (String tag: tags){
+			CheckBox option = new CheckBox (tag);
 			tagPanel.add(option);
 		}
 
 		ScrollPanel tagFilterScrollPanel = new ScrollPanel(tagPanel);
 		tagFilterScrollPanel.setSize("200px", "100px");
 		
-		allOptions.add(tagFilterScrollPanel);
+		allOptions.add(tagFilterScrollPanel);		
 		
-
-		Button tagFilterBtn = new Button ("Filter Tags");
-		tagFilterBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				//
-				//
-				//
-			}
-		});
-		allOptions.add(tagFilterBtn);
-		
+	}
+	
+	public void addYearFilter (VerticalPanel allOptions, List<String> years) {
 		
 		//Year Filter
 		
 		VerticalPanel yearPanel = new VerticalPanel();
 		
-		//
-		// Will need persistence for tags, and for loop to add them all here
-		//
-		int[] yearTest = {2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000,
-				1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990};
-		for (int i = 0; i < yearTest.length; i++){
-			CheckBox option = new CheckBox (String.valueOf(yearTest[i]));
+		for (String year: years){
+			CheckBox option = new CheckBox (year);
 			yearPanel.add(option);
 		}
 		
 		ScrollPanel yearFilter = new ScrollPanel(yearPanel);
 		yearFilter.setSize("200px", "100px");
 		
-		Button yearFilterBtn = new Button ("Filter Year");
-		yearFilterBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				//
-				//
-				//
-			}
-		});
-		
-		
-		
 		allOptions.add(yearFilter);
-		allOptions.add(yearFilterBtn);
 		
+	}
+	
+	public void addProfessorFilter (VerticalPanel allOptions, List<String> profs) {
 		//Author Filter
 		
-		VerticalPanel authorPanel = new VerticalPanel();
+		VerticalPanel profPanel = new VerticalPanel();
 		
-		//
-		// Will need persistence for tage, and for loop to add them all here
-		//
-		String[] authorTest = {"Kevin Dexter", "Todd Ruble", "David Ayers", "Tom Neuman", "Bill Gates"};
-		for (int i = 0; i < authorTest.length; i++){
-			CheckBox option = new CheckBox (String.valueOf(authorTest[i]));
-			authorPanel.add(option);
+		for (String prof: profs){
+			CheckBox option = new CheckBox (prof);
+			profPanel.add(option);
 		}
 		
-		ScrollPanel authorFilter = new ScrollPanel(authorPanel);
+		ScrollPanel authorFilter = new ScrollPanel(profPanel);
 		authorFilter.setSize("200px", "100px");
 		
-		Button authorFilterBtn = new Button ("Filter Author");
-		authorFilterBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				//
-				//
-				//
-			}
-		});
-		
 		allOptions.add(authorFilter);
-		allOptions.add(authorFilterBtn);
 		
+	}
+	
+	public void addClassFilter (VerticalPanel allOptions, List<String> classes) {
+		
+		VerticalPanel classPanel = new VerticalPanel();
+		
+		for (String className: classes) {
+			CheckBox option = new CheckBox (className);
+			classPanel.add(option);
+		}
+
+		ScrollPanel classFilter = new ScrollPanel(classPanel);
+		classFilter.setSize("200px", "100px");
+		
+		allOptions.add(classFilter);
 	}
 
 	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {

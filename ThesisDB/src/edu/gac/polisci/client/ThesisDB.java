@@ -5,6 +5,7 @@ package edu.gac.polisci.client;
  * Handles communications between View (client side) and Model (server side) 
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -70,7 +71,6 @@ public class ThesisDB implements EntryPoint {
 				// Set the form action to the newly created
 				// blobstore upload URL
 				submitFormPanel.setAction(blobURL.toString());
-				System.out.println(blobURL.toString());
 				// *** Submit the form to complete the upload
 				// This causes a doPost to sever from the HTML Form (FormPanel)
 				submitFormPanel.submit();
@@ -90,6 +90,20 @@ public class ThesisDB implements EntryPoint {
 				thesisView.sendErrorMessage("Search Failed");
 			}
 			
+			@Override
+			public void onSuccess(List<Thesis> data) {
+				fp.clear();
+				thesisView.makeThesisTable(data, fp, panel);
+			}
+		});
+	}
+	
+	public void viewFilterThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, List<String> filters) {
+		clientModelService.getFilterThesesDataFromServer(filters, 
+				new AsyncCallback<List<Thesis>>() {
+			public void onFailure(Throwable caught) {
+				thesisView.sendErrorMessage("Filtering Failed");
+			}
 			@Override
 			public void onSuccess(List<Thesis> data) {
 				fp.clear();
@@ -126,5 +140,47 @@ public class ThesisDB implements EntryPoint {
 			}
 		});
 	}
+	
+	public void getYearFilterDataFromServer(final VerticalPanel filterDestination) {
+		clientModelService.getYearFilterListFromServer(
+				new AsyncCallback<List<String>> () {
+					public void onFailure(Throwable caught) {
+						thesisView.sendErrorMessage("Failed to get year values from server");
+						return;
+					}
+					@Override
+					public void onSuccess(List<String> years) {
+						thesisView.addYearFilter(filterDestination, years);
+					}
+				});
+	}
 
+	public void getProfFilterDataFromServer(final VerticalPanel filterDestination) {
+		clientModelService.getProfFilterListFromServer(
+				new AsyncCallback<List<String>> () {
+					public void onFailure(Throwable caught) {
+						thesisView.sendErrorMessage("Failed to get year values from server");
+						return;
+					}
+					@Override
+					public void onSuccess(List<String> profs) {
+						thesisView.addProfessorFilter(filterDestination, profs);
+					}
+				});
+	}
+	
+	public void getClassFilterDataFromServer(final VerticalPanel filterDestination) {
+		clientModelService.getClassFilterListFromServer(
+				new AsyncCallback<List<String>> () {
+					public void onFailure(Throwable caught) {
+						thesisView.sendErrorMessage("Failed to get year values from server");
+						return;
+					}
+					@Override
+					public void onSuccess(List<String> classes) {
+						thesisView.addClassFilter(filterDestination, classes);
+					}
+				});
+	}
+	
 }

@@ -55,5 +55,61 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		ThesisDBModel.deletePost(thesis);
 		return "Entry Deleted";
 	}
+	
+	public List<String> getYearFilterListFromServer() {
+		List <String> years = new ArrayList<String>();
+		List <Thesis> theses = ThesisDBModel.getThesisData();
+		for (Thesis thesis: theses) {
+			String year = thesis.getYear();
+			if (!years.contains(year)) {
+				years.add(year);
+			}
+		}
+		return years;
+	}
+
+	@Override
+	public List<String> getTagFilterListFromServer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getProfFilterListFromServer() {
+		List <String> profs = new ArrayList<String>();
+		List <Thesis> theses = ThesisDBModel.getThesisData();
+		for (Thesis thesis: theses) {
+			String prof = thesis.getProfessor();
+			if (!profs.contains(prof)) {
+				profs.add(prof);
+			}
+		}
+		return profs;
+	}
+
+	@Override
+	public List<String> getClassFilterListFromServer() {
+		List <String> classes = new ArrayList<String>();
+		List <Thesis> theses = ThesisDBModel.getThesisData();
+		for (Thesis thesis: theses) {
+			String className = thesis.getClassName();
+			if (!classes.contains(className)) {
+				classes.add(className);
+			}
+		}
+		return classes;
+	}
+
+	@Override
+	public List<Thesis> getFilterThesesDataFromServer(List<String> filters) {
+		List<Thesis> returnToClient = new ArrayList<Thesis>();
+		List<Thesis> theses = ThesisDBModel.getThesisData();
+		for (Thesis thesis: theses) {
+			for (String filter: filters) {
+				if (thesis.isInSearchForThesisEntry(filter)) returnToClient.add(thesis);
+			}
+		}
+		return returnToClient;
+	}
 		
 }
