@@ -35,6 +35,7 @@ import edu.gac.polisci.shared.Thesis;
 public class ThesisDBView {
 
 	private ThesisDB controller;
+	final PopupPanel moreInfoPopup = new PopupPanel(false);
 	
 	public ThesisDB getController () {
 		return controller;
@@ -403,11 +404,10 @@ public class ThesisDBView {
 		Label year = new Label ("SEM/YEAR");
 		Label professor = new Label ("PROFESSOR");
 		Label className = new Label ("CLASS");
-//		Label textAbstract = new Label ("ABSTRACT");
 		
 		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
 		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
-		row.add(className); className.setWidth("200px");// row.add(textAbstract); textAbstract.setWidth("300px");
+		row.add(className); className.setWidth("200px");
 		
 		fp.add(row);
 		
@@ -431,7 +431,6 @@ public class ThesisDBView {
 		Label year = new Label (entry.getSemester() + entry.getYear());
 		Label professor = new Label (entry.getProfessor());
 		Label className = new Label (entry.getClassName());
-//		Label textAbstract = new Label (entry.getTextAbstract());
 		Anchor link = new Anchor("Download PDF", entry.getURL());
 		link.setTarget("_blank");
 		Button deleteButton = new Button ("DEL");
@@ -443,14 +442,17 @@ public class ThesisDBView {
 			}
 		});
 		
-//		Button infoButton = new Button("Info"); 
-//		infoButton.setText("Info");
-//		infoButton.addClickHandler(new ClickHandler() {
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				
-//			}
-//		});
+		Button infoButton = new Button("Info"); 
+		infoButton.setText("Info");
+		infoButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				moreInfoPopup.setWidget(moreInfoPanel(entry));
+				moreInfoPopup.setSize("400px", "400px");
+				moreInfoPopup.center();
+				moreInfoPopup.show();
+			}
+		});
 		
 		row.add(title);
 		title.setWidth("300px");
@@ -462,12 +464,44 @@ public class ThesisDBView {
 		professor.setWidth("200px");
 		row.add(className);
 		className.setWidth("200px");
-//		row.add(textAbstract);
-//		textAbstract.setWidth("300px");
-//		row.add(infoButton);
+		
+		row.add(infoButton);
 		row.add(link);
 		row.add(deleteButton);
 		return row;
+	}
+	
+	public VerticalPanel moreInfoPanel(Thesis entry) {
+		VerticalPanel content = new VerticalPanel();
+		
+		Label author = new Label(entry.getAuthor());
+		Label title = new Label (entry.getTitle());
+		Label year = new Label (entry.getYear());
+		Label professor = new Label (entry.getProfessor());
+		Label className = new Label (entry.getClassName());
+		Label textAbstract = new Label (entry.getTextAbstract());
+		
+		// Ok Button;
+		Button okButton = new Button("Done");
+		okButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				moreInfoPopup.hide();
+			}
+		});
+		
+		
+		content.add(author);
+		content.add(title);
+		content.add(year);
+		content.add(professor);
+		content.add(className);
+		content.add(textAbstract);
+		
+		content.add(okButton);
+		
+		return content;
+		
 	}
 	
 	public void setWindow(String url) {
