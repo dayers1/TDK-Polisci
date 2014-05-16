@@ -155,8 +155,8 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public void setModelEditingPost(Thesis thesis) {
-		ThesisDBModel.setEditingPost(thesis);
+	public void submitEditPostToServer(Thesis thesis, Thesis changedThesis) {
+		ThesisDBModel.updateEditedPost(thesis, changedThesis);
 	}
 		
 }

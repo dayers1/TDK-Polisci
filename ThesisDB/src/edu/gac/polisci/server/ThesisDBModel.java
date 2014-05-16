@@ -50,8 +50,7 @@ public class ThesisDBModel {
 		   }
 	}
 	
-	public static void updateEditedPost(Thesis thesis, String title,
-			String author, String professor, String year, String semester, String className, String URL) {
+	public static void updateEditedPost(Thesis thesis, Thesis changedThesis) {
 		
 		// If we change a classes field values while the 
 		//  Persistencemanager is open, the fields are automatically 
@@ -63,13 +62,13 @@ public class ThesisDBModel {
 		// Keep alterations in a Transaction, so records are locked until commit
 		try {
 			pm.currentTransaction().begin();
-			storedThesis.setTitle(title);
-			storedThesis.setAuthor(author);
-			storedThesis.setProfessor(professor);
-			storedThesis.setYear(year);
-			storedThesis.setSemester(semester);
-			storedThesis.setClassName(className);
-			storedThesis.setURL(URL);
+			storedThesis.setTitle(changedThesis.getTitle());
+			storedThesis.setAuthor(changedThesis.getAuthor());
+			storedThesis.setProfessor(changedThesis.getProfessor());
+			storedThesis.setYear(changedThesis.getYear());
+			storedThesis.setSemester(changedThesis.getSemester());
+			storedThesis.setClassName(changedThesis.getClassName());
+			storedThesis.setTags(changedThesis.getTags());
 			pm.currentTransaction().commit();
 		}
 		finally {

@@ -239,7 +239,6 @@ public class ThesisDBView {
 							VerticalPanel vert = (VerticalPanel) scroll.getWidget();
 							for (Widget check: vert) {
 								try {
-								System.out.println("Hit");
 								CheckBox tag = (CheckBox) check;
 								if (tag.getValue()) {
 									System.out.println(tag.getText());
@@ -448,17 +447,11 @@ public class ThesisDBView {
 				}
 				
 				if (tagsTextArea.getText().trim().isEmpty()) {sendErrorMessage("Please mark or add one or more tags"); return;}
-				titleTextBox.setName("title");
-				authorTextBox.setName("author");
-				professorTextBox.setName("professor");
-				yearTextBox.setName("year");
-				semesterTextBox.setName("semester");
-				classTextBox.setName("class");
-				tagsTextArea.setName("tags");
-				abstractTextArea.setName("abstract");
-//				upload.setName("upload");
+				Thesis changedThesis = new Thesis(titleTextBox.getText(), authorTextBox.getText(),
+						professorTextBox.getText(), yearTextBox.getText(), semesterTextBox.getText(),
+						classTextBox.getText(), abstractTextArea.getText(), thesis.getURL(), tagsTextArea.getText());
 				
-				controller.handleSubmitForm(submitEditFormPanel);
+				controller.handleSubmitEditForm(thesis, changedThesis);
 			}
 		
 		}
@@ -466,26 +459,6 @@ public class ThesisDBView {
 	submitPanel.add(submitButton);
 	
 	thesisEditFormPanel.add(submitPanel);
-	
-	
-	
-	// The doPost message itself is sent from the Form and not intercepted
-	//  by GWT.  
-	
-	// This event handler is "fired" just after the Form causes a doPost 
-	//  message to server
-	submitEditFormPanel.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-					if(thesis.getURL()=="No URL") {
-						submitEditFormPanel.reset();
-						titleTextBox.setFocus(true);
-					}
-					else viewWelcomePage();
-				}
-	
-			
-	
-			});
 	
 	Button cancel = new Button ("Cancel");
 	cancel.addClickHandler(new ClickHandler () {
