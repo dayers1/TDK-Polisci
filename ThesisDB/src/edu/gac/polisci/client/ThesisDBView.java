@@ -288,6 +288,16 @@ public class ThesisDBView {
 				
 
 				});
+		
+		Button cancel = new Button ("Cancel");
+		cancel.addClickHandler(new ClickHandler () {
+			@Override
+			public void onClick(ClickEvent event) {
+				viewWelcomePage();
+			}
+		});
+		thesisFormPanel.add(cancel);
+		
 		return submitFormPanel;
 	}
 	
@@ -457,6 +467,8 @@ public class ThesisDBView {
 	
 	thesisEditFormPanel.add(submitPanel);
 	
+	
+	
 	// The doPost message itself is sent from the Form and not intercepted
 	//  by GWT.  
 	
@@ -474,6 +486,16 @@ public class ThesisDBView {
 			
 	
 			});
+	
+	Button cancel = new Button ("Cancel");
+	cancel.addClickHandler(new ClickHandler () {
+		@Override
+		public void onClick(ClickEvent event) {
+			viewWelcomePage();
+		}
+	});
+	thesisEditFormPanel.add(cancel);
+	
 	return submitEditFormPanel;
 	}
 	
