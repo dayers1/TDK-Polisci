@@ -723,11 +723,25 @@ public class ThesisDBView {
 
 	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {
 		HorizontalPanel row = new HorizontalPanel();
+		row.setHeight("30px");
 		Label author = new Label("AUTHOR");
 		Label title = new Label ("TITLE");
 		Label year = new Label ("SEM/YEAR");
 		Label professor = new Label ("PROFESSOR");
 		Label className = new Label ("CLASS");
+		
+		VerticalPanel sortButtons = new VerticalPanel ();
+		sortButtons.setHeight("30px");
+		sortButtons.setWidth("30px");
+		
+		Button sortUp = new Button ("^");
+		sortUp.setHeight("15px");
+		sortUp.setWidth("30px");
+		Button sortDown = new Button ("v");
+		sortDown.setHeight("15px");
+		sortDown.setWidth("30px");
+		sortButtons.add(sortUp);
+		sortButtons.add(sortDown);
 		
 		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
 		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
@@ -752,7 +766,7 @@ public class ThesisDBView {
 		Label author = new Label(entry.getAuthor());
 		author.addStyleName("entryLabel");
 		Label title = new Label (entry.getTitle());
-		Label year = new Label (entry.getSemester() + entry.getYear());
+		Label year = new Label (entry.getSemester().substring(0, 2).toUpperCase() + "-" + entry.getYear());
 		Label professor = new Label (entry.getProfessor());
 		Label className = new Label (entry.getClassName());
 		Anchor link = new Anchor("Download PDF", entry.getURL());
