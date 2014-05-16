@@ -73,8 +73,9 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		List <String> tags = new ArrayList<String>();
 		List <Thesis> theses = ThesisDBModel.getThesisData();
 		for (Thesis thesis: theses) {
-			String[] tagList = thesis.getTags().split(" ");
+			String[] tagList = thesis.getTags().split(",");
 			for (String tag: tagList){
+				tag = tag.trim();
 				if (!tags.contains(tag)) {
 					tags.add(tag);
 				}
@@ -118,7 +119,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		if (!tagFilters.isEmpty()) {
 			for (Thesis thesis: theses) {
 				for (String filter: tagFilters) {
-					if (thesis.getTags().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
+					if (thesis.getTags().toLowerCase().contains(filter.toLowerCase()) && !temp.contains(thesis)) temp.add(thesis);
 				}
 			}
 			theses = temp;
@@ -127,7 +128,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		if (!yearFilters.isEmpty()){
 			for (Thesis thesis: theses) {
 				for (String filter: yearFilters) {
-					if (thesis.getYear().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
+					if (thesis.getYear().toLowerCase().contains(filter.toLowerCase()) && !temp.contains(thesis)) temp.add(thesis);
 				}
 			}
 			theses = temp;
@@ -136,7 +137,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		if (!profFilters.isEmpty()) {
 			for (Thesis thesis: theses) {
 				for (String filter: profFilters) {
-					if (thesis.getProfessor().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
+					if (thesis.getProfessor().toLowerCase().contains(filter.toLowerCase()) && !temp.contains(thesis)) temp.add(thesis);
 				}
 			}
 			theses = temp;
@@ -145,12 +146,17 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		if (!classFilters.isEmpty()) {
 			for (Thesis thesis: theses) {
 				for (String filter: classFilters) {
-					if (thesis.getClassName().toLowerCase().contains(filter.toLowerCase())) temp.add(thesis);
+					if (thesis.getClassName().toLowerCase().contains(filter.toLowerCase()) && !temp.contains(thesis)) temp.add(thesis);
 				}
 			}
 			theses = temp;
 		}
 		return theses;
+	}
+
+	@Override
+	public void submitEditPostToServer(Thesis thesis, Thesis changedThesis) {
+		ThesisDBModel.updateEditedPost(thesis, changedThesis);
 	}
 		
 }

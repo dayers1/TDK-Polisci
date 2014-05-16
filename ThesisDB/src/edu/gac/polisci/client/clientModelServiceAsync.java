@@ -20,5 +20,6 @@ public interface clientModelServiceAsync {
 	void getTagFilterListFromServer(AsyncCallback<List<String>> callback);
 	void getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
 			List<String> profFilters, List<String> classFilters,AsyncCallback<List<Thesis>> callback);
+	void submitEditPostToServer(Thesis thesis, Thesis chengedThesis, AsyncCallback<Void> callback);
 
 }

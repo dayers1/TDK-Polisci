@@ -1,0 +1,2 @@
+serviceClass: edu.gac.polisci.client.BlobService
+path: F64932F583F9130A7BEE73EF96DEEB3E.gwt.rpc

@@ -83,6 +83,19 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
+	public void handleSubmitEditForm(final Thesis thesis, final Thesis changedThesis) {
+		clientModelService.submitEditPostToServer(thesis, changedThesis, 
+				new AsyncCallback <Void>() {
+			public void onFailure(Throwable caught) {
+				thesisView.sendErrorMessage("Edit Failed");
+			} 
+			@Override
+			public void onSuccess(Void v) {
+				thesisView.viewWelcomePage();
+			}
+		});
+	}
+	
 	public void viewSearchThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, String search) {
 		clientModelService.getSearchThesesDataFromServer(search,
 				new AsyncCallback<List<Thesis>>() {
