@@ -1,7 +1,4 @@
 /** Add css rules here for your application. */
-
-
-/** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;
   font-weight: bold;
@@ -31,4 +28,17 @@ h1 {
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
+}
+
+.popupContent {
+	background-color: #ceedf4;
+}
+
+.gwt-Anchor {
+	display:inline-block;
+	width:300px
+}
+
+td {
+padding-bottom: 10px
 }

@@ -269,10 +269,10 @@ public class ThesisDBView {
 		allOptions.add(addEntryButton);
 		
 		HorizontalPanel searchPanel = new HorizontalPanel();
-		final Label searchLabel = new Label ("Search:");
+//		final Label searchLabel = new Label ("Search:");
 		final TextBox searchBox = new TextBox();
-		searchPanel.add(searchLabel);
-		searchPanel.add(searchBox);
+//		searchPanel.add(searchLabel);
+		
 		
 		Button searchButton = new Button("Search");
 		searchButton.addClickHandler(new ClickHandler() {
@@ -284,6 +284,7 @@ public class ThesisDBView {
 	      });
 		
 		searchPanel.add(searchButton);
+		searchPanel.add(searchBox);
 		allOptions.add(searchPanel);
 		
 		final VerticalPanel allFilters = new VerticalPanel();
@@ -517,14 +518,18 @@ public class ThesisDBView {
 	
 	public HorizontalPanel makeThesisEntryRow(final Thesis entry) {
 		HorizontalPanel row = new HorizontalPanel();
+		Anchor link = new Anchor(entry.getTitle(), entry.getURL());
+		link.setTarget("_blank");
+		link.setTitle("Download PDF");
+		
 		Label author = new Label(entry.getAuthor());
 		author.addStyleName("entryLabel");
-		Label title = new Label (entry.getTitle());
-		Label year = new Label (entry.getSemester() + entry.getYear());
+		Label title = new Label (" ");
+		Integer buff = 299 - (6*(entry.getTitle()).length());
+		Label year = new Label (entry.getSemester() + " " + entry.getYear());
 		Label professor = new Label (entry.getProfessor());
 		Label className = new Label (entry.getClassName());
-		Anchor link = new Anchor("Download PDF", entry.getURL());
-		link.setTarget("_blank");
+		
 		Button deleteButton = new Button ("DEL");
 		deleteButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -546,8 +551,9 @@ public class ThesisDBView {
 			}
 		});
 		
-		row.add(title);
-		title.setWidth("300px");
+		row.add(link);
+//		row.add(title);
+		title.setWidth(buff.toString() + "px");
 		row.add(author);
 		author.setWidth("200px");
 		row.add(year);
@@ -558,7 +564,7 @@ public class ThesisDBView {
 		className.setWidth("200px");
 		
 		row.add(infoButton);
-		row.add(link);
+		//row.add(link);
 		row.add(deleteButton);
 		return row;
 	}
