@@ -83,6 +83,8 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
+	public void handleSubmitEditForm() {}
+	
 	public void viewSearchThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, String search) {
 		clientModelService.getSearchThesesDataFromServer(search,
 				new AsyncCallback<List<Thesis>>() {
