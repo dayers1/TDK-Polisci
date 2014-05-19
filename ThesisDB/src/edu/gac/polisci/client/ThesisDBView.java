@@ -2,10 +2,15 @@ package edu.gac.polisci.client;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
+import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
@@ -29,6 +34,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
 
 import edu.gac.polisci.shared.Thesis;
 
@@ -721,107 +727,229 @@ public class ThesisDBView {
 		
 		allOptions.add(classFilter);
 	}
-
-	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {
-		HorizontalPanel row = new HorizontalPanel();
-		row.setHeight("30px");
-		Label author = new Label("AUTHOR");
-		Label title = new Label ("TITLE");
-		Label year = new Label ("SEM/YEAR");
-		Label professor = new Label ("PROFESSOR");
-		Label className = new Label ("CLASS");
-		
-		VerticalPanel sortButtons = new VerticalPanel ();
-		sortButtons.setHeight("30px");
-		sortButtons.setWidth("30px");
-		
-		Button sortUp = new Button ("^");
-		sortUp.setHeight("15px");
-		sortUp.setWidth("30px");
-		Button sortDown = new Button ("v");
-		sortDown.setHeight("15px");
-		sortDown.setWidth("30px");
-		sortButtons.add(sortUp);
-		sortButtons.add(sortDown);
-		
-		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
-		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
-		row.add(className); className.setWidth("200px");
-		
-		fp.add(row);
-		
-		if (theses != null){
-			for (Thesis entry: theses) {
-				HorizontalPanel thesisRow = makeThesisEntryRow(entry);
-				fp.add(thesisRow);
-			}
-		}
-		Label footer = new Label("COPYRIGHT HERE");
-		footer.addStyleName("footer");
-		footer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		fp.add(footer);
-	}
 	
-	public HorizontalPanel makeThesisEntryRow(final Thesis entry) {
-		HorizontalPanel row = new HorizontalPanel();
-		Anchor link = new Anchor(entry.getTitle(), entry.getURL());
-		link.setTarget("_blank");
-		link.setTitle("Download PDF");
+	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {
 		
-		Label author = new Label(entry.getAuthor());
-		author.addStyleName("entryLabel");
-		Label year = new Label (entry.getSemester().substring(0, 2).toUpperCase() + "-" + entry.getYear());
-		Label professor = new Label (entry.getProfessor());
-		Label className = new Label (entry.getClassName());
+		final List<Thesis> THESES = theses;
 		
-		Button deleteButton = new Button ("DEL");
-		deleteButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				controller.deleteThesisDataFromServer(entry);
-				viewWelcomePage();
-			}
-		});
-		
-		Button infoButton = new Button("Info"); 
-		infoButton.setText("Info");
-		infoButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				moreInfoPopup.setWidget(moreInfoPanel(entry));
-				moreInfoPopup.setSize("400px", "400px");
-				moreInfoPopup.center();
-				moreInfoPopup.show();
-			}
-		});
-		
+		// Create a CellTable.
+	    CellTable<Thesis> table = new CellTable<Thesis>();
 
-		
-		Button editButton = new Button("Edit");
-		editButton.setText("Edit");
-		editButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				viewEditThesisPage(entry);
-			}
-		});
-		
-		
-		row.add(link);
-		row.add(author);
-		author.setWidth("200px");
-		row.add(year);
-		year.setWidth("100px");
-		row.add(professor);
-		professor.setWidth("200px");
-		row.add(className);
-		className.setWidth("200px");
-		
-		row.add(infoButton);
-		row.add(deleteButton);
-		row.add(editButton);
-		return row;
+	    // Create title column.
+	    TextColumn<Thesis> titleColumn = new TextColumn<Thesis>() {
+	      @Override
+	      public String getValue(Thesis thesis) {
+	        return thesis.getTitle();
+	      }
+	    };
+
+	    // Make the title column sortable.
+	    titleColumn.setSortable(true);
+
+	    // Create author column.
+	    TextColumn<Thesis> authorColumn = new TextColumn<Thesis>() {
+	      @Override
+	      public String getValue(Thesis thesis) {
+	        return thesis.getAuthor();
+	      }
+	    };
+	    
+	    // Make the author column sortable.
+	    authorColumn.setSortable(true);
+	    
+	 // Create semYear column.
+	    TextColumn<Thesis> semYearColumn = new TextColumn<Thesis>() {
+		      @Override
+		      public String getValue(Thesis thesis) {
+		    	String semYear = (thesis.getSemester().substring(0, 2).toUpperCase() + "-" + thesis.getYear());
+		        return semYear;
+		      }
+		    };
+		// Make the semYear column sortable.
+		    semYearColumn.setSortable(true);
+
+	    // Create className column.
+	    TextColumn<Thesis> classNameColumn = new TextColumn<Thesis>() {
+	      @Override
+	      public String getValue(Thesis thesis) {
+	        return thesis.getClassName();
+	      }
+	    };
+	    
+	    // Make the className column sortable.
+	    classNameColumn.setSortable(true);
+	    
+	 // Create infoButton column.
+//	    addColumn(new ActionCell<Thesis>("Info", new ActionCell.Delegate<Thesis>() {
+//	    	@Override
+//	        public void execute(Thesis thesis) {
+//	    		moreInfoPopup.setWidget(moreInfoPanel(thesis));
+//	  			}
+//	    })
+//	    // Make the title column sortable.
+//	    semYearColumn.setSortable(true);
+
+	    // Create author column.
+	    TextColumn<Thesis> professorColumn = new TextColumn<Thesis>() {
+	      @Override
+	      public String getValue(Thesis thesis) {
+	        return thesis.getProfessor();
+	      }
+	    };
+	    
+	    // Make the title column sortable.
+	    professorColumn.setSortable(true);
+	    
+	 // Add the columns.
+	    table.addColumn(titleColumn, "Title");
+	    table.addColumn(authorColumn, "Author");
+	    table.addColumn(semYearColumn, "Semester-Year");
+	    table.addColumn(classNameColumn, "Class Name");
+	    table.addColumn(professorColumn, "Professor");
+//	    table.addColumn(addressColumn, "Address");
+	    
+	 // Create a data provider.
+	    ListDataProvider<Thesis> dataProvider = new ListDataProvider<Thesis>();
+
+	    // Connect the table to the data provider.
+	    dataProvider.addDataDisplay(table);
+
+	    // Add the data to the data provider, which automatically pushes it to the
+	    // widget.
+	    List<Thesis> list = dataProvider.getList();
+	    for (Thesis thesis : THESES) {
+	      list.add(thesis);
+	    }
+	    
+	 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    // java.util.List.
+	    ListHandler<Thesis> columnSortHandler = new ListHandler<Thesis>(list);
+	    columnSortHandler.setComparator(titleColumn,
+	        new Comparator<Thesis>() {
+	          public int compare(Thesis o1, Thesis o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the name columns.
+	            if (o1 != null) {
+	              return (o2 != null) ? o1.getTitle().compareTo(o2.getTitle()) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+	    table.addColumnSortHandler(columnSortHandler);
+
+	    // We know that the data is sorted alphabetically by default.
+	    table.getColumnSortList().push(titleColumn);
+
+	    // Add it to the root panel.
+	    RootPanel.get().add(table);
+	  
+
+	    
 	}
+
+//	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {
+//		HorizontalPanel row = new HorizontalPanel();
+//		row.setHeight("30px");
+//		Label author = new Label("AUTHOR");
+//		Label title = new Label ("TITLE");
+//		Label year = new Label ("SEM/YEAR");
+//		Label professor = new Label ("PROFESSOR");
+//		Label className = new Label ("CLASS");
+//		
+//		VerticalPanel sortButtons = new VerticalPanel ();
+//		sortButtons.setHeight("30px");
+//		sortButtons.setWidth("30px");
+//		
+//		Button sortUp = new Button ("^");
+//		sortUp.setHeight("15px");
+//		sortUp.setWidth("30px");
+//		Button sortDown = new Button ("v");
+//		sortDown.setHeight("15px");
+//		sortDown.setWidth("30px");
+//		sortButtons.add(sortUp);
+//		sortButtons.add(sortDown);
+//		
+//		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
+//		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
+//		row.add(className); className.setWidth("200px");
+//		
+//		fp.add(row);
+//		
+//		if (theses != null){
+//			for (Thesis entry: theses) {
+//				HorizontalPanel thesisRow = makeThesisEntryRow(entry);
+//				fp.add(thesisRow);
+//			}
+//		}
+//		Label footer = new Label("COPYRIGHT HERE");
+//		footer.addStyleName("footer");
+//		footer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+//		fp.add(footer);
+//	}
+//	
+//	public HorizontalPanel makeThesisEntryRow(final Thesis entry) {
+//		HorizontalPanel row = new HorizontalPanel();
+//		Anchor link = new Anchor(entry.getTitle(), entry.getURL());
+//		link.setTarget("_blank");
+//		link.setTitle("Download PDF");
+//		
+//		Label author = new Label(entry.getAuthor());
+//		author.addStyleName("entryLabel");
+//		Label year = new Label (entry.getSemester().substring(0, 2).toUpperCase() + "-" + entry.getYear());
+//		Label professor = new Label (entry.getProfessor());
+//		Label className = new Label (entry.getClassName());
+//		
+//		Button deleteButton = new Button ("DEL");
+//		deleteButton.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				controller.deleteThesisDataFromServer(entry);
+//				viewWelcomePage();
+//			}
+//		});
+//		
+//		Button infoButton = new Button("Info"); 
+//		infoButton.setText("Info");
+//		infoButton.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				moreInfoPopup.setWidget(moreInfoPanel(entry));
+//				moreInfoPopup.setSize("400px", "400px");
+//				moreInfoPopup.center();
+//				moreInfoPopup.show();
+//			}
+//		});
+//		
+//
+//		
+//		Button editButton = new Button("Edit");
+//		editButton.setText("Edit");
+//		editButton.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				viewEditThesisPage(entry);
+//			}
+//		});
+//		
+//		
+//		row.add(link);
+//		row.add(author);
+//		author.setWidth("200px");
+//		row.add(year);
+//		year.setWidth("100px");
+//		row.add(professor);
+//		professor.setWidth("200px");
+//		row.add(className);
+//		className.setWidth("200px");
+//		
+//		row.add(infoButton);
+//		row.add(deleteButton);
+//		row.add(editButton);
+//		return row;
+//	}
 	
 	public VerticalPanel moreInfoPanel(Thesis entry) {
 		VerticalPanel content = new VerticalPanel();
