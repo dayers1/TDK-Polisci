@@ -31,7 +31,7 @@ h1 {
 }
 
 .popupContent {
-	background-color: #ceedf4;
+	background-color: #ccc;
 }
 
 .gwt-Anchor {
@@ -41,4 +41,14 @@ h1 {
 
 td {
 padding-bottom: 5px
+}
+
+.GPBYFDEBD {
+color:black;
+text-decoration:underline;
+cursor:pointer;
+
+}
+.GPBYFDEOC {
+color:black;
 }

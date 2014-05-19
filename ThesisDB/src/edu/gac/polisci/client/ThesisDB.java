@@ -135,6 +135,7 @@ public class ThesisDB implements EntryPoint {
 
 					@Override
 					public void onSuccess(List<Thesis> data) {
+						fp.clear();
 						thesisView.makeThesisTable(data, fp, panel);
 					}
 				});

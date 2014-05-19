@@ -6,9 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.google.gwt.cell.client.ActionCell;
+import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Command;
@@ -736,13 +740,27 @@ public class ThesisDBView {
 	    CellTable<Thesis> table = new CellTable<Thesis>();
 
 	    // Create title column.
-	    TextColumn<Thesis> titleColumn = new TextColumn<Thesis>() {
-	      @Override
+//	    TextColumn<Thesis> titleColumn = new TextColumn<Thesis>() {
+//	      @Override
+//	      public String getValue(Thesis thesis) {
+//	        return thesis.getTitle();
+//	      }
+//	    };
+
+	    ClickableTextCell getPdf = new ClickableTextCell();
+	    Column<Thesis,String> titleColumn = new Column<Thesis,String>(getPdf) {
 	      public String getValue(Thesis thesis) {
 	        return thesis.getTitle();
 	      }
 	    };
-
+	    
+	    titleColumn.setFieldUpdater(new FieldUpdater<Thesis, String>() {
+	    	  @Override
+	    	  public void update(int index, Thesis thesis, String value) {
+	    		  setWindow(thesis.getURL());
+	    	  }
+	    	});
+	    
 	    // Make the title column sortable.
 	    titleColumn.setSortable(true);
 
@@ -779,15 +797,38 @@ public class ThesisDBView {
 	    // Make the className column sortable.
 	    classNameColumn.setSortable(true);
 	    
-	 // Create infoButton column.
-//	    addColumn(new ActionCell<Thesis>("Info", new ActionCell.Delegate<Thesis>() {
-//	    	@Override
-//	        public void execute(Thesis thesis) {
-//	    		moreInfoPopup.setWidget(moreInfoPanel(thesis));
-//	  			}
-//	    })
-//	    // Make the title column sortable.
-//	    semYearColumn.setSortable(true);
+	    ButtonCell infoButton = new ButtonCell();
+	    Column<Thesis,String> info = new Column<Thesis,String>(infoButton) {
+	      public String getValue(Thesis object) {
+	        return "info";
+	      }
+	    };
+	    
+	    info.setFieldUpdater(new FieldUpdater<Thesis, String>() {
+	    	  @Override
+	    	  public void update(int index, Thesis thesis, String value) {
+	    		  	moreInfoPopup.setWidget(moreInfoPanel(thesis));
+					moreInfoPopup.setSize("400px", "400px");
+					moreInfoPopup.center();
+					moreInfoPopup.show();
+	    	  }
+	    	});
+	    
+	  //  Create infoButton column.
+	 // ButtonCell.
+//	    Column(new ButtonCell(), "Button", new GetValue<String>() {
+//	      @Override
+//	      public String getValue(Thesis thesis) {
+//	        return "Info "; 
+//	      }
+//	    }, new FieldUpdater<Thesis, String>() {
+//	      @Override
+//	      public void update(int index, Thesis thesis, String value) {
+//	        Window.alert("You clicked " + thesis.getTitle());
+//	      }
+//	    });
+	    // Make the title column sortable.
+	    semYearColumn.setSortable(true);
 
 	    // Create author column.
 	    TextColumn<Thesis> professorColumn = new TextColumn<Thesis>() {
@@ -800,13 +841,16 @@ public class ThesisDBView {
 	    // Make the title column sortable.
 	    professorColumn.setSortable(true);
 	    
+	    
+
+	    
 	 // Add the columns.
 	    table.addColumn(titleColumn, "Title");
 	    table.addColumn(authorColumn, "Author");
 	    table.addColumn(semYearColumn, "Semester-Year");
 	    table.addColumn(classNameColumn, "Class Name");
 	    table.addColumn(professorColumn, "Professor");
-//	    table.addColumn(addressColumn, "Address");
+	    table.addColumn(info, "Info");
 	    
 	 // Create a data provider.
 	    ListDataProvider<Thesis> dataProvider = new ListDataProvider<Thesis>();
@@ -842,9 +886,96 @@ public class ThesisDBView {
 
 	    // We know that the data is sorted alphabetically by default.
 	    table.getColumnSortList().push(titleColumn);
+	    // Author sort
+	    ListHandler<Thesis> authorColumnSortHandler = new ListHandler<Thesis>(list);
+	    columnSortHandler.setComparator(authorColumn,
+	        new Comparator<Thesis>() {
+	          public int compare(Thesis o1, Thesis o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
 
+	            // Compare the name columns.
+	            if (o1 != null) {
+	              return (o2 != null) ? o1.getAuthor().compareTo(o2.getAuthor()) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+	    table.addColumnSortHandler(authorColumnSortHandler);
+
+	    // We know that the data is sorted alphabetically by default.
+	    table.getColumnSortList().push(authorColumn);
+	    
+	    // Year sort
+	    ListHandler<Thesis> yearColumnSortHandler = new ListHandler<Thesis>(list);
+	    columnSortHandler.setComparator(semYearColumn,
+	        new Comparator<Thesis>() {
+	          public int compare(Thesis o1, Thesis o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the name columns.
+	            if (o1 != null) {
+	              return (o2 != null) ? o1.getYear().compareTo(o2.getYear()) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+	    table.addColumnSortHandler(yearColumnSortHandler);
+
+	    // We know that the data is sorted alphabetically by default.
+	    table.getColumnSortList().push(semYearColumn);
+	    
+	    // ClassName sort
+	    ListHandler<Thesis> classColumnSortHandler = new ListHandler<Thesis>(list);
+	    columnSortHandler.setComparator(classNameColumn,
+	        new Comparator<Thesis>() {
+	          public int compare(Thesis o1, Thesis o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the name columns.
+	            if (o1 != null) {
+	              return (o2 != null) ? o1.getClassName().compareTo(o2.getClassName()) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+	    table.addColumnSortHandler(classColumnSortHandler);
+
+	    // We know that the data is sorted alphabetically by default.
+	    table.getColumnSortList().push(classNameColumn);
 	    // Add it to the root panel.
-	    RootPanel.get().add(table);
+	    
+	    // Year sort
+	    ListHandler<Thesis> professorColumnSortHandler = new ListHandler<Thesis>(list);
+	    columnSortHandler.setComparator(professorColumn,
+	        new Comparator<Thesis>() {
+	          public int compare(Thesis o1, Thesis o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the name columns.
+	            if (o1 != null) {
+	              return (o2 != null) ? o1.getProfessor().compareTo(o2.getProfessor()) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+	    table.addColumnSortHandler(professorColumnSortHandler);
+
+	    // We know that the data is sorted alphabetically by default.
+	    table.getColumnSortList().push(professorColumn);
+	    
+	    // Add it to the flow panel.
+	    
+	 
+	    
+	    fp.add(table);
 	  
 
 	    
@@ -985,7 +1116,7 @@ public class ThesisDBView {
 	}
 	
 	public void setWindow(String url) {
-		Window.Location.replace(url);
+		Window.open(url,"_blank","resizable,scrollbars,status");
 	}
 	public void sendErrorMessage(String msg) {
 		Window.alert(msg);  
