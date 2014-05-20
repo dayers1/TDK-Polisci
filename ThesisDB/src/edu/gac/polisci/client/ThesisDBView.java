@@ -9,6 +9,7 @@ import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -486,7 +487,7 @@ public class ThesisDBView {
 		
 
 		final VerticalPanel thesisPanel = new VerticalPanel();
-		thesisPanel.setWidth("1000px");
+		thesisPanel.setWidth("899px");
 		rp.add(thesisPanel);
 		final FlowPanel thesisFlow = new FlowPanel();
 		thesisPanel.add(thesisFlow);
@@ -494,9 +495,10 @@ public class ThesisDBView {
 		controller.viewThesisDataFromServer(thesisFlow, thesisPanel);	
 		
 		VerticalPanel allOptions = new VerticalPanel();
+		allOptions.setStyleName("sort-panel");
 		//HorizontalPanel hp = new HorizontalPanel();
 		//hp.add(allOptions);
-		rp.add(allOptions, 1200, 140);
+		rp.add(allOptions,900,404);
 		
 		//Search Panel
 		
@@ -828,9 +830,9 @@ public class ThesisDBView {
 //	      }
 //	    });
 	    // Make the title column sortable.
-	    semYearColumn.setSortable(true);
+//	    semYearColumn.setSortable(true);
 
-	    // Create author column.
+	    // Create professor column.
 	    TextColumn<Thesis> professorColumn = new TextColumn<Thesis>() {
 	      @Override
 	      public String getValue(Thesis thesis) {
@@ -841,6 +843,17 @@ public class ThesisDBView {
 	    // Make the title column sortable.
 	    professorColumn.setSortable(true);
 	    
+	 // Set the width of the table and put the table in fixed width mode.
+	    table.setWidth("100%", true);
+	    
+	    // Set the width of each column.
+	    table.setColumnWidth(titleColumn, 30.0, Unit.PCT);
+	    table.setColumnWidth(authorColumn, 20.0, Unit.PCT);
+	    table.setColumnWidth(semYearColumn, 10.0, Unit.PCT);
+	    table.setColumnWidth(classNameColumn, 15.0, Unit.PCT);
+	    table.setColumnWidth(professorColumn, 15.0, Unit.PCT);
+	    table.setColumnWidth(info, 10.0, Unit.PCT);
+
 	    
 
 	    
