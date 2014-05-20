@@ -21,5 +21,6 @@ public interface clientModelServiceAsync {
 	void getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
 			List<String> profFilters, List<String> classFilters,AsyncCallback<List<Thesis>> callback);
 	void submitEditPostToServer(Thesis thesis, Thesis chengedThesis, AsyncCallback<Void> callback);
+	void getLogOutUrl(AsyncCallback<String> asyncCallback);
 	void isUserAdmin(AsyncCallback<Boolean> callback);
 }
