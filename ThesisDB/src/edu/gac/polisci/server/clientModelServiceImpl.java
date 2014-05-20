@@ -158,5 +158,16 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 	public void submitEditPostToServer(Thesis thesis, Thesis changedThesis) {
 		ThesisDBModel.updateEditedPost(thesis, changedThesis);
 	}
+	
+	public String getLogOutUrl(){
+		UserService userService = UserServiceFactory.getUserService();
+		return userService.createLogoutURL("../ThesisDBThanks.html");
+	}
+	
+	public Boolean isUserAdmin(){
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		return user.getEmail().contentEquals("test@gmail.com");
+	}
 		
 }
