@@ -521,6 +521,15 @@ public class ThesisDBView {
 			}
 		});
 		
+		Button logOutButton = new Button ("Log Out");
+		logOutButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.handleLogOutRequest();
+			}
+		});
+		
+		allOptions.add(logOutButton);
 		allOptions.add(addEntryButton);
 		
 		HorizontalPanel searchPanel = new HorizontalPanel();
@@ -1147,12 +1156,12 @@ public class ThesisDBView {
 		controller.ifAdminShowButton(deleteButton);
 		
 		
-		content.add("Author: " + author);
-		content.add("Title: " + title);
-		content.add("Year: " + year);
-		content.add("Professor: " + professor);
-		content.add("Course: " + className);
-		content.add("Text Abstract:" + textAbstract);
+		content.add(author);
+		content.add(title);
+		content.add(year);
+		content.add(professor);
+		content.add(className);
+		content.add(textAbstract);
 		
 		content.add(deleteButton);
 		content.add(editButton);
@@ -1167,6 +1176,10 @@ public class ThesisDBView {
 	}
 	public void sendErrorMessage(String msg) {
 		Window.alert(msg);  
+	}
+	
+	public void setButton(Button button, boolean result) {
+		button.setVisible(result);
 	}
 
 }
