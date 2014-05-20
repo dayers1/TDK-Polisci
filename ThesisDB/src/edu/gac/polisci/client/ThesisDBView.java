@@ -662,7 +662,7 @@ public class ThesisDBView {
 		}
 
 		ScrollPanel tagFilterScrollPanel = new ScrollPanel(tagPanel);
-		tagFilterScrollPanel.setSize("200px", "100px");
+		tagFilterScrollPanel.setSize("190px", "100px");
 		
 		allOptions.add(tagFilterScrollPanel);		
 		
@@ -699,7 +699,7 @@ public class ThesisDBView {
 		}
 		
 		ScrollPanel yearFilter = new ScrollPanel(yearPanel);
-		yearFilter.setSize("200px", "100px");
+		yearFilter.setSize("190px", "100px");
 		
 		allOptions.add(yearFilter);
 		
@@ -735,7 +735,7 @@ public class ThesisDBView {
 		}
 		
 		ScrollPanel authorFilter = new ScrollPanel(profPanel);
-		authorFilter.setSize("200px", "100px");
+		authorFilter.setSize("190px", "100px");
 		
 		allOptions.add(authorFilter);
 		
@@ -770,7 +770,7 @@ public class ThesisDBView {
 		}
 
 		ScrollPanel classFilter = new ScrollPanel(classPanel);
-		classFilter.setSize("200px", "100px");
+		classFilter.setSize("190px", "100px");
 		
 		allOptions.add(classFilter);
 	}
@@ -1037,7 +1037,7 @@ public class ThesisDBView {
 	
 	public VerticalPanel moreInfoPanel(final Thesis entry) {
 		VerticalPanel content = new VerticalPanel();
-		
+		content.setStyleName("popup-content");
 		Label author = new Label(entry.getAuthor());
 		Label title = new Label (entry.getTitle());
 		Label year = new Label (entry.getYear());
@@ -1092,7 +1092,7 @@ public class ThesisDBView {
 	}
 	
 	public void setWindow(String url) {
-		Window.Location.replace(url);
+		Window.open(url,"blank","");
 	}
 	public void sendErrorMessage(String msg) {
 		Window.alert(msg);  

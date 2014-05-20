@@ -1,4 +1,2 @@
 # Module thesisdb
 # RPC service class, partial path of RPC policy file
-edu.gac.polisci.client.clientModelService, 71C45267690D0FE4C6BB00CF68E7C282.gwt.rpc
-edu.gac.polisci.client.BlobService, F64932F583F9130A7BEE73EF96DEEB3E.gwt.rpc
