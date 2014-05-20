@@ -258,7 +258,7 @@ public class ThesisDBView {
 								try {
 								CheckBox tag = (CheckBox) check;
 								if (tag.getValue()) {
-									tagsTextArea.setText(tagsTextArea.getText() + " " + tag.getText());
+									tagsTextArea.setText(tagsTextArea.getText() + ", " + tag.getText());
 								}
 								} catch (ClassCastException cee) {}
 							}
@@ -461,7 +461,7 @@ public class ThesisDBView {
 							try {
 							CheckBox tag = (CheckBox) check;
 							if (tag.getValue()) {
-								tagsTextArea.setText(tagsTextArea.getText() + " " + tag.getText());
+								tagsTextArea.setText(tagsTextArea.getText() + ", " + tag.getText());
 							}
 							} catch (ClassCastException cee) {}
 						}
@@ -469,6 +469,13 @@ public class ThesisDBView {
 				}
 				
 				if (tagsTextArea.getText().trim().isEmpty()) {sendErrorMessage("Please mark or add one or more tags"); return;}
+				String[] tagTest = tagsTextArea.getText().split(",");
+				for (String tag: tagTest) {
+					if (tag.trim().isEmpty()) {
+						sendErrorMessage("Cannot have empty tag. Please remove empty tag\n(May be caused by two neighboring commas or ending with a comma)");
+						return;
+					}
+				}
 				Thesis changedThesis = new Thesis(titleTextBox.getText(), authorTextBox.getText(),
 						professorTextBox.getText(), yearTextBox.getText(), semesterTextBox.getText(),
 						classTextBox.getText(), abstractTextArea.getText(), thesis.getURL(), tagsTextArea.getText());
@@ -1020,107 +1027,6 @@ public class ThesisDBView {
 
 	    
 	}
-
-//	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {
-//		HorizontalPanel row = new HorizontalPanel();
-//		row.setHeight("30px");
-//		Label author = new Label("AUTHOR");
-//		Label title = new Label ("TITLE");
-//		Label year = new Label ("SEM/YEAR");
-//		Label professor = new Label ("PROFESSOR");
-//		Label className = new Label ("CLASS");
-//		
-//		VerticalPanel sortButtons = new VerticalPanel ();
-//		sortButtons.setHeight("30px");
-//		sortButtons.setWidth("30px");
-//		
-//		Button sortUp = new Button ("^");
-//		sortUp.setHeight("15px");
-//		sortUp.setWidth("30px");
-//		Button sortDown = new Button ("v");
-//		sortDown.setHeight("15px");
-//		sortDown.setWidth("30px");
-//		sortButtons.add(sortUp);
-//		sortButtons.add(sortDown);
-//		
-//		row.add(title); title.setWidth("300px"); row.add(author); author.setWidth("200px"); 
-//		row.add(year); year.setWidth("100px"); row.add(professor); professor.setWidth("200px");
-//		row.add(className); className.setWidth("200px");
-//		
-//		fp.add(row);
-//		
-//		if (theses != null){
-//			for (Thesis entry: theses) {
-//				HorizontalPanel thesisRow = makeThesisEntryRow(entry);
-//				fp.add(thesisRow);
-//			}
-//		}
-//		Label footer = new Label("COPYRIGHT HERE");
-//		footer.addStyleName("footer");
-//		footer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-//		fp.add(footer);
-//	}
-//	
-//	public HorizontalPanel makeThesisEntryRow(final Thesis entry) {
-//		HorizontalPanel row = new HorizontalPanel();
-//		Anchor link = new Anchor(entry.getTitle(), entry.getURL());
-//		link.setTarget("_blank");
-//		link.setTitle("Download PDF");
-//		
-//		Label author = new Label(entry.getAuthor());
-//		author.addStyleName("entryLabel");
-//		Label year = new Label (entry.getSemester().substring(0, 2).toUpperCase() + "-" + entry.getYear());
-//		Label professor = new Label (entry.getProfessor());
-//		Label className = new Label (entry.getClassName());
-//		
-//		Button deleteButton = new Button ("DEL");
-//		deleteButton.addClickHandler(new ClickHandler() {
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				controller.deleteThesisDataFromServer(entry);
-//				viewWelcomePage();
-//			}
-//		});
-//		
-//		Button infoButton = new Button("Info"); 
-//		infoButton.setText("Info");
-//		infoButton.addClickHandler(new ClickHandler() {
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				moreInfoPopup.setWidget(moreInfoPanel(entry));
-//				moreInfoPopup.setSize("400px", "400px");
-//				moreInfoPopup.center();
-//				moreInfoPopup.show();
-//			}
-//		});
-//		
-//
-//		
-//		Button editButton = new Button("Edit");
-//		editButton.setText("Edit");
-//		editButton.addClickHandler(new ClickHandler() {
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				viewEditThesisPage(entry);
-//			}
-//		});
-//		
-//		
-//		row.add(link);
-//		row.add(author);
-//		author.setWidth("200px");
-//		row.add(year);
-//		year.setWidth("100px");
-//		row.add(professor);
-//		professor.setWidth("200px");
-//		row.add(className);
-//		className.setWidth("200px");
-//		
-//		row.add(infoButton);
-//		row.add(deleteButton);
-//		row.add(editButton);
-//		return row;
-//	}
 	
 	public VerticalPanel moreInfoPanel(final Thesis entry) {
 		VerticalPanel content = new VerticalPanel();
@@ -1179,7 +1085,7 @@ public class ThesisDBView {
 	}
 	
 	public void setWindow(String url) {
-		Window.open(url,"_blank","resizable,scrollbars,status");
+		Window.Location.replace(url);
 	}
 	public void sendErrorMessage(String msg) {
 		Window.alert(msg);  

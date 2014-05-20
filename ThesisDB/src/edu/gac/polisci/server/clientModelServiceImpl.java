@@ -167,7 +167,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 	public Boolean isUserAdmin(){
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		return user.getEmail().contentEquals("test@gmail.com");
+		return user.getEmail().contentEquals("tdkpolsci@gmail.com");
 	}
 		
 }

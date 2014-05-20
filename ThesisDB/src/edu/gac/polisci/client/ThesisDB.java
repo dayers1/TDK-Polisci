@@ -152,6 +152,7 @@ public class ThesisDB implements EntryPoint {
 			
 			@Override
 			public void onSuccess(String success) {
+				thesisView.viewWelcomePage();
 				return;
 			}
 		});

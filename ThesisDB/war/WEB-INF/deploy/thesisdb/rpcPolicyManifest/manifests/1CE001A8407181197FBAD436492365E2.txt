@@ -1,2 +1,0 @@
-serviceClass: edu.gac.polisci.client.clientModelService
-path: 89F2173CE4FCFF253AC91A3D87EAD0BC.gwt.rpc
