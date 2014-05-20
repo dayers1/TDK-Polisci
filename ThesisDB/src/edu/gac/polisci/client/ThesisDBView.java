@@ -569,7 +569,15 @@ public class ThesisDBView {
 				List<String> classFilters = new ArrayList<String>();
 				List[] filterArray = {tagFilters, yearFilters, profFilters, classFilters};
 				int index = 0; 
+				String nextPanel = "";
 				for (Widget option: allFilters) {
+					try {
+						Label label = (Label) option;
+						if (label.getText().contains("Tag")) index = 0;
+						else if (label.getText().contains("Year")) index = 1;
+						else if (label.getText().contains("Professor")) index = 2;
+						else index = 3;						
+					} catch (ClassCastException cee) {}
 					try {
 						ScrollPanel filterOptions = (ScrollPanel) option;
 						
@@ -580,7 +588,6 @@ public class ThesisDBView {
 								filterArray[index].add(mark.getText());
 							}
 						}
-						index ++;
 					} catch (ClassCastException cce) {
 						continue;
 					}
