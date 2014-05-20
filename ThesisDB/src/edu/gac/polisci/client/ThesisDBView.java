@@ -78,7 +78,7 @@ public class ThesisDBView {
 		root.clear();
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		root.add(horizontalPanel, 10, 79);
+		root.add(horizontalPanel,450, 410);
 		
 		VerticalPanel dataListPanel = new VerticalPanel();
 		horizontalPanel.add(dataListPanel);
@@ -99,7 +99,7 @@ public class ThesisDBView {
 		root.clear();
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		root.add(horizontalPanel, 10, 79);
+		root.add(horizontalPanel, 450, 410);
 		
 		VerticalPanel dataListPanel = new VerticalPanel();
 		horizontalPanel.add(dataListPanel);
@@ -847,9 +847,9 @@ public class ThesisDBView {
 	    table.setWidth("100%", true);
 	    
 	    // Set the width of each column.
-	    table.setColumnWidth(titleColumn, 30.0, Unit.PCT);
+	    table.setColumnWidth(titleColumn, 28.0, Unit.PCT);
 	    table.setColumnWidth(authorColumn, 15.0, Unit.PCT);
-	    table.setColumnWidth(semYearColumn, 8.0, Unit.PCT);
+	    table.setColumnWidth(semYearColumn, 10.0, Unit.PCT);
 	    table.setColumnWidth(classNameColumn, 24.0, Unit.PCT);
 	    table.setColumnWidth(professorColumn, 15.0, Unit.PCT);
 	    table.setColumnWidth(info, 8.0, Unit.PCT);

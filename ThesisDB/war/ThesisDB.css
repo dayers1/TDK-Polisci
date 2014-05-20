@@ -1,6 +1,6 @@
 /** Add css rules here for your application. */
 h1 {
-  font-size: 2.7em;
+  font-size: 2.5em;
   font-weight: bold;
   margin: 40px 0px 40px;
   text-align: center;
@@ -32,7 +32,7 @@ h1 {
 }
 
 .popupContent {
-	background-color: #ccc;
+	background-color: #FFE235;
 }
 
 .gwt-Anchor {
@@ -72,4 +72,7 @@ thead {
 	background-color:#FFE235;
 	padding-top:10px;
 	padding-left:7px;
+}
+.gwt-Button {
+	background:#FFCF00;
 }
