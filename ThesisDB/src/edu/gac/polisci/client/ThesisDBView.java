@@ -848,11 +848,11 @@ public class ThesisDBView {
 	    
 	    // Set the width of each column.
 	    table.setColumnWidth(titleColumn, 30.0, Unit.PCT);
-	    table.setColumnWidth(authorColumn, 20.0, Unit.PCT);
-	    table.setColumnWidth(semYearColumn, 10.0, Unit.PCT);
-	    table.setColumnWidth(classNameColumn, 15.0, Unit.PCT);
+	    table.setColumnWidth(authorColumn, 15.0, Unit.PCT);
+	    table.setColumnWidth(semYearColumn, 8.0, Unit.PCT);
+	    table.setColumnWidth(classNameColumn, 24.0, Unit.PCT);
 	    table.setColumnWidth(professorColumn, 15.0, Unit.PCT);
-	    table.setColumnWidth(info, 10.0, Unit.PCT);
+	    table.setColumnWidth(info, 8.0, Unit.PCT);
 
 	    
 
