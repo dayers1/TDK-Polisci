@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
@@ -257,7 +258,6 @@ public class ThesisDBView {
 								try {
 								CheckBox tag = (CheckBox) check;
 								if (tag.getValue()) {
-									System.out.println(tag.getText());
 									tagsTextArea.setText(tagsTextArea.getText() + " " + tag.getText());
 								}
 								} catch (ClassCastException cee) {}
@@ -459,10 +459,8 @@ public class ThesisDBView {
 						VerticalPanel vert = (VerticalPanel) scroll.getWidget();
 						for (Widget check: vert) {
 							try {
-							System.out.println("Hit");
 							CheckBox tag = (CheckBox) check;
 							if (tag.getValue()) {
-								System.out.println(tag.getText());
 								tagsTextArea.setText(tagsTextArea.getText() + " " + tag.getText());
 							}
 							} catch (ClassCastException cee) {}
