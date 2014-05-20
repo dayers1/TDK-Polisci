@@ -23,6 +23,7 @@ public interface clientModelService extends RemoteService {
 	List<String> getClassFilterListFromServer ();
 	List<Thesis> getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
 			List<String> profFilters, List<String> classFilters);
+	public String getLogOutUrl();
 	public Boolean isUserAdmin();
 
 }
