@@ -233,7 +233,6 @@ public class ThesisDBView {
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				System.out.println("clickhere");
 				semesterTextBox.setText(semesterToggle.getText());
 				if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 						|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
@@ -446,7 +445,6 @@ public class ThesisDBView {
 	submitButton.addClickHandler(new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
-			System.out.println("click");
 			semesterTextBox.setText(semesterToggle.getText());
 			if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 					|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
