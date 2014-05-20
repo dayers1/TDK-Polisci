@@ -1106,7 +1106,7 @@ public class ThesisDBView {
 //		return row;
 //	}
 	
-	public VerticalPanel moreInfoPanel(Thesis entry) {
+	public VerticalPanel moreInfoPanel(final Thesis entry) {
 		VerticalPanel content = new VerticalPanel();
 		
 		Label author = new Label(entry.getAuthor());
@@ -1125,14 +1125,37 @@ public class ThesisDBView {
 			}
 		});
 		
+		Button editButton = new Button("Edit");
+		editButton.setText("Edit");
+		editButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				viewEditThesisPage(entry);
+			}
+		});
 		
-		content.add(author);
-		content.add(title);
-		content.add(year);
-		content.add(professor);
-		content.add(className);
-		content.add(textAbstract);
+		Button deleteButton = new Button("Delete");
+		deleteButton.setText("Delete");
+		deleteButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.deleteThesisDataFromServer(entry);
+			}
+		});
 		
+		controller.ifAdminShowButton(editButton);
+		controller.ifAdminShowButton(deleteButton);
+		
+		
+		content.add("Author: " + author);
+		content.add("Title: " + title);
+		content.add("Year: " + year);
+		content.add("Professor: " + professor);
+		content.add("Course: " + className);
+		content.add("Text Abstract:" + textAbstract);
+		
+		content.add(deleteButton);
+		content.add(editButton);
 		content.add(okButton);
 		
 		return content;
