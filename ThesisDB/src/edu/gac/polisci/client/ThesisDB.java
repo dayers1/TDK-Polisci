@@ -212,4 +212,32 @@ public class ThesisDB implements EntryPoint {
 				});
 	}
 	
+	public void handleLogOutRequest() {
+		clientModelService.getLogOutUrl(
+				new AsyncCallback<String>() {
+					public void onSuccess(String url) {
+						// If logout was successful, we set the window
+						//  to the logout url returned by clientModelService.
+						//      (../ThesisDBThanks.html)
+						thesisView.setWindow(url);
+					}
+					public void onFailure(Throwable caught) {
+						thesisView.sendErrorMessage("Cannot find LogOut URL");
+					}
+				});
+	}
+	
+	public void ifAdminShowButton(final Button button){
+		clientModelService.isUserAdmin(
+				new AsyncCallback<Boolean>() {
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						thesisView.setButton(button, result);
+					}
+				});
+	}
 }
