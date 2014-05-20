@@ -167,7 +167,11 @@ public class ThesisDBView {
 				semsesterPanel.add(semesterLabel);
 				thesisFormPanel.add(semsesterPanel);
 				final TextBox semesterTextBox = new TextBox();
+				final ToggleButton semesterToggle = new ToggleButton("Spring", "Fall");
+				semesterToggle.setWidth("50px");
+				semesterTextBox.setVisible(false);
 				thesisFormPanel.add(semesterTextBox);
+				thesisFormPanel.add(semesterToggle);
 
 		// Class TextBox
 				HorizontalPanel classPanel = new HorizontalPanel();
@@ -228,6 +232,7 @@ public class ThesisDBView {
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				semesterTextBox.setText(semesterToggle.getText());
 				if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 						|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
 						|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
@@ -365,7 +370,14 @@ public class ThesisDBView {
 			thesisEditFormPanel.add(semsesterPanel);
 			final TextBox semesterTextBox = new TextBox();
 			semesterTextBox.setText(thesis.getSemester());
+			final ToggleButton semesterToggle = new ToggleButton("Spring", "Fall");
+			semesterToggle.setWidth("50px");
+			if (thesis.getSemester().contains("Fall")) {
+				semesterToggle.setDown(true);
+			}
+			semesterTextBox.setVisible(false);
 			thesisEditFormPanel.add(semesterTextBox);
+			thesisEditFormPanel.add(semesterToggle);
 	
 	// Class TextBox
 			HorizontalPanel classPanel = new HorizontalPanel();
@@ -426,6 +438,7 @@ public class ThesisDBView {
 	submitButton.addClickHandler(new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
+			semesterTextBox.setText(semesterToggle.getText());
 			if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 					|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
 					|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
