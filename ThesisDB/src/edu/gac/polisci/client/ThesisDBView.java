@@ -233,6 +233,7 @@ public class ThesisDBView {
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				System.out.println("clickhere");
 				semesterTextBox.setText(semesterToggle.getText());
 				if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 						|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
@@ -257,8 +258,8 @@ public class ThesisDBView {
 							for (Widget check: vert) {
 								try {
 								CheckBox tag = (CheckBox) check;
-								if (tag.getValue()) {
-									tagsTextArea.setText(tagsTextArea.getText() + ", " + tag.getText());
+								if (tag.getValue() && !tagsTextArea.getText().contains(tag.getText())) {
+									tagsTextArea.setText(tag.getText() + ", " + tagsTextArea.getText());
 								}
 								} catch (ClassCastException cee) {}
 							}
@@ -266,6 +267,13 @@ public class ThesisDBView {
 					}
 					
 					if (tagsTextArea.getText().trim().isEmpty()) {sendErrorMessage("Please mark or add one or more tags"); return;}
+					String[] tagTest = tagsTextArea.getText().split(",");
+					for (String tag: tagTest) {
+						if (tag.trim().isEmpty()) {
+							sendErrorMessage("Cannot have empty tag. Please remove empty tag\n(May be caused by two neighboring commas or ending with a comma)");
+							return;
+						}
+					}
 					
 					titleTextBox.setName("title");
 					authorTextBox.setName("author");
@@ -438,6 +446,7 @@ public class ThesisDBView {
 	submitButton.addClickHandler(new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
+			System.out.println("click");
 			semesterTextBox.setText(semesterToggle.getText());
 			if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 					|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
@@ -460,8 +469,8 @@ public class ThesisDBView {
 						for (Widget check: vert) {
 							try {
 							CheckBox tag = (CheckBox) check;
-							if (tag.getValue()) {
-								tagsTextArea.setText(tagsTextArea.getText() + ", " + tag.getText());
+							if (tag.getValue() && !tagsTextArea.getText().contains(tag.getText())) {
+								tagsTextArea.setText(tag.getText() + ", " + tagsTextArea.getText());
 							}
 							} catch (ClassCastException cee) {}
 						}
