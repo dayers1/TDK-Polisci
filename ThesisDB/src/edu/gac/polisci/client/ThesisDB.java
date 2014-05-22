@@ -190,7 +190,7 @@ public class ThesisDB implements EntryPoint {
 		clientModelService.getProfFilterListFromServer(
 				new AsyncCallback<List<String>> () {
 					public void onFailure(Throwable caught) {
-						thesisView.sendErrorMessage("Failed to get year values from server");
+						thesisView.sendErrorMessage("Failed to get professor values from server");
 						return;
 					}
 					@Override
@@ -204,7 +204,7 @@ public class ThesisDB implements EntryPoint {
 		clientModelService.getClassFilterListFromServer(
 				new AsyncCallback<List<String>> () {
 					public void onFailure(Throwable caught) {
-						thesisView.sendErrorMessage("Failed to get year values from server");
+						thesisView.sendErrorMessage("Failed to get class values from server");
 						return;
 					}
 					@Override

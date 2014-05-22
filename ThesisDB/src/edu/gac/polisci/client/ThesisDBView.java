@@ -108,7 +108,7 @@ public class ThesisDBView {
 		FlowPanel flowPanel = new FlowPanel();
 		dataListPanel.add(flowPanel);
 		
-		Label progTitlebar = new Label("New Entry");
+		Label progTitlebar = new Label("Edit Entry");
 		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		flowPanel.add(progTitlebar);
 		
@@ -258,7 +258,8 @@ public class ThesisDBView {
 								try {
 								CheckBox tag = (CheckBox) check;
 								if (tag.getValue() && !tagsTextArea.getText().contains(tag.getText())) {
-									tagsTextArea.setText(tag.getText() + ", " + tagsTextArea.getText());
+									if (tagsTextArea.getText().trim().equals("")) tagsTextArea.setText(tag.getText());
+									else tagsTextArea.setText(tag.getText() + ", " + tagsTextArea.getText());
 								}
 								} catch (ClassCastException cee) {}
 							}
@@ -273,6 +274,17 @@ public class ThesisDBView {
 							return;
 						}
 					}
+					String change = tagsTextArea.getText();
+					while (change.charAt(change.length()-1) == ',') {
+						change = change.substring(0, change.length()-1);
+					}
+					tagsTextArea.setText(change);
+					String tags = "";
+					for (String tag: tagTest) {
+						tag = tag.trim();
+						if (!tags.contains(tag)) tags += tag + ", ";
+					}
+					tagsTextArea.setText(tags.substring(0, tags.length()-2));
 					
 					titleTextBox.setName("title");
 					authorTextBox.setName("author");
@@ -468,7 +480,8 @@ public class ThesisDBView {
 							try {
 							CheckBox tag = (CheckBox) check;
 							if (tag.getValue() && !tagsTextArea.getText().contains(tag.getText())) {
-								tagsTextArea.setText(tag.getText() + ", " + tagsTextArea.getText());
+								if (tagsTextArea.getText().trim().equals("")) tagsTextArea.setText(tag.getText());
+								else tagsTextArea.setText(tag.getText() + ", " + tagsTextArea.getText());
 							}
 							} catch (ClassCastException cee) {}
 						}
@@ -479,10 +492,22 @@ public class ThesisDBView {
 				String[] tagTest = tagsTextArea.getText().split(",");
 				for (String tag: tagTest) {
 					if (tag.trim().isEmpty()) {
-						sendErrorMessage("Cannot have empty tag. Please remove empty tag\n(May be caused by two neighboring commas or ending with a comma)");
+						sendErrorMessage("Cannot have empty tag. Please remove empty tag\n(May be caused by two or more commas in a row)");
 						return;
 					}
 				}
+				String change = tagsTextArea.getText();
+				while (change.charAt(change.length()-1) == ',') {
+					change = change.substring(0, change.length()-1);
+				}
+				tagsTextArea.setText(change);
+				String tags = "";
+				for (String tag: tagTest) {
+					tag = tag.trim();
+					if (!tags.contains(tag)) tags += tag + ", ";
+				}
+				tagsTextArea.setText(tags.substring(0, tags.length()-2));
+				
 				Thesis changedThesis = new Thesis(titleTextBox.getText(), authorTextBox.getText(),
 						professorTextBox.getText(), yearTextBox.getText(), semesterTextBox.getText(),
 						classTextBox.getText(), abstractTextArea.getText(), thesis.getURL(), tagsTextArea.getText());
@@ -780,7 +805,7 @@ public class ThesisDBView {
 		final List<Thesis> THESES = theses;
 		
 		// Create a CellTable.
-	    CellTable<Thesis> table = new CellTable<Thesis>();
+	    CellTable<Thesis> table = new CellTable<Thesis>(100000);
 
 	    // Create title column.
 //	    TextColumn<Thesis> titleColumn = new TextColumn<Thesis>() {

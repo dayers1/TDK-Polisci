@@ -68,6 +68,7 @@ public class ThesisDBModel {
 			storedThesis.setYear(changedThesis.getYear());
 			storedThesis.setSemester(changedThesis.getSemester());
 			storedThesis.setClassName(changedThesis.getClassName());
+			storedThesis.setTextAbstract(changedThesis.getTextAbstract());
 			storedThesis.setTags(changedThesis.getTags());
 			pm.currentTransaction().commit();
 		}
