@@ -1032,18 +1032,18 @@ public class ThesisDBView {
 	    fp.add(table);
 	  
 
-	    
 	}
 	
 	public VerticalPanel moreInfoPanel(final Thesis entry) {
 		VerticalPanel content = new VerticalPanel();
 		content.setStyleName("popup-content");
-		Label author = new Label(entry.getAuthor());
-		Label title = new Label (entry.getTitle());
-		Label year = new Label (entry.getYear());
-		Label professor = new Label (entry.getProfessor());
-		Label className = new Label (entry.getClassName());
-		Label textAbstract = new Label (entry.getTextAbstract());
+		Label author = new Label("Author: " + entry.getAuthor());
+		Label title = new Label ("Title: " + entry.getTitle());
+		Label year = new Label ("Year: " + entry.getYear());
+		Label professor = new Label ("Professor: " + entry.getProfessor());
+		Label className = new Label ("Course: " + entry.getClassName());
+		Label textAbstract = new Label ("Text Abstract: " + entry.getTextAbstract());
+		Label tags = new Label ("Tags: " + entry.getTags());
 		
 		// Ok Button;
 		Button okButton = new Button("Done");
@@ -1075,13 +1075,13 @@ public class ThesisDBView {
 		controller.ifAdminShowButton(editButton);
 		controller.ifAdminShowButton(deleteButton);
 		
-		
 		content.add(author);
 		content.add(title);
 		content.add(year);
 		content.add(professor);
 		content.add(className);
 		content.add(textAbstract);
+		content.add(tags);
 		
 		content.add(deleteButton);
 		content.add(editButton);
@@ -1092,7 +1092,7 @@ public class ThesisDBView {
 	}
 	
 	public void setWindow(String url) {
-		Window.open(url,"blank","");
+		Window.Location.replace(url);
 	}
 	public void sendErrorMessage(String msg) {
 		Window.alert(msg);  

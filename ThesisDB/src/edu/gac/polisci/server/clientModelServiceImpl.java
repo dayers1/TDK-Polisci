@@ -161,7 +161,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 	
 	public String getLogOutUrl(){
 		UserService userService = UserServiceFactory.getUserService();
-		return userService.createLogoutURL("../ThesisDBThanks.html");
+		return userService.createLogoutURL("../ThesisDBLogout.html");
 	}
 	
 	public Boolean isUserAdmin(){
