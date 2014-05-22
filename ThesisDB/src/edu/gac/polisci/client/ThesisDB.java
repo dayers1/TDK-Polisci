@@ -61,7 +61,7 @@ public class ThesisDB implements EntryPoint {
 					// Show welcome page
 					thesisView.viewWelcomePage();
 				}// Otherwise, set page to login page
-				else thesisView.setWindow("../ThesisDBLogin.html");
+				else thesisView.setWindow("../ThesisDBLogin.html");;
 			}
 		});
 	}
