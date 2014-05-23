@@ -42,6 +42,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
+import edu.gac.polisci.shared.Professor;
 import edu.gac.polisci.shared.Thesis;
 
 public class ThesisDBView {
@@ -131,8 +132,8 @@ public class ThesisDBView {
 				titleLabel.addStyleName("entryLabel");
 				titlePanel.add(titleLabel);
 				thesisFormPanel.add(titlePanel);
-				final TextBox titleTextBox = new TextBox();
-				thesisFormPanel.add(titleTextBox);
+				final TextArea titleTextArea = new TextArea();
+				thesisFormPanel.add(titleTextArea);
 		
 		// Author TextBox
 				HorizontalPanel authorPanel = new HorizontalPanel();
@@ -234,7 +235,7 @@ public class ThesisDBView {
 			@Override
 			public void onClick(ClickEvent event) {
 				semesterTextBox.setText(semesterToggle.getText());
-				if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
+				if (titleTextArea.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 						|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
 						|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
 						|| abstractTextArea.getText().trim().isEmpty() ) {
@@ -286,7 +287,7 @@ public class ThesisDBView {
 					}
 					tagsTextArea.setText(tags.substring(0, tags.length()-2));
 					
-					titleTextBox.setName("title");
+					titleTextArea.setName("title");
 					authorTextBox.setName("author");
 					professorTextBox.setName("professor");
 					yearTextBox.setName("year");
@@ -314,7 +315,7 @@ public class ThesisDBView {
 				public void onSubmitComplete(SubmitCompleteEvent event) {
 						if(thesis.getURL()=="No URL") {
 							submitFormPanel.reset();
-							titleTextBox.setFocus(true);
+							titleTextArea.setFocus(true);
 						}
 						else viewWelcomePage();
 					}
@@ -347,9 +348,9 @@ public class ThesisDBView {
 			titleLabel.addStyleName("entryLabel");
 			titlePanel.add(titleLabel);
 			thesisEditFormPanel.add(titlePanel);
-			final TextBox titleTextBox = new TextBox();
-			titleTextBox.setText(thesis.getTitle());
-			thesisEditFormPanel.add(titleTextBox);
+			final TextArea titleTextArea = new TextArea();
+			titleTextArea.setText(thesis.getTitle());
+			thesisEditFormPanel.add(titleTextArea);
 	
 	// Author TextBox
 			HorizontalPanel authorPanel = new HorizontalPanel();
@@ -458,7 +459,7 @@ public class ThesisDBView {
 		@Override
 		public void onClick(ClickEvent event) {
 			semesterTextBox.setText(semesterToggle.getText());
-			if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
+			if (titleTextArea.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 					|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
 					|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
 					|| abstractTextArea.getText().trim().isEmpty() ) {
@@ -508,7 +509,7 @@ public class ThesisDBView {
 				}
 				tagsTextArea.setText(tags.substring(0, tags.length()-2));
 				
-				Thesis changedThesis = new Thesis(titleTextBox.getText(), authorTextBox.getText(),
+				Thesis changedThesis = new Thesis(titleTextArea.getText(), authorTextBox.getText(),
 						professorTextBox.getText(), yearTextBox.getText(), semesterTextBox.getText(),
 						classTextBox.getText(), abstractTextArea.getText(), thesis.getURL(), tagsTextArea.getText());
 				
@@ -559,6 +560,34 @@ public class ThesisDBView {
 				viewAddNewThesisPage();
 			}
 		});
+		
+		//AddProfessor Button
+		final PopupPanel profPop = new PopupPanel(false);
+		final HorizontalPanel profPanel = new HorizontalPanel();
+		final TextBox profTextBox = new TextBox();
+		Button addProf = new Button("Add");
+		addProf.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.handleSubmitProf(new Professor(profTextBox.getText()));
+//				controller.handleGetProfFromServer();
+			}
+		});
+		profPanel.add(profTextBox);
+		profPanel.add(addProf);
+		
+		Button addProfButton = new Button ("Add Prof");
+		addProfButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				profPop.setWidget(profPanel);
+				profPop.setSize("400px", "400px");
+				profPop.center();
+				profPop.show();
+			}
+		});
+		allOptions.add(addProfButton);
+		//LogOut Button
 		
 		Button logOutButton = new Button ("Log Out");
 		logOutButton.addClickHandler(new ClickHandler() {

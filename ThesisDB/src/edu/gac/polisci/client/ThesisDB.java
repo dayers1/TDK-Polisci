@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.gac.polisci.server.ThesisDBModel;
+import edu.gac.polisci.shared.Professor;
 import edu.gac.polisci.shared.Thesis;
 
 public class ThesisDB implements EntryPoint {
@@ -95,6 +96,32 @@ public class ThesisDB implements EntryPoint {
 				thesisView.viewWelcomePage();
 			}
 		});
+	}
+	
+	public void handleSubmitProf(final Professor professor) {
+		clientModelService.submitProfessorToServer(professor, 
+				new AsyncCallback <Void>() {
+			public void onFailure(Throwable caught) {
+				thesisView.sendErrorMessage("Could not add professor");
+			}
+			@Override
+			public void onSuccess(Void v) {
+				thesisView.viewWelcomePage();
+			}
+		});
+	}
+	
+	public void handleGetProfFromServer() {
+		clientModelService.getProfDataFromServer(
+				new AsyncCallback<List<Professor>>() {
+					public void onFailure(Throwable caught) {
+						thesisView.sendErrorMessage("Could not get professors from server");
+					}
+					@Override
+					public void onSuccess(List<Professor> profs) {
+						thesisView.viewWelcomePage();
+					}
+				});
 	}
 	
 	public void viewSearchThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, String search) {

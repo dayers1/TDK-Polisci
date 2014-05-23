@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import edu.gac.polisci.shared.Professor;
 import edu.gac.polisci.shared.Thesis;
 
 @RemoteServiceRelativePath("clientmodelservice")
@@ -14,6 +15,8 @@ public interface clientModelService extends RemoteService {
 	boolean isUserLoggedIn();
 	String setAppBaseURL(String homeURL);
 	public void submitEditPostToServer(Thesis thesis, Thesis changedThesis);
+	void submitProfessorToServer(Professor professor);
+	List<Professor> getProfDataFromServer();
 	List<Thesis> getThesesDataFromServer();
 	List<Thesis> getSearchThesesDataFromServer(String search);
 	String deleteThesisFromServer (Thesis thesis);
