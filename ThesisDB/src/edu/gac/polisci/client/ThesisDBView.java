@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
@@ -126,47 +127,53 @@ public class ThesisDBView {
 				submitFormPanel.add(thesisFormPanel);
 				
 		// Title TextBox
-				HorizontalPanel titlePanel = new HorizontalPanel();
+//				HorizontalPanel titlePanel = new HorizontalPanel();
 				Label titleLabel = new Label("Title");
 				titleLabel.addStyleName("entryLabel");
-				titlePanel.add(titleLabel);
-				thesisFormPanel.add(titlePanel);
-				final TextBox titleTextBox = new TextBox();
-				thesisFormPanel.add(titleTextBox);
+//				titlePanel.add(titleLabel);
+				thesisFormPanel.add(titleLabel);
+				final TextArea titleTextArea = new TextArea();
+				thesisFormPanel.add(titleTextArea);
 		
 		// Author TextBox
-				HorizontalPanel authorPanel = new HorizontalPanel();
+//				HorizontalPanel authorPanel = new HorizontalPanel();
 				Label authorLabel = new Label("Author");
 				authorLabel.addStyleName("entryLabel");
-				authorPanel.add(authorLabel);
-				thesisFormPanel.add(authorPanel);
+//				authorPanel.add(authorLabel);
+				thesisFormPanel.add(authorLabel);
 				final TextBox authorTextBox = new TextBox();
 				thesisFormPanel.add(authorTextBox);
 				
 		// Professor TextBox
-				HorizontalPanel professorPanel = new HorizontalPanel();
-				Label professorLabel = new Label("Professor");
+//				HorizontalPanel professorPanel = new HorizontalPanel();
+				Label professorLabel = new Label("Professor (Select an existing professor or add a new one)");
 				professorLabel.addStyleName("entryLabel");
-				professorPanel.add(professorLabel);
-				thesisFormPanel.add(professorPanel);
+//				professorPanel.add(professorLabel);
+				thesisFormPanel.add(professorLabel);
+				HorizontalPanel profSelect = new HorizontalPanel();
+				final VerticalPanel existingProfs = new VerticalPanel();
+				controller.getProfDropDownDataFromServer(existingProfs);
+				profSelect.add(existingProfs);
 				final TextBox professorTextBox = new TextBox();
-				thesisFormPanel.add(professorTextBox);
+				profSelect.add(professorTextBox);
+				thesisFormPanel.add(profSelect);
+				
 		
 		// Year TextBox
-				HorizontalPanel yearPanel = new HorizontalPanel();
+//				HorizontalPanel yearPanel = new HorizontalPanel();
 				Label yearLabel = new Label("Year");
 				yearLabel.addStyleName("entryLabel");
-				yearPanel.add(yearLabel);
-				thesisFormPanel.add(yearPanel);
+//				yearPanel.add(yearLabel);
+				thesisFormPanel.add(yearLabel);
 				final TextBox yearTextBox = new TextBox();
 				thesisFormPanel.add(yearTextBox);		
 				
 		// Semester TextBox
-				HorizontalPanel semsesterPanel = new HorizontalPanel();
+//				HorizontalPanel semsesterPanel = new HorizontalPanel();
 				Label semesterLabel = new Label("Semester");
 				semesterLabel.addStyleName("entryLabel");
-				semsesterPanel.add(semesterLabel);
-				thesisFormPanel.add(semsesterPanel);
+//				semesterPanel.add(semesterLabel);
+				thesisFormPanel.add(semesterLabel);
 				final TextBox semesterTextBox = new TextBox();
 				final ToggleButton semesterToggle = new ToggleButton("Spring", "Fall");
 				semesterToggle.setWidth("50px");
@@ -175,40 +182,45 @@ public class ThesisDBView {
 				thesisFormPanel.add(semesterToggle);
 
 		// Class TextBox
-				HorizontalPanel classPanel = new HorizontalPanel();
-				Label classLabel = new Label("Class");
+//				HorizontalPanel classPanel = new HorizontalPanel();
+				Label classLabel = new Label("Class (Select an existing class or add a new one)");
 				classLabel.addStyleName("entryLabel");
-				classPanel.add(classLabel);
-				thesisFormPanel.add(classPanel);
+//				classPanel.add(classLabel);
+				thesisFormPanel.add(classLabel);
+				HorizontalPanel classSelect = new HorizontalPanel();
+				final VerticalPanel existingClasses = new VerticalPanel();
+				controller.getClassDropDownDataFromServer(existingClasses);
+				classSelect.add(existingClasses);
 				final TextBox classTextBox = new TextBox();
-				thesisFormPanel.add(classTextBox);
+				classSelect.add(classTextBox);
+				thesisFormPanel.add(classSelect);
 				
 				
 		// Text Abstract TextArea
-				HorizontalPanel abstractPanel = new HorizontalPanel();
+//				HorizontalPanel abstractPanel = new HorizontalPanel();
 				Label abstractLabel = new Label("Text Abstract");
 				abstractLabel.addStyleName("entryLabel");
-				abstractPanel.add(abstractLabel);
-				thesisFormPanel.add(abstractPanel);
+//				abstractPanel.add(abstractLabel);
+				thesisFormPanel.add(abstractLabel);
 				final TextArea abstractTextArea = new TextArea();
 				thesisFormPanel.add(abstractTextArea);
 				
 		// Existing Tags ScrollBox
-				HorizontalPanel eTagsPanel = new HorizontalPanel();
+//				HorizontalPanel eTagsPanel = new HorizontalPanel();
 				Label eTagsLabel = new Label("");
 				eTagsLabel.addStyleName("entryLabel");
-				eTagsPanel.add(eTagsLabel);
-				thesisFormPanel.add(eTagsPanel);
+//				eTagsPanel.add(eTagsLabel);
+				thesisFormPanel.add(eTagsLabel);
 				final VerticalPanel eTagsVertical = new VerticalPanel ();
 				controller.getTagFilterDataFromServer(eTagsVertical);
 				thesisFormPanel.add(eTagsVertical);
 						
 		// Tags TextArea
-				HorizontalPanel tagsPanel = new HorizontalPanel();
+//				HorizontalPanel tagsPanel = new HorizontalPanel();
 				Label tagsLabel = new Label("Create New Tags");
 				tagsLabel.addStyleName("entryLabel");
-				tagsPanel.add(tagsLabel);
-				thesisFormPanel.add(tagsPanel);
+//				tagsPanel.add(tagsLabel);
+				thesisFormPanel.add(tagsLabel);
 				final TextArea tagsTextArea = new TextArea();
 				thesisFormPanel.add(tagsTextArea);
 				
@@ -234,7 +246,27 @@ public class ThesisDBView {
 			@Override
 			public void onClick(ClickEvent event) {
 				semesterTextBox.setText(semesterToggle.getText());
-				if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
+				ListBox classSelect = (ListBox)existingClasses.getWidget(0);
+				String selectedClass = classSelect.getItemText(classSelect.getSelectedIndex());
+				if (!selectedClass.equals("Select Class...")) {
+					if (classTextBox.getText().trim().isEmpty() || classTextBox.getText().equals(selectedClass)) {
+						classTextBox.setText(selectedClass);
+					} else {
+						sendErrorMessage("Please select only one class");
+						return;
+					}
+				}
+				ListBox profSelect = (ListBox)existingProfs.getWidget(0);
+				String selectedProf = profSelect.getItemText(profSelect.getSelectedIndex());
+				if (!selectedProf.equals("Select Professor...")) {
+					if (professorTextBox.getText().trim().isEmpty() || professorTextBox.getText().equals(selectedProf)) {
+						professorTextBox.setText(selectedProf);
+					} else {
+						sendErrorMessage("Please select only one professor");
+						return;
+					}
+				}
+				if (titleTextArea.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 						|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
 						|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
 						|| abstractTextArea.getText().trim().isEmpty() ) {
@@ -286,7 +318,7 @@ public class ThesisDBView {
 					}
 					tagsTextArea.setText(tags.substring(0, tags.length()-2));
 					
-					titleTextBox.setName("title");
+					titleTextArea.setName("title");
 					authorTextBox.setName("author");
 					professorTextBox.setName("professor");
 					yearTextBox.setName("year");
@@ -314,7 +346,7 @@ public class ThesisDBView {
 				public void onSubmitComplete(SubmitCompleteEvent event) {
 						if(thesis.getURL()=="No URL") {
 							submitFormPanel.reset();
-							titleTextBox.setFocus(true);
+							titleTextArea.setFocus(true);
 						}
 						else viewWelcomePage();
 					}
@@ -347,9 +379,9 @@ public class ThesisDBView {
 			titleLabel.addStyleName("entryLabel");
 			titlePanel.add(titleLabel);
 			thesisEditFormPanel.add(titlePanel);
-			final TextBox titleTextBox = new TextBox();
-			titleTextBox.setText(thesis.getTitle());
-			thesisEditFormPanel.add(titleTextBox);
+			final TextArea titleTextArea = new TextArea();
+			titleTextArea.setText(thesis.getTitle());
+			thesisEditFormPanel.add(titleTextArea);
 	
 	// Author TextBox
 			HorizontalPanel authorPanel = new HorizontalPanel();
@@ -362,14 +394,19 @@ public class ThesisDBView {
 			thesisEditFormPanel.add(authorTextBox);
 			
 	// Professor TextBox
-			HorizontalPanel professorPanel = new HorizontalPanel();
-			Label professorLabel = new Label("Professor");
+//			HorizontalPanel professorPanel = new HorizontalPanel();
+			Label professorLabel = new Label("Professor (Select an existing professor or add a new one)");
 			professorLabel.addStyleName("entryLabel");
-			professorPanel.add(professorLabel);
-			thesisEditFormPanel.add(professorPanel);
+//			professorPanel.add(professorLabel);
+			thesisEditFormPanel.add(professorLabel);
+			HorizontalPanel profSelect = new HorizontalPanel();
+			final VerticalPanel existingProfs = new VerticalPanel();
+			controller.getProfDropDownDataFromServer(existingProfs);
+			profSelect.add(existingProfs);
 			final TextBox professorTextBox = new TextBox();
 			professorTextBox.setText(thesis.getProfessor());
-			thesisEditFormPanel.add(professorTextBox);
+			profSelect.add(professorTextBox);
+			thesisEditFormPanel.add(profSelect);
 	
 	// Year TextBox
 			HorizontalPanel yearPanel = new HorizontalPanel();
@@ -399,14 +436,19 @@ public class ThesisDBView {
 			thesisEditFormPanel.add(semesterToggle);
 	
 	// Class TextBox
-			HorizontalPanel classPanel = new HorizontalPanel();
-			Label classLabel = new Label("Class");
+//			HorizontalPanel classPanel = new HorizontalPanel();
+			Label classLabel = new Label("Class (Select an existing class or add a new one)");
 			classLabel.addStyleName("entryLabel");
-			classPanel.add(classLabel);
-			thesisEditFormPanel.add(classPanel);
+//			classPanel.add(classLabel);
+			thesisEditFormPanel.add(classLabel);
+			HorizontalPanel classSelect = new HorizontalPanel();
+			final VerticalPanel existingClasses = new VerticalPanel();
+			controller.getClassDropDownDataFromServer(existingClasses);
+			classSelect.add(existingClasses);
 			final TextBox classTextBox = new TextBox();
 			classTextBox.setText(thesis.getClassName());
-			thesisEditFormPanel.add(classTextBox);
+			classSelect.add(classTextBox);
+			thesisEditFormPanel.add(classSelect);
 			
 			
 	// Text Abstract TextArea
@@ -458,7 +500,27 @@ public class ThesisDBView {
 		@Override
 		public void onClick(ClickEvent event) {
 			semesterTextBox.setText(semesterToggle.getText());
-			if (titleTextBox.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
+			ListBox classSelect = (ListBox)existingClasses.getWidget(0);
+			String selectedClass = classSelect.getItemText(classSelect.getSelectedIndex());
+			if (!selectedClass.equals("Select Class...")) {
+				if (classTextBox.getText().trim().isEmpty() || classTextBox.getText().equals(selectedClass)) {
+					classTextBox.setText(selectedClass);
+				} else {
+					sendErrorMessage("Please select only one class");
+					return;
+				}
+			}
+			ListBox profSelect = (ListBox)existingProfs.getWidget(0);
+			String selectedProf = profSelect.getItemText(profSelect.getSelectedIndex());
+			if (!selectedProf.equals("Select Professor...")) {
+				if (professorTextBox.getText().trim().isEmpty() || professorTextBox.getText().equals(selectedProf)) {
+					professorTextBox.setText(selectedProf);
+				} else {
+					sendErrorMessage("Please select only one professor");
+					return;
+				}
+			}
+			if (titleTextArea.getText().trim().isEmpty() || authorTextBox.getText().trim().isEmpty() 
 					|| professorTextBox.getText().trim().isEmpty() || yearTextBox.getText().trim().isEmpty() 
 					|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
 					|| abstractTextArea.getText().trim().isEmpty() ) {
@@ -508,7 +570,7 @@ public class ThesisDBView {
 				}
 				tagsTextArea.setText(tags.substring(0, tags.length()-2));
 				
-				Thesis changedThesis = new Thesis(titleTextBox.getText(), authorTextBox.getText(),
+				Thesis changedThesis = new Thesis(titleTextArea.getText(), authorTextBox.getText(),
 						professorTextBox.getText(), yearTextBox.getText(), semesterTextBox.getText(),
 						classTextBox.getText(), abstractTextArea.getText(), thesis.getURL(), tagsTextArea.getText());
 				
@@ -559,6 +621,8 @@ public class ThesisDBView {
 				viewAddNewThesisPage();
 			}
 		});
+		
+		//LogOut Button
 		
 		Button logOutButton = new Button ("Log Out");
 		logOutButton.addClickHandler(new ClickHandler() {
@@ -645,6 +709,24 @@ public class ThesisDBView {
 //			
 //		}
 		
+	}
+	
+	public void addProfDropDown (VerticalPanel vPanel, List<String> profs) {
+		ListBox profList = new ListBox();
+		profList.addItem("Select Professor...");
+		for (String prof: profs) {
+			profList.addItem(prof);
+		}
+		vPanel.add(profList);
+	}
+	
+	public void addClassDropDown (VerticalPanel vPanel, List<String> classes) {
+		ListBox classList = new ListBox();
+		classList.addItem("Select Class...");
+		for (String className: classes) {
+			classList.addItem(className);
+		}
+		vPanel.add(classList);
 	}
 	
 	public void addTagFilter (VerticalPanel allOptions, List<String> tags) {

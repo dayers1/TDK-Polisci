@@ -214,6 +214,34 @@ public class ThesisDB implements EntryPoint {
 				});
 	}
 	
+	public void getProfDropDownDataFromServer(final VerticalPanel dropDownDestination) {
+		clientModelService.getProfFilterListFromServer(
+				new AsyncCallback<List<String>> () {
+					public void onFailure(Throwable caught) {
+						thesisView.sendErrorMessage("Failed to get existing professors from server");
+						return;
+					}
+					@Override
+					public void onSuccess(List<String> profs) {
+						thesisView.addProfDropDown(dropDownDestination, profs);
+					}
+				});
+	}
+	
+	public void getClassDropDownDataFromServer(final VerticalPanel dropDownDestination) {
+		clientModelService.getClassFilterListFromServer(
+				new AsyncCallback<List<String>> () {
+					public void onFailure(Throwable caught) {
+						thesisView.sendErrorMessage("Failed to get existing professors from server");
+						return;
+					}
+					@Override
+					public void onSuccess(List<String> classes) {
+						thesisView.addClassDropDown(dropDownDestination, classes);
+					}
+				});
+	}
+	
 	public void handleLogOutRequest() {
 		clientModelService.getLogOutUrl(
 				new AsyncCallback<String>() {

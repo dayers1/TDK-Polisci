@@ -192,5 +192,10 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return (c == '*');
 		
 	}
+
+//	public List<Professor> getProfDataFromServer() {
+//		return ThesisDBModel.getProfessorData();
+//	}
+
 		
 }

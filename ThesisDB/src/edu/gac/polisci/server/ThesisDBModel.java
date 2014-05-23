@@ -50,6 +50,10 @@ public class ThesisDBModel {
 		   }
 	}
 	
+//	public static List<Professor> getProfessorData() {
+
+//	}
+	
 	public static void updateEditedPost(Thesis thesis, Thesis changedThesis) {
 		
 		// If we change a classes field values while the 
