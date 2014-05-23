@@ -34,10 +34,27 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+//	@Override
+//	public List<Thesis> getThesesDataFromServer() {
+//		List <Thesis> theses = ThesisDBModel.getThesisData();
+//		return theses;
+//	}
+
 	@Override
 	public List<Thesis> getThesesDataFromServer() {
+		int i = 0;
 		List <Thesis> theses = ThesisDBModel.getThesisData();
-		return theses;
+		List <Thesis> thesesToReturn = new ArrayList<Thesis>();
+		for (Thesis thesis: theses) {
+			if (isFeatured(thesis.getTitle())) {
+				thesesToReturn.add(i,thesis);
+				i++;
+			}
+			else {
+				thesesToReturn.add(thesis);
+			}
+			}
+		return thesesToReturn;
 	}
 
 	@Override
@@ -168,6 +185,12 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		return user.getEmail().contentEquals("tdkpolsci@gmail.com");
+	}
+	
+	public boolean isFeatured(final String title) {
+		final char c = title.charAt(0);
+		return (c == '*');
+		
 	}
 		
 }

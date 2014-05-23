@@ -808,12 +808,6 @@ public class ThesisDBView {
 	    CellTable<Thesis> table = new CellTable<Thesis>(100000);
 
 	    // Create title column.
-//	    TextColumn<Thesis> titleColumn = new TextColumn<Thesis>() {
-//	      @Override
-//	      public String getValue(Thesis thesis) {
-//	        return thesis.getTitle();
-//	      }
-//	    };
 
 	    ClickableTextCell getPdf = new ClickableTextCell();
 	    Column<Thesis,String> titleColumn = new Column<Thesis,String>(getPdf) {
@@ -976,7 +970,7 @@ public class ThesisDBView {
 
 	            // Compare the name columns.
 	            if (o1 != null) {
-	              return (o2 != null) ? o1.getAuthor().compareTo(o2.getAuthor()) : 1;
+	              return (o2 != null) ? lastName(o1.getAuthor()).compareTo(lastName(o2.getAuthor())) : 1;
 	            }
 	            return -1;
 	          }
@@ -1029,7 +1023,7 @@ public class ThesisDBView {
 	    table.getColumnSortList().push(classNameColumn);
 	    // Add it to the root panel.
 	    
-	    // Year sort
+	    // Professor sort
 	    ListHandler<Thesis> professorColumnSortHandler = new ListHandler<Thesis>(list);
 	    columnSortHandler.setComparator(professorColumn,
 	        new Comparator<Thesis>() {
@@ -1040,7 +1034,7 @@ public class ThesisDBView {
 
 	            // Compare the name columns.
 	            if (o1 != null) {
-	              return (o2 != null) ? o1.getProfessor().compareTo(o2.getProfessor()) : 1;
+	              return (o2 != null) ? lastName(o1.getProfessor()).compareTo(lastName(o2.getProfessor())) : 1;
 	            }
 	            return -1;
 	          }
@@ -1125,6 +1119,12 @@ public class ThesisDBView {
 	
 	public void setButton(Button button, boolean result) {
 		button.setVisible(result);
+	}
+	
+	public String lastName(String author) {
+		String fullName = author;
+		String lastName = fullName.substring(fullName.lastIndexOf(" ")+1);
+		return lastName;
 	}
 
 }
