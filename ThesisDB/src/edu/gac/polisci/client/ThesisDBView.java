@@ -59,23 +59,15 @@ public class ThesisDBView {
 		this.controller = controller;
 	}
 	
-	//
-	//May change a few things here, such as method arrangement and arguments
-	//
-	
-	public void viewWelcomePage(){
-//		controller.getThesesFromServer();
-		
+	//Main Page
+	public void viewWelcomePage(){		
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 				
 		viewMainPage(rootPanel);
 	}
 	
-//	public void viewThesesEntries (List<Thesis> theses) {	
-//
-//	}
-	
+	//Add New Thesis Page Layout
 	public void viewAddNewThesisPage() {
 		RootPanel root = RootPanel.get();
 		root.clear();
@@ -97,6 +89,7 @@ public class ThesisDBView {
 		flowPanel.add(submitPanel);
 	}
 	
+	//Edit Thesis Page Layout
 	public void viewEditThesisPage(Thesis entry) {
 		RootPanel root = RootPanel.get();
 		root.clear();
@@ -118,6 +111,7 @@ public class ThesisDBView {
 		flowPanel.add(submitPanel);
 	}
 	
+	//Create Form for Add New Thesis Page
 	public FormPanel createAddNewThesisForm() {
 				
 				final Thesis thesis = new Thesis();
@@ -243,6 +237,8 @@ public class ThesisDBView {
 		submitFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		submitFormPanel.setMethod(FormPanel.METHOD_POST);
 		
+		
+		//Submit Button
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -356,6 +352,7 @@ public class ThesisDBView {
 
 				});
 		
+		//Cancel button returns to main page
 		Button cancel = new Button ("Cancel");
 		cancel.addClickHandler(new ClickHandler () {
 			@Override
@@ -368,6 +365,7 @@ public class ThesisDBView {
 		return submitFormPanel;
 	}
 	
+	//Create Form for Edit Thesis Page
 	public FormPanel createEditThesisForm (final Thesis thesis) {
 			
 			final FormPanel submitEditFormPanel = new FormPanel();
@@ -505,6 +503,7 @@ public class ThesisDBView {
 	submitEditFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 	submitEditFormPanel.setMethod(FormPanel.METHOD_POST);
 	
+	//Submit Button
 	submitButton.addClickHandler(new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
@@ -596,6 +595,7 @@ public class ThesisDBView {
 		
 		thesisEditFormPanel.add(submitPanel);
 		
+		//Cancel button returns to main page
 		Button cancel = new Button ("Cancel");
 		cancel.addClickHandler(new ClickHandler () {
 			@Override
@@ -608,6 +608,7 @@ public class ThesisDBView {
 		return submitEditFormPanel;
 	}
 	
+	//Main page
 	public void viewMainPage (RootPanel rp) {
 		
 
@@ -649,15 +650,15 @@ public class ThesisDBView {
 		allOptions.add(addEntryButton);
 		
 		HorizontalPanel searchPanel = new HorizontalPanel();
-//		final Label searchLabel = new Label ("Search:");
 		final TextBox searchBox = new TextBox();
-//		searchPanel.add(searchLabel);
 		
 		final VerticalPanel allFilters = new VerticalPanel();
 		
+		//Show All or Show Featured theses
 		final ToggleButton showOptions = new ToggleButton ("Show All", "Show Featured");
 		allOptions.add(showOptions);
 		
+		//Search Button
 		final Button searchButton = new Button("Search");
 		searchButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -672,12 +673,13 @@ public class ThesisDBView {
 		searchPanel.add(searchBox);
 		allOptions.add(searchPanel);
 		
-		
+		//Add Filter Options to right panel
 		controller.getTagFilterDataFromServer(allFilters);
 		controller.getYearFilterDataFromServer(allFilters);
 		controller.getProfFilterDataFromServer(allFilters);
 		controller.getClassFilterDataFromServer(allFilters);
 		
+		//Filter Button
 		final Button filterButton = new Button("Filter");
 		filterButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -716,6 +718,7 @@ public class ThesisDBView {
 			}
 		});
 		
+		//Functionality for Show Options button
 		showOptions.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -727,6 +730,7 @@ public class ThesisDBView {
 			}
 		});
 		
+		//Clear Filters Button
 		Button clearFilter = new Button("Clear Filters");
 		clearFilter.addClickHandler(new ClickHandler() {
 			@Override
@@ -737,17 +741,10 @@ public class ThesisDBView {
 		
 		allOptions.add(allFilters);
 		allOptions.add(filterButton);
-		allOptions.add(clearFilter);
-		
-		
-//		for (Widget option: tagPanel) {
-//			CheckBox mark = (CheckBox) option;
-//			System.out.println(mark.getText());
-//			
-//		}
-		
+		allOptions.add(clearFilter);		
 	}
 	
+	//Creates DropDown box for existing Professors
 	public void addProfDropDown (VerticalPanel vPanel, List<String> profs) {
 		ListBox profList = new ListBox();
 		profList.addItem("Select Professor...");
@@ -757,6 +754,7 @@ public class ThesisDBView {
 		vPanel.add(profList);
 	}
 	
+	//Creates DropDown Box for existing Classes
 	public void addClassDropDown (VerticalPanel vPanel, List<String> classes) {
 		ListBox classList = new ListBox();
 		classList.addItem("Select Class...");
@@ -766,11 +764,10 @@ public class ThesisDBView {
 		vPanel.add(classList);
 	}
 	
+	//Return Tag Filter
 	public void addTagFilter (VerticalPanel allOptions, List<String> tags) {
 		
 		//Tag Filter
-		// Will need persistence for tags, and for loop to add them all here
-		//
 		
 		VerticalPanel tagPanel = new VerticalPanel();
 		
@@ -812,6 +809,7 @@ public class ThesisDBView {
 		
 	}
 	
+	//Return Year Filter
 	public void addYearFilter (VerticalPanel allOptions, List<String> years) {
 		
 		//Year Filter
@@ -849,6 +847,7 @@ public class ThesisDBView {
 		
 	}
 	
+	//Return Author Filter
 	public void addProfessorFilter (VerticalPanel allOptions, List<String> profs) {
 		//Author Filter
 		
@@ -885,7 +884,10 @@ public class ThesisDBView {
 		
 	}
 	
+	//Return Class Filter
 	public void addClassFilter (VerticalPanel allOptions, List<String> classes) {
+		
+		//Class Filter
 		
 		Label classLabel = new Label("Class Filters");
 		allOptions.add(classLabel);
@@ -919,6 +921,7 @@ public class ThesisDBView {
 		allOptions.add(classFilter);
 	}
 	
+	//Create Table of Theses
 	public void makeThesisTable (List<Thesis> theses, FlowPanel fp, VerticalPanel panel) {
 		
 		final List<Thesis> THESES = theses;
@@ -994,22 +997,6 @@ public class ThesisDBView {
 					moreInfoPopup.show();
 	    	  }
 	    	});
-	    
-	  //  Create infoButton column.
-	 // ButtonCell.
-//	    Column(new ButtonCell(), "Button", new GetValue<String>() {
-//	      @Override
-//	      public String getValue(Thesis thesis) {
-//	        return "Info "; 
-//	      }
-//	    }, new FieldUpdater<Thesis, String>() {
-//	      @Override
-//	      public void update(int index, Thesis thesis, String value) {
-//	        Window.alert("You clicked " + thesis.getTitle());
-//	      }
-//	    });
-	    // Make the title column sortable.
-//	    semYearColumn.setSortable(true);
 
 	    // Create professor column.
 	    TextColumn<Thesis> professorColumn = new TextColumn<Thesis>() {
@@ -1172,6 +1159,7 @@ public class ThesisDBView {
 
 	}
 	
+	//Create More Info Panel
 	public VerticalPanel moreInfoPanel(final Thesis entry) {
 		VerticalPanel content = new VerticalPanel();
 		content.setStyleName("popup-content");
@@ -1192,6 +1180,7 @@ public class ThesisDBView {
 			}
 		});
 		
+		// Edit Button
 		Button editButton = new Button("Edit");
 		editButton.setText("Edit");
 		editButton.addClickHandler(new ClickHandler() {
@@ -1201,6 +1190,7 @@ public class ThesisDBView {
 			}
 		});
 		
+		// Delete Button
 		Button deleteButton = new Button("Delete");
 		deleteButton.setText("Delete");
 		deleteButton.addClickHandler(new ClickHandler() {
@@ -1210,6 +1200,7 @@ public class ThesisDBView {
 			}
 		});
 		
+		// Buttons limited to Admin
 		controller.ifAdminShowButton(editButton);
 		controller.ifAdminShowButton(deleteButton);
 		
@@ -1229,6 +1220,7 @@ public class ThesisDBView {
 		
 	}
 	
+	//Warning Popup for Deletion
 	public void confirmDelete (final Thesis entry) {
 		VerticalPanel contents = new VerticalPanel();
 		Label areYouSure = new Label ("Are you sure you want to delete \"" + entry.getTitle() + "\"?");
@@ -1237,6 +1229,8 @@ public class ThesisDBView {
 		contents.add(warning);
 		
 		HorizontalPanel buttons = new HorizontalPanel();
+		
+		//Confirm Delete Button
 		Button yesButton = new Button("Yes");
 		yesButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -1244,6 +1238,8 @@ public class ThesisDBView {
 				controller.deleteThesisDataFromServer(entry);
 			}
 		});
+		
+		//Cancel Delete Button
 		Button noButton = new Button ("No");
 		noButton.addClickHandler(new ClickHandler (){
 			@Override
@@ -1257,6 +1253,7 @@ public class ThesisDBView {
 		contents.add(buttons);
 		buttons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
+		//Add elements to popup and show
 		deleteConfirmPopup.clear();
 		deleteConfirmPopup.add(contents);
 		deleteConfirmPopup.setSize("400px", "100px");
@@ -1265,6 +1262,7 @@ public class ThesisDBView {
 		deleteConfirmPopup.show();
 	}
 	
+	//Uncheck boxes in filter
 	public void clearFilters(VerticalPanel allFilters) {
 		for (Widget option: allFilters) {
 			try {
