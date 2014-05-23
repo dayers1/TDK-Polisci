@@ -49,6 +49,7 @@ public class ThesisDBView {
 
 	private ThesisDB controller;
 	final PopupPanel moreInfoPopup = new PopupPanel(false);
+	final PopupPanel deleteConfirmPopup = new PopupPanel(false);
 	
 	public ThesisDB getController () {
 		return controller;
@@ -272,7 +273,7 @@ public class ThesisDBView {
 						|| abstractTextArea.getText().trim().isEmpty() ) {
 					sendErrorMessage("Please fill out all boxes");
 				} else if (upload.getFilename().length() == 0) {
-					sendErrorMessage("Please submit a pdf");
+					sendErrorMessage("Please submit a file");
 				} else if (!(semesterTextBox.getText().equals("Spring") || semesterTextBox.getText().equals("Fall"))) {
 					sendErrorMessage("Semester must be either 'Spring' or 'Fall'");
 				} else if (yearTextBox.getText().length() != 4) {
@@ -1205,7 +1206,7 @@ public class ThesisDBView {
 		deleteButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				controller.deleteThesisDataFromServer(entry);
+				confirmDelete(entry);
 			}
 		});
 		
@@ -1226,6 +1227,42 @@ public class ThesisDBView {
 		
 		return content;
 		
+	}
+	
+	public void confirmDelete (final Thesis entry) {
+		VerticalPanel contents = new VerticalPanel();
+		Label areYouSure = new Label ("Are you sure you want to delete \"" + entry.getTitle() + "\"?");
+		Label warning = new Label ("Once deleted, you cannot restore the deleted thesis.");
+		contents.add(areYouSure);
+		contents.add(warning);
+		
+		HorizontalPanel buttons = new HorizontalPanel();
+		Button yesButton = new Button("Yes");
+		yesButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.deleteThesisDataFromServer(entry);
+			}
+		});
+		Button noButton = new Button ("No");
+		noButton.addClickHandler(new ClickHandler (){
+			@Override
+			public void onClick(ClickEvent event) {
+				deleteConfirmPopup.hide();
+				moreInfoPopup.show();
+			}
+		});
+		buttons.add(yesButton);
+		buttons.add(noButton);
+		contents.add(buttons);
+		buttons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
+		deleteConfirmPopup.clear();
+		deleteConfirmPopup.add(contents);
+		deleteConfirmPopup.setSize("400px", "100px");
+		deleteConfirmPopup.center();
+		moreInfoPopup.hide();
+		deleteConfirmPopup.show();
 	}
 	
 	public void clearFilters(VerticalPanel allFilters) {
