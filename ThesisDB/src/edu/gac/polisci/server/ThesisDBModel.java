@@ -74,6 +74,7 @@ public class ThesisDBModel {
 			storedThesis.setClassName(changedThesis.getClassName());
 			storedThesis.setTextAbstract(changedThesis.getTextAbstract());
 			storedThesis.setTags(changedThesis.getTags());
+			storedThesis.setFeatured(changedThesis.getFeatured());
 			pm.currentTransaction().commit();
 		}
 		finally {

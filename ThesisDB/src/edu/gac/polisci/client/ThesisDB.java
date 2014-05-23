@@ -97,8 +97,9 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
-	public void viewSearchThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, String search) {
-		clientModelService.getSearchThesesDataFromServer(search,
+	public void viewSearchThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, String search, boolean isFeatured) {
+		System.out.println(isFeatured);
+		clientModelService.getSearchThesesDataFromServer(search, isFeatured,
 				new AsyncCallback<List<Thesis>>() {
 			public void onFailure(Throwable caught) {
 				thesisView.sendErrorMessage("Search Failed");
@@ -113,8 +114,8 @@ public class ThesisDB implements EntryPoint {
 	}
 	
 	public void viewFilterThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, 
-			List<String> tagFilters, List<String> yearFilters, List<String> profFilters, List<String> classFilters) {
-		clientModelService.getFilterThesesDataFromServer(tagFilters, yearFilters, profFilters, classFilters, 
+			List<String> tagFilters, List<String> yearFilters, List<String> profFilters, List<String> classFilters, boolean isFeatured) {
+		clientModelService.getFilterThesesDataFromServer(tagFilters, yearFilters, profFilters, classFilters, isFeatured, 
 				new AsyncCallback<List<Thesis>>() {
 			public void onFailure(Throwable caught) {
 				thesisView.sendErrorMessage("Filtering Failed");
@@ -127,8 +128,8 @@ public class ThesisDB implements EntryPoint {
 		});
 	}
 	
-	public void viewThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel){
-		clientModelService.getThesesDataFromServer(
+	public void viewThesisDataFromServer(final FlowPanel fp, final VerticalPanel panel, boolean isFeatured){
+		clientModelService.getThesesDataFromServer(isFeatured,
 				new AsyncCallback<List<Thesis>>() {
 					public void onFailure(Throwable caught) {
 						return;

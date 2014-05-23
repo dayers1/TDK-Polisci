@@ -14,15 +14,15 @@ public interface clientModelService extends RemoteService {
 	boolean isUserLoggedIn();
 	String setAppBaseURL(String homeURL);
 	public void submitEditPostToServer(Thesis thesis, Thesis changedThesis);
-	List<Thesis> getThesesDataFromServer();
-	List<Thesis> getSearchThesesDataFromServer(String search);
+	List<Thesis> getThesesDataFromServer(boolean isFeatured);
+	List<Thesis> getSearchThesesDataFromServer(String search, boolean isFeatured);
 	String deleteThesisFromServer (Thesis thesis);
 	List<String> getYearFilterListFromServer ();
 	List<String> getTagFilterListFromServer ();
 	List<String> getProfFilterListFromServer ();
 	List<String> getClassFilterListFromServer ();
 	List<Thesis> getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
-			List<String> profFilters, List<String> classFilters);
+			List<String> profFilters, List<String> classFilters, boolean isFeatured);
 	public String getLogOutUrl();
 	public Boolean isUserAdmin();
 

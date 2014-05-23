@@ -373,6 +373,14 @@ public class ThesisDBView {
 			VerticalPanel thesisEditFormPanel = new VerticalPanel();
 			submitEditFormPanel.add(thesisEditFormPanel);
 			
+	//IsFeatured ToggleButton
+			final ToggleButton featuredToggle = new ToggleButton("Not Featured","Featured");
+			if (thesis.getFeatured()) {
+				featuredToggle.setDown(true);
+			}
+			thesisEditFormPanel.add(featuredToggle);
+			
+			
 	// Title TextBox
 			HorizontalPanel titlePanel = new HorizontalPanel();
 			Label titleLabel = new Label("Title");
@@ -511,6 +519,7 @@ public class ThesisDBView {
 				}
 			}
 			ListBox profSelect = (ListBox)existingProfs.getWidget(0);
+	
 			String selectedProf = profSelect.getItemText(profSelect.getSelectedIndex());
 			if (!selectedProf.equals("Select Professor...")) {
 				if (professorTextBox.getText().trim().isEmpty() || professorTextBox.getText().equals(selectedProf)) {
@@ -525,8 +534,6 @@ public class ThesisDBView {
 					|| semesterTextBox.getText().trim().isEmpty() || classTextBox.getText().trim().isEmpty() 
 					|| abstractTextArea.getText().trim().isEmpty() ) {
 				sendErrorMessage("Please fill out all boxes");
-			} else if (!(semesterTextBox.getText().equals("Spring") || semesterTextBox.getText().equals("Fall"))) {
-				sendErrorMessage("Semester must be either 'Spring' or 'Fall'");
 			} else if (yearTextBox.getText().length() != 4) {
 				sendErrorMessage("Year must be a 4 digit number");
 			}
@@ -573,26 +580,31 @@ public class ThesisDBView {
 				Thesis changedThesis = new Thesis(titleTextArea.getText(), authorTextBox.getText(),
 						professorTextBox.getText(), yearTextBox.getText(), semesterTextBox.getText(),
 						classTextBox.getText(), abstractTextArea.getText(), thesis.getURL(), tagsTextArea.getText());
+				if (featuredToggle.isDown()) {
+					changedThesis.setFeatured(true);
+				} else {
+					changedThesis.setFeatured(false);
+				}
 				
 				controller.handleSubmitEditForm(thesis, changedThesis);
 			}
 		
 		}
-	});
-	submitPanel.add(submitButton);
-	
-	thesisEditFormPanel.add(submitPanel);
-	
-	Button cancel = new Button ("Cancel");
-	cancel.addClickHandler(new ClickHandler () {
-		@Override
-		public void onClick(ClickEvent event) {
-			viewWelcomePage();
-		}
-	});
-	thesisEditFormPanel.add(cancel);
-	
-	return submitEditFormPanel;
+		});
+		submitPanel.add(submitButton);
+		
+		thesisEditFormPanel.add(submitPanel);
+		
+		Button cancel = new Button ("Cancel");
+		cancel.addClickHandler(new ClickHandler () {
+			@Override
+			public void onClick(ClickEvent event) {
+				viewWelcomePage();
+			}
+		});
+		thesisEditFormPanel.add(cancel);
+		
+		return submitEditFormPanel;
 	}
 	
 	public void viewMainPage (RootPanel rp) {
@@ -604,7 +616,7 @@ public class ThesisDBView {
 		final FlowPanel thesisFlow = new FlowPanel();
 		thesisPanel.add(thesisFlow);
 		
-		controller.viewThesisDataFromServer(thesisFlow, thesisPanel);	
+		controller.viewThesisDataFromServer(thesisFlow, thesisPanel, false);	
 		
 		VerticalPanel allOptions = new VerticalPanel();
 		allOptions.setStyleName("sort-panel");
@@ -640,13 +652,18 @@ public class ThesisDBView {
 		final TextBox searchBox = new TextBox();
 //		searchPanel.add(searchLabel);
 		
+		final VerticalPanel allFilters = new VerticalPanel();
 		
-		Button searchButton = new Button("Search");
+		final ToggleButton showOptions = new ToggleButton ("Show All", "Show Featured");
+		allOptions.add(showOptions);
+		
+		final Button searchButton = new Button("Search");
 		searchButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (searchBox.getText() == "") controller.viewThesisDataFromServer(thesisFlow, thesisPanel);
-				else controller.viewSearchThesisDataFromServer(thesisFlow, thesisPanel, searchBox.getText());
+				clearFilters(allFilters);
+				if (searchBox.getText() == "") controller.viewThesisDataFromServer(thesisFlow, thesisPanel, showOptions.isDown());
+				else controller.viewSearchThesisDataFromServer(thesisFlow, thesisPanel, searchBox.getText(), showOptions.isDown());
 			}
 	      });
 		
@@ -654,15 +671,13 @@ public class ThesisDBView {
 		searchPanel.add(searchBox);
 		allOptions.add(searchPanel);
 		
-		final VerticalPanel allFilters = new VerticalPanel();
-		
 		
 		controller.getTagFilterDataFromServer(allFilters);
 		controller.getYearFilterDataFromServer(allFilters);
 		controller.getProfFilterDataFromServer(allFilters);
 		controller.getClassFilterDataFromServer(allFilters);
 		
-		Button filterButton = new Button("Filter");
+		final Button filterButton = new Button("Filter");
 		filterButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -695,12 +710,33 @@ public class ThesisDBView {
 						continue;
 					}
 				}
-				controller.viewFilterThesisDataFromServer(thesisFlow, thesisPanel, tagFilters, yearFilters, profFilters, classFilters);
+				searchBox.setText("");
+				controller.viewFilterThesisDataFromServer(thesisFlow, thesisPanel, tagFilters, yearFilters, profFilters, classFilters, showOptions.isDown());
+			}
+		});
+		
+		showOptions.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (searchBox.getText().equals("")) {
+					filterButton.click();
+				} else {
+					searchButton.click();
+				}
+			}
+		});
+		
+		Button clearFilter = new Button("Clear Filters");
+		clearFilter.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				clearFilters(allFilters);
 			}
 		});
 		
 		allOptions.add(allFilters);
 		allOptions.add(filterButton);
+		allOptions.add(clearFilter);
 		
 		
 //		for (Widget option: tagPanel) {
@@ -740,11 +776,11 @@ public class ThesisDBView {
 		Label tagLabel = new Label("Tag Filters");
 		allOptions.add(tagLabel);
 		
-		if (tags.contains("Honor")) {
-			tags.remove("Honor");
+		if (tags.contains("Honors Thesis")) {
+			tags.remove("Honors Thesis");
 		}
 		
-		CheckBox honor = new CheckBox("Honor");
+		CheckBox honor = new CheckBox("Honors Thesis");
 		tagPanel.add(honor);
 		
 		int index = 0;
@@ -1190,6 +1226,20 @@ public class ThesisDBView {
 		
 		return content;
 		
+	}
+	
+	public void clearFilters(VerticalPanel allFilters) {
+		for (Widget option: allFilters) {
+			try {
+				ScrollPanel filter = (ScrollPanel) option;
+				
+				VerticalPanel contents = (VerticalPanel) filter.getWidget();
+				for (Widget check: contents) {
+					CheckBox mark = (CheckBox) check;
+					mark.setValue(false);
+				}
+			} catch (ClassCastException cce) {}
+		}
 	}
 	
 	public void setWindow(String url) {

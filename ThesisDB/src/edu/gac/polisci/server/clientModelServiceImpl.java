@@ -41,7 +41,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 //	}
 
 	@Override
-	public List<Thesis> getThesesDataFromServer() {
+	public List<Thesis> getThesesDataFromServer(boolean isFeatured) {
 		int i = 0;
 		List <Thesis> theses = ThesisDBModel.getThesisData();
 		List <Thesis> thesesToReturn = new ArrayList<Thesis>();
@@ -54,17 +54,29 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 				thesesToReturn.add(thesis);
 			}
 			}
-		return thesesToReturn;
+		List<Thesis> result = new ArrayList<Thesis>();
+		if (isFeatured) {
+			for (Thesis thesis: thesesToReturn) {
+				if (thesis.getFeatured()) result.add(thesis);
+			}
+		} else {result = thesesToReturn;}
+		return result;
 	}
 
 	@Override
-	public List<Thesis> getSearchThesesDataFromServer(String search) {
+	public List<Thesis> getSearchThesesDataFromServer(String search, boolean isFeatured) {
 		List <Thesis> theses = ThesisDBModel.getThesisData();
 		List <Thesis> thesesToReturn = new ArrayList<Thesis>();
 		for (Thesis thesis: theses) {
 			if (thesis.isInSearchForThesisEntry(search)) thesesToReturn.add(thesis);
 		}
-		return thesesToReturn;
+		List<Thesis> result = new ArrayList<Thesis>();
+		if (isFeatured) {
+			for (Thesis thesis: thesesToReturn) {
+				if (thesis.getFeatured()) result.add(thesis);
+			}
+		} else {result = thesesToReturn;}
+		return result;
 	}
 
 	@Override
@@ -129,7 +141,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<Thesis> getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
-			List<String> profFilters, List<String> classFilters) {
+			List<String> profFilters, List<String> classFilters, boolean isFeatured) {
 		List<Thesis> temp = new ArrayList<Thesis>();
 		List<Thesis> theses = ThesisDBModel.getThesisData();
 		
@@ -168,7 +180,13 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 			}
 			theses = temp;
 		}
-		return theses;
+		List<Thesis> result = new ArrayList<Thesis>();
+		if (isFeatured) {
+			for (Thesis thesis: theses) {
+				if (thesis.getFeatured()) result.add(thesis);
+			}
+		} else {result = theses;}
+		return result;
 	}
 
 	@Override

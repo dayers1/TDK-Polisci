@@ -38,6 +38,8 @@ public class Thesis implements Serializable {
 	private String textAbstract = "no abstract";
 	@Persistent
 	private String tags = "no tags";
+	@Persistent
+	private boolean isFeatured = false;
 	
 	// Need to define the Tags as "Unowned" child objects, 
 	//  as they do not disappear when Thesis object is deleted.  
@@ -59,6 +61,7 @@ public class Thesis implements Serializable {
 			textAbstract = ta;
 			URL = url;
 			tags = tgs;
+			isFeatured = false;
 		}
 
 		public String getTitle() {
@@ -134,6 +137,14 @@ public class Thesis implements Serializable {
 		
 		public Long getID() {
 			return id;
+		}
+		
+		public void setFeatured (boolean featured) {
+			isFeatured = featured;
+		}
+		
+		public boolean getFeatured () {
+			return isFeatured;
 		}
 
 	
