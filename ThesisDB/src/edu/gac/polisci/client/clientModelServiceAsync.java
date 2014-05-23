@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import edu.gac.polisci.shared.Professor;
 import edu.gac.polisci.shared.Thesis;
 
 public interface clientModelServiceAsync {
@@ -24,6 +23,4 @@ public interface clientModelServiceAsync {
 	void submitEditPostToServer(Thesis thesis, Thesis chengedThesis, AsyncCallback<Void> callback);
 	void getLogOutUrl(AsyncCallback<String> asyncCallback);
 	void isUserAdmin(AsyncCallback<Boolean> callback);
-	void submitProfessorToServer(Professor professor, AsyncCallback<Void> callback);
-	void getProfDataFromServer(AsyncCallback<List<Professor>> callback);
 }

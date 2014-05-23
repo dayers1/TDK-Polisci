@@ -9,7 +9,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.gac.polisci.client.*;
-import edu.gac.polisci.shared.Professor;
 import edu.gac.polisci.shared.Thesis;
 
 @SuppressWarnings("serial")
@@ -171,14 +170,8 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return user.getEmail().contentEquals("tdkpolsci@gmail.com");
 	}
 
-	@Override
-	public void submitProfessorToServer(Professor professor) {
-		ThesisDBModel.storeProfessor(professor);
-	}
-
-	@Override
-	public List<Professor> getProfDataFromServer() {
-		return ThesisDBModel.getProfessorData();
-	}
+//	public List<Professor> getProfDataFromServer() {
+//		return ThesisDBModel.getProfessorData();
+//	}
 		
 }

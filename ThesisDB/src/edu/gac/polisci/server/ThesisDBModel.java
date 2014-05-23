@@ -50,34 +50,9 @@ public class ThesisDBModel {
 		   }
 	}
 	
-	public static List<Professor> getProfessorData() {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Query query = pm.newQuery(Professor.class);
-		List<Professor> professor = (List<Professor>) query.execute();
-		// Child classes are loaded "lazily" - not until they are accessed.
-		// To make sure they are loaded before the PersistenceManager closes,
-		// we reference them here so they are forced to load. 
+//	public static List<Professor> getProfessorData() {
 
-		return new ArrayList<Professor>(professor);
-	}
-	
-	public static void storeProfessor(Professor professor) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		// Transactions lock all records in a datastore and keep them locked 
-		//  until they are ready to commit their changes. This eliminates
-		//  possibility of conflict of access
-		try {
-			pm.currentTransaction().begin();
-			pm.makePersistent(professor);
-			pm.currentTransaction().commit();
-		}
-		finally {
-		    if (pm.currentTransaction().isActive())
-		      pm.currentTransaction().rollback();
-		    if (!pm.isClosed())
-		      pm.close();
-		   }
-	}
+//	}
 	
 	public static void updateEditedPost(Thesis thesis, Thesis changedThesis) {
 		
