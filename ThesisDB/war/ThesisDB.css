@@ -1,4 +1,17 @@
 /** Add css rules here for your application. */
+
+.login-image {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-content {
+  text-align: center;
+  font-family:"Hoefler Text";
+  background-color:black;
+  color:#FFCF00;
+  padding: 20px;
+}
 h1 {
   font-size: 2.5em;
   font-weight: bold;
@@ -6,6 +19,28 @@ h1 {
   text-align: center;
   font-family:"Hoefler Text";
   background-color:black;
+  color:#FFCF00;
+}
+
+.gwt-ToggleButton .gwt-ToggleButton-up {
+  font-family:"Hoefler Text";
+  margin: 0;
+  padding: 3px 4px;
+  text-decoration: none;
+  font-size: medium;
+  cursor: pointer;
+  background:black;
+  color:#FFCF00;
+  border: 2px outset #000;
+}
+
+form {
+	background-color:#FFE235;
+	padding: 10px;
+}
+
+h2 {
+	font-size:2 em;
 }
 
 .sendButton {
@@ -657,10 +692,15 @@ a, a:visited, a:hover {
   border-width: 1px;
 }
 .gwt-RichTextToolbar .gwt-ToggleButton-up {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 0px 1px 0px 0px;
-  border-width: 1px;
+  font-family:"Hoefler Text";
+  margin: 0;
+  padding: 3px 4px;
+  text-decoration: none;
+  font-size: medium;
+  cursor: pointer;
+  background:black;
+  color:#FFCF00;
+  border: 2px outset #000;
 }
 .gwt-RichTextToolbar .gwt-ToggleButton-up-hovering {
   margin-right: 4px;
@@ -954,26 +994,29 @@ a, a:visited, a:hover {
 .gwt-ToggleButton-down-disabled {
   margin: 0;
   text-decoration: none;
-  background: url("images/hborder.png") repeat-x 0px -27px;
+  font-family: "Hoefler Text";
+  font-size: medium;
+  padding:3px 4px;
 }
 .gwt-ToggleButton-up,
 .gwt-ToggleButton-up-hovering,
 .gwt-ToggleButton-up-disabled {
-  padding: 3px 5px 3px 5px;
+ 
 }
 .gwt-ToggleButton-up {
-  border: 1px outset #ccc;
+  
   cursor: pointer;
   cursor: hand;
+  color:black;
 }
 .gwt-ToggleButton-up-hovering {
-  border: 1px outset;
-  border-color: #9cf #69e #69e #7af;
+  
+  
   cursor: pointer;
   cursor: hand;
 }
 .gwt-ToggleButton-up-disabled {
-  border: 1px outset #ccc;
+  
   cursor: default;
   opacity: .5;
   zoom: 1;
@@ -982,31 +1025,46 @@ a, a:visited, a:hover {
 .gwt-ToggleButton-down,
 .gwt-ToggleButton-down-hovering,
 .gwt-ToggleButton-down-disabled {
-  padding: 4px 4px 2px 6px;
+  
 }
 .gwt-ToggleButton-down {
-  background-position: 0 -513px;
-  border: 1px inset #ccc;
+  
+  
   cursor: pointer;
   cursor: hand;
 }
 .gwt-ToggleButton-down-hovering {
-  background-position: 0 -513px;
-  border: 1px inset;
-  border-color: #9cf #69e #69e #7af;
+  
+  
+ 
   cursor: pointer;
   cursor: hand;
 }
 .gwt-ToggleButton-down-disabled {
-  background-position: 0 -513px;
-  border: 1px inset #ccc;
+  
+ 
   cursor: default;
   opacity: .5;
   zoom: 1;
   filter: alpha(opacity=40);
 }
-.gwt-ToggleButton .html-face {
-  color: #000;
+.gwt-ToggleButton .html-face  {
+font-family: "Hoefler Text";
+margin: 0;
+padding: 3px 4px;
+text-decoration: none;
+font-size: medium;
+cursor: pointer;
+background: black;
+color: #FFCF00;
+align-items: flex-start;
+text-align: center;
+letter-spacing: normal;
+word-spacing: normal;
+text-transform: none;
+text-indent: 0px;
+text-shadow: none;
+display: inline-block;
 }
 
 .gwt-Tree .gwt-TreeItem {
