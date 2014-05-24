@@ -15,31 +15,21 @@ import edu.gac.polisci.shared.Thesis;
 public class clientModelServiceImpl extends RemoteServiceServlet implements
 									clientModelService {
 
+	//Calls on the model to store a Thesis that is submitted from the sunmission page
 	@Override
 	public String submitThesisToServer(Thesis thesis) {
 		ThesisDBModel.storeThesis(thesis);
 		return null;
 	}
 
+	//Performs the check to see whether or not a user is logged in.
 	@Override
 	public boolean isUserLoggedIn() {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		return new Boolean(user!=null);
-	}
-
-	@Override
-	public String setAppBaseURL(String homeURL) {
-		ThesisDBModel.setAppBaseURL(homeURL);
-		return null;
-	}
-
-//	@Override
-//	public List<Thesis> getThesesDataFromServer() {
-//		List <Thesis> theses = ThesisDBModel.getThesisData();
-//		return theses;
-//	}
-
+	
+	//Returns the list of currently persistent Theses from the server
 	@Override
 	public List<Thesis> getThesesDataFromServer(boolean isFeatured) {
 		int i = 0;
@@ -63,6 +53,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	//Returns the list of currently persistent Theses that match user input search data
 	@Override
 	public List<Thesis> getSearchThesesDataFromServer(String search, boolean isFeatured) {
 		List <Thesis> theses = ThesisDBModel.getThesisData();
@@ -79,12 +70,14 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	//Calls on the model to delete the respective Thesis object from the server
 	@Override
 	public String deleteThesisFromServer(Thesis thesis) {
 		ThesisDBModel.deletePost(thesis);
 		return "Entry Deleted";
 	}
 	
+	//Returns the list of year filter data from the server
 	public List<String> getYearFilterListFromServer() {
 		List <String> years = new ArrayList<String>();
 		List <Thesis> theses = ThesisDBModel.getThesisData();
@@ -97,6 +90,8 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return years;
 	}
 
+
+	//Returns the list of tag filter data from the server
 	@Override
 	public List<String> getTagFilterListFromServer() {
 		List <String> tags = new ArrayList<String>();
@@ -113,6 +108,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return tags;
 	}
 
+	//Returns the list of professors from the server
 	@Override
 	public List<String> getProfFilterListFromServer() {
 		List <String> profs = new ArrayList<String>();
@@ -126,6 +122,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return profs;
 	}
 
+	//Returns the list of classes from the server
 	@Override
 	public List<String> getClassFilterListFromServer() {
 		List <String> classes = new ArrayList<String>();
@@ -139,6 +136,7 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return classes;
 	}
 
+	//Returns the list of filtered Thesis object data from the server
 	@Override
 	public List<Thesis> getFilterThesesDataFromServer(List<String> tagFilters, List<String> yearFilters,
 			List<String> profFilters, List<String> classFilters, boolean isFeatured) {
@@ -189,31 +187,31 @@ public class clientModelServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	//Submits the edited Thesis from the edit thesis page
 	@Override
 	public void submitEditPostToServer(Thesis thesis, Thesis changedThesis) {
 		ThesisDBModel.updateEditedPost(thesis, changedThesis);
 	}
 	
+	//Gets the logout URL for use by the logout button
 	public String getLogOutUrl(){
 		UserService userService = UserServiceFactory.getUserService();
 		return userService.createLogoutURL("../ThesisDBLogout.html");
 	}
 	
+	//Performs a check to see if the currently logged in user is an admin
 	public Boolean isUserAdmin(){
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		return user.getEmail().contentEquals("tdkpolsci@gmail.com");
 	}
 	
+	//Returns whether or not the respective thesis is a featured thesis
 	public boolean isFeatured(final String title) {
 		final char c = title.charAt(0);
 		return (c == '*');
 		
 	}
-
-//	public List<Professor> getProfDataFromServer() {
-//		return ThesisDBModel.getProfessorData();
-//	}
 
 		
 }
