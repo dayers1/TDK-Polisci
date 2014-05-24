@@ -86,21 +86,7 @@ public class ThesisDBModel {
 		
 		// reset editing state
 		ThesisDBModel.setEditingPost(null);
-	}
-
-	//public static List<Thesis> getTitleMatchData(String titleStr) {
-		//PersistenceManager pm = pmf.getPersistenceManager();
-		//Declare a Query to be for matches to the title field of a PostData object
-		//  "titleVal" will be the parameter type for the field
-		//Query query = pm.newQuery(PostData.class,
-			//	"this.title == titleVal");
-		// declare the parameter type to be a String
-		//query.declareParameters("String titleVal");
-		// Execute the query with the String given by titleStr
-		// Query returns a list of PostData objects matching the quesry
-		//List<PostData> posts = (List<PostData>) query.execute(titleStr);
-		//return new ArrayList<PostData>(posts);
-	//}
+		
 
 	public static void deletePost(Thesis thesis) {
 		PersistenceManager pm = pmf.getPersistenceManager();
